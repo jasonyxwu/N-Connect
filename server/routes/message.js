@@ -16,7 +16,7 @@ module.exports = function (router) {
             });
         }
         var message = new Message({
-            dateCreated: time, 
+            DateCreated: time, 
             Content: req.body.Content,
             Sender: req.body.UserId,
             ToGroup: req.body.GroupId
