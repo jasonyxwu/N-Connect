@@ -31,7 +31,7 @@ module.exports = server => {
             });
         }
         var message = new Message({
-            dateCreated: time, 
+            DateCreated: time, 
             Content: params.Content,
             Sender: params.UserId,
             ToGroup: params.GroupId
