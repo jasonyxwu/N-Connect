@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
-    dateCreated: Date, 
-    SW: String,
-    UserName: String,
-    Password: String,
-    FriendGroups: [String],
-    Groups: [String],
-    Description: String,
+    dateCreated: {type: Date, default: Date.now},
+    sw: {type: String, required: true},
+    userName: {type: String, required: true},
+    password: {type: String, required: true},
+    friendGroups: {type: [String], default: []},
+    groups: {type: [String], default: []},
+    description: {type: String, default: ""},
 });
 
 module.exports = mongoose.model('User', UserSchema);
