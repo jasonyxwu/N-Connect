@@ -2,7 +2,7 @@ var User = require("../models/user.js");
 
 module.exports = function(router) {
     router.route("/user").post(function(req, res) {
-        console.log('YEs');
+     
         var user = new User();
         // Check username validity
         if(req.body.UserName == undefined || req.body.UserName == "") {
