@@ -1,9 +1,10 @@
 var User = require("../models/user.js");
 
 module.exports = function(router) {
-    router.route("/users").post(function(req, res) {
+    router.route("/user").post(function(req, res) {
         var user = new User();
-        if(req.body.UserName == undefined) {
+        // Check username validity
+        if(req.body.UserName == undefined || req.body.UserName == "") {
             return res.status(400).send({
                 message: "User Name cannot be empty",
                 data: []
@@ -11,8 +12,8 @@ module.exports = function(router) {
         } else {
             user.UserName = req.body.UserName;
         }
-
-        if(req.body.Password == undefined) {
+        // Check password validity
+        if(req.body.Password == undefined || req.body.Password == "") {
             return res.status(400).send({
                 message: "Password cannot be empty",
                 data: []
@@ -20,8 +21,8 @@ module.exports = function(router) {
         } else {
             user.Password = req.body.Password;
         }
-
-        if(req.body.SW == undefined) {
+        // Check SW number validity
+        if(req.body.SW == undefined || req.body.SW == "") {
             return res.status(400).send({
                 message: "SW number cannot be empty",
                 data: []
@@ -29,6 +30,7 @@ module.exports = function(router) {
         }else{
             User.findOne({SW: req.body.SW}).exec()
             .then(function(match) {
+                // Check SW number not registered
                 if(match != null) {
                     return res.status(400).send({
                         message: "SW number already registered",
