@@ -1,12 +1,15 @@
 
 var Message=require('../models/message.js');
+var Group=require('../models/group.js');
+var User=require('../models/user.js');
 
 module.exports = function (router) {
 
     var messageRoute = router.route('/message/');
     var messageidRoute = router.route('/message/:id');
+    //debug 用
     messageRoute.post(function (req, res) {
-       
+       console.log("res")
         var date=new Date();
         var time=date.toJSON();
    
@@ -57,7 +60,7 @@ module.exports = function (router) {
 
     messageidRoute.delete(function (req, res) {
         var id=req.params.id;//AndRemove
-        Task.findByIdAndRemove(id, function (err, temp) {
+        Message.findByIdAndRemove(id, function (err, temp) {
             if (err) {
               if (err.status==404) {
                   return res.status(404).send({ message:  "task no found",data: null});
