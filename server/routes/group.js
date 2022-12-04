@@ -1,7 +1,8 @@
 var Group = require("../models/group");
 
 module.exports = function (router) {
-    var GroupRoute = router.route('/group');    
+    var GroupRoute = router.route('/group');
+    var GroupidRoute = router.route('/group/:id');      
     GroupRoute.post(function (req, res) {
         const newGroup = new Group({GroupName:req.body.GroupName, GroupMember:req.body.GroupMember, DateCreated:new Date()});
         newGroup.save();
@@ -11,6 +12,30 @@ module.exports = function (router) {
             data: {
                 _id: newGroup._id,
             }
+        });
+    });
+
+    GroupidRoute.get(function (req, res) {
+        // get groups info
+        Group.findById(req.params.id).exec()
+        .then(function(gp) {
+            if(gp == null) {
+                return res.status(404).send({
+                    message: "No Group found",
+                    data: []
+                });
+            } else {
+                return res.status(200).send({
+                    message: "Group found",
+                    data: gp
+                });
+            }
+        })
+        .catch(function(error) {
+            return res.status(500).send({
+                message: "Server error",
+                data: error
+            });
         });
     });
     return router;
