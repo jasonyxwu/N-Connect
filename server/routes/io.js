@@ -11,22 +11,22 @@ module.exports = server => {
       User.findById(params.id, function (err, temp) {
         if (err) {
           if (err.status==404) {
-            socket.emit({ message:  "no found",data: null, status:"404" });
+            socket.emit('res',{ message:  "no found",data: null, status:"404" });
           }
           else{
-            socket.emit({ message:  "server error",data: null, status:"500"});
+            socket.emit('res',{ message:  "server error",data: null, status:"500"});
           }
         }
         if (temp==null) {
-          socket.emit({ message:  "no found",data: temp, status:"404"});
+          socket.emit('res',{ message:  "no found",data: temp, status:"404"});
         }
         rooms=temp.FriendGroups.concat(temp.Groups)
         socket.join(rooms);
-        socket.emit({ message: "good",data: temp, status:"200"});
+        socket.emit('res',{ message: "good",data: temp, status:"200"});
       })
     })
     
-
+    //聊天
     socket.on('chat', (params) => {
         
         var receiver=params.receiver;
@@ -34,7 +34,7 @@ module.exports = server => {
         var time=date.toJSON();
    
         if (params.UserId== null || params.GroupId==null) {
-          socket.emit({ message:  "Empty user or group",
+          socket.emit('res',{ message:  "Empty user or group",
             data: null,
             status:"400"            
             });
@@ -53,19 +53,19 @@ module.exports = server => {
             Sender: params.UserId,
             ToGroup: params.GroupId
           });
-          socket.emit({ message:  "Created",
+          socket.emit('res',{ message:  "Created",
             data: result,
             status:"201" 
             });
         })
         .catch(result=>{
-          socket.emit({ message:  "server error",
+          socket.emit('res',{ message:  "server error",
             data: null,
             status:"500" 
             });
         })
     });
-
+    //断开
     socket.on('disconnect', reason => {
       console.log('disconnect: ', reason);
     });

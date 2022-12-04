@@ -15,7 +15,7 @@ var io=require('socket.io')(server);
 
 // Use environment defined port or 4000
 var port = process.env.PORT || 4000;
-
+mongoose.set("useCreateIndex",true);
 // Connect to a MongoDB --> Uncomment this once you have a connection string!!
 mongoose.connect(secrets.mongo_connection,  { useNewUrlParser: true ,useUnifiedTopology: true });
 
