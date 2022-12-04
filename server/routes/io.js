@@ -1,33 +1,42 @@
-const _ = require('underscore');
 var Message=require('../models/message.js');
-const userData = require('./users.json');
-const USER_STATUS = ['ONLINE', 'OFFLINE'];
-const users = {};
+var Group=require('../models/group.js');
+var User=require('../models/user.js');
 
 module.exports = server => {
   const io = require('socket.io')(server);
 
   io.on('connection', socket => {
-    socket.on('online', username => {
-      socket.username = username;
-      users[username] = {
-        socketId: socket.id,
-        status: USER_STATUS[0]
-      };
+    //加房间
+    socket.on('init', (params) =>{
+      User.findById(params.id, function (err, temp) {
+        if (err) {
+          if (err.status==404) {
+            socket.emit({ message:  "no found",data: null, status:"404" });
+          }
+          else{
+            socket.emit({ message:  "server error",data: null, status:"500"});
+          }
+        }
+        if (temp==null) {
+          socket.emit({ message:  "no found",data: temp, status:"404"});
+        }
+        rooms=temp.FriendGroups.concat(temp.Groups)
+        socket.join(rooms);
+        socket.emit({ message: "good",data: temp, status:"200"});
+      })
     })
-
-
     
-    socket.on('chat', (params, fn) => {
-        //还没改
+
+    socket.on('chat', (params) => {
         
         var receiver=params.receiver;
         var date=new Date();
         var time=date.toJSON();
    
         if (params.UserId== null || params.GroupId==null) {
-            return res.status(400).send({ message:  "Empty user or group",
-            data: null
+          socket.emit({ message:  "Empty user or group",
+            data: null,
+            status:"400"            
             });
         }
         var message = new Message({
@@ -38,41 +47,27 @@ module.exports = server => {
           })
         
         message.save().then(result=>{
-            return res.status(201).send({ message:  "Created",
-            data: result
+          socket.to(receiver).emit('chat', {
+            DateCreated: time, 
+            Content: params.Content,
+            Sender: params.UserId,
+            ToGroup: params.GroupId
+          });
+          socket.emit({ message:  "Created",
+            data: result,
+            status:"201" 
             });
         })
         .catch(result=>{
-            return res.status(500).send({ message:  "server error",
-            data: null
+          socket.emit({ message:  "server error",
+            data: null,
+            status:"500" 
             });
         })
-        //end
-
-
-      const receiver = users[params.receiver];
-      params.createTime = moment().format('YYYY-MM-DD HH:mm:ss');
-      const senderData = _.findWhere(userData, { username: params.sender });
-      params.senderPhoto = (senderData || {}).photo;
-
-      if (!params.senderPhoto) {
-        const senderLen = params.sender.length;
-        params.senderPhotoNickname = params.sender.substr(senderLen - 2)
-      } 
-
-      fn(params);
-
-      if (receiver && receiver.status === USER_STATUS[0]) {
-        socket.to(users[params.receiver].socketId).emit('reply_private_chat', params);
-      } 
     });
 
     socket.on('disconnect', reason => {
       console.log('disconnect: ', reason);
-      
-      if (users[socket.username]) {
-        users[socket.username].status = USER_STATUS[1];
-      }
     });
   });
 }

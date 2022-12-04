@@ -41,5 +41,6 @@ require('./routes')(app, router);
 app.listen(port);
 console.log('Server running on port ' + port);
 
-server.listen(port+1);
-require('./io.js')(server);
+server.listen(4001);
+require('./routes/io.js')(server);
+console.log('Server running on port ' + 4001);

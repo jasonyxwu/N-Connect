@@ -1,5 +1,7 @@
 
 var Message=require('../models/message.js');
+var Group=require('../models/group.js');
+var User=require('../models/user.js');
 
 module.exports = function (router) {
 
