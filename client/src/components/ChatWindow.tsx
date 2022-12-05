@@ -9,7 +9,7 @@ export interface Message {
 
 export default function ChatWindow(props: { currentChat: String }) {
     return (
-        <div className="w-full border flex flex-col max-h-full">
+        <div className="w-full border flex flex-col h-full">
             {/* Group Info */}
             <div className="py-2 px-3 bg-grey-lighter flex flex-row justify-between items-center">
                 <div className="flex items-center">
