@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
     DateCreated: {type: Date, default: Date.now},
-    SW: {type: String, required: true, unique: true},
-    UserName: {type: String, required: true},
+    Email: {type: String, required: true, unique: true},
+    UserName: {type: String, default: "Anonymous"},
     Password: {type: String, required: true},
     FriendGroups: {type: [String], default: []},
     Groups: {type: [String], default: []},

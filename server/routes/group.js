@@ -1,3 +1,4 @@
+var User = require("../models/user")
 var Group = require("../models/group");
 var Message = require("../models/message");
 module.exports = function (router) {
@@ -25,6 +26,7 @@ module.exports = function (router) {
         }
         group.save()
         .then(function(data) {
+
             return res.status(201).send({
                 message: "Group created",
                 data: data

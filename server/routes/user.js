@@ -23,23 +23,23 @@ module.exports = function(router) {
         } else {
             user.Password = req.body.Password;
         }
-        // Check SW number validity
-        if(req.body.SW == undefined || req.body.SW == "") {
+        // Check email validity
+        if(req.body.Email == undefined || req.body.Email == "") {
             return res.status(400).send({
-                message: "SW number cannot be empty",
+                message: "Email cannot be empty",
                 data: []
             });
         }else{
-            User.findOne({SW: req.body.SW}).exec()
+            User.findOne({Email: req.body.Email}).exec()
             .then(function(match) {
-                // Check SW number not registered
+                // Check email not registered
                 if(match != null) {
                     return res.status(400).send({
-                        message: "SW number already registered",
+                        message: "Email already registered",
                         data: []
                     });
                 }else{
-                    user.SW = req.body.SW;
+                    user.Email = req.body.Email;
                     user.save()
                     .then(function(data) {
                         return res.status(201).send({
@@ -61,13 +61,13 @@ module.exports = function(router) {
 
     // User login
     router.route("/user/login").post(function(req, res) {
-        // Find the user of SW number
-        User.findOne({SW: req.body.SW}).exec()
+        // Find the user of Email 
+        User.findOne({Email: req.body.Email}).exec()
         .then(function(match) {
-            // No user found, that means this SW number is not registered yet
+            // No user found, that means this Email is not registered yet
             if (match == null) {
                 return res.status(404).send({
-                    message: "SW number not registered",
+                    message: "Email not registered",
                     data: []
                 });
             }
@@ -145,23 +145,23 @@ module.exports = function(router) {
                 } else {
                     update.Password = req.body.Password;
                 }
-                // Check SW number validity
-                if(req.body.SW == undefined || req.body.SW == "") {
+                // Check Email validity
+                if(req.body.Email == undefined || req.body.Email == "") {
                     return res.status(400).send({
-                        message: "SW number cannot be empty",
+                        message: "Email cannot be empty",
                         data: []
                     });
                 }else{
-                    User.findOne({SW: req.body.SW}).exec()
+                    User.findOne({Email: req.body.Email}).exec()
                     .then(function(match) {
-                        // Check SW number not registered by other users
+                        // Check Email not registered by other users
                         if(match != null && match.id != user.id) {
                             return res.status(400).send({
-                                message: "SW number already registered",
+                                message: "Email already registered",
                                 data: []
                             });
                         }else{
-                            update.SW = req.body.SW;
+                            update.Email = req.body.Email;
                             update.Description = req.body.Description;
                             update.FriendGroups = req.body.FriendGroups;
                             update.Groups = req.body.Groups;
