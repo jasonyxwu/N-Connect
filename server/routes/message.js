@@ -9,7 +9,7 @@ module.exports = function (router) {
     var messageidRoute = router.route('/message/:id');
     //debug 用
     messageRoute.post(function (req, res) {
-       console.log("res")
+       
         var date=new Date();
         var time=date.toJSON();
    
