@@ -86,6 +86,12 @@ module.exports = function(router) {
                     });
                 }
             }
+        })
+        .catch(function(error) {
+            return res.status(500).send({
+                message: "Server error",
+                data: error
+            });
         });
     });
 
