@@ -8,22 +8,35 @@ export default function ProfSettings() {
                     <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-3 gap-6">
                             <div className="col-span-3 sm:col-span-2">
-                                <label
-                                    htmlFor="company-website"
-                                    className="block text-sm font-medium text-gray-700"
-                                >
-                                    Website
+                                <label className="block text-sm font-medium text-gray-700">
+                                    SW Number
                                 </label>
                                 <div className="mt-1 flex rounded-md shadow-sm">
                                     <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
-                                        http://
+                                        SW:
                                     </span>
                                     <input
                                         type="text"
                                         name="company-website"
                                         id="company-website"
                                         className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                                        placeholder="www.example.com"
+                                        placeholder="XXXX XXXX XXXX XXXX"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-3 gap-6">
+                            <div className="col-span-3 sm:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Email
+                                </label>
+                                <div className="mt-1 flex rounded-md shadow-sm">
+                                    <input
+                                        type="text"
+                                        name="company-website"
+                                        id="company-website"
+                                        className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                                        placeholder="abc123@gmail.com"
                                     />
                                 </div>
                             </div>
@@ -42,13 +55,12 @@ export default function ProfSettings() {
                                     name="about"
                                     rows={3}
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                                    placeholder="you@example.com"
+                                    placeholder="Describe your self"
                                     defaultValue={""}
                                 />
                             </div>
                             <p className="mt-2 text-sm text-gray-500">
-                                Brief description for your profile. URLs are
-                                hyperlinked.
+                                Brief description for your profile
                             </p>
                         </div>
 

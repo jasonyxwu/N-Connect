@@ -17,13 +17,13 @@ export default function Config() {
     return (
         <div className="grid grid-cols-5">
             <div className="col-span-1">
-                <div className="h-screen flex flex-col justify-center overflow-y-auto py-4 px-3 bg-gray-50 h- dark:bg-red-600">
+                <div className="h-screen flex flex-col justify-center overflow-y-auto py-4 px-3 bg-red-600">
                     <div></div>
                     <ul className="space-y-4">
                         <li>
                             <a
                                 href="#"
-                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-800"
+                                className="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-red-800"
                                 onClick={() => setcurrentOption("Profile")}
                             >
                                 <svg
@@ -44,12 +44,12 @@ export default function Config() {
                         <li>
                             <a
                                 href="#"
-                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-800"
+                                className="flex items-center p-2 text-base font-normal  rounded-lg text-white hover:bg-red-800"
                                 onClick={() => setcurrentOption("Notification")}
                             >
                                 <svg
                                     aria-hidden="true"
-                                    className="flex-shrink-0 w-6 h-6  transition duration-75  group-hover:text-gray-900 dark:group-hover:text-white"
+                                    className="flex-shrink-0 w-6 h-6  transition duration-75  group-hover:text-white"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@ export default function Config() {
                                 <span className="flex-1 ml-3 whitespace-nowrap">
                                     Notification Setting
                                 </span>
-                                {/* <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">
+                                {/* <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full bg-blue-900 text-blue-200">
                                     3
                                 </span> */}
                             </a>
@@ -68,7 +68,7 @@ export default function Config() {
                         <li>
                             <a
                                 href="#"
-                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-800"
+                                className="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-red-800"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ export default function Config() {
                         <li>
                             <a
                                 href="#"
-                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-800"
+                                className="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-red-800"
                             >
                                 <svg
                                     aria-hidden="true"

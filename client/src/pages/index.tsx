@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import Chat from "./chat";
 import Config from "./config";
 import Login from "./login";
 
@@ -14,9 +15,7 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main>
-                <Config></Config>
-            </main>
+            <div className="w-screen h-screen"></div>
         </div>
     );
 }

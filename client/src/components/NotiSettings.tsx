@@ -18,50 +18,6 @@ export default function NotiSettings() {
                                 <div className="flex items-start">
                                     <div className="flex h-5 items-center">
                                         <input
-                                            id="comments"
-                                            name="comments"
-                                            type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
-                                        />
-                                    </div>
-                                    <div className="ml-3 text-sm">
-                                        <label
-                                            htmlFor="comments"
-                                            className="font-medium text-gray-700"
-                                        >
-                                            Comments
-                                        </label>
-                                        <p className="text-gray-500">
-                                            Get notified when someones posts a
-                                            comment on a posting.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start">
-                                    <div className="flex h-5 items-center">
-                                        <input
-                                            id="candidates"
-                                            name="candidates"
-                                            type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
-                                        />
-                                    </div>
-                                    <div className="ml-3 text-sm">
-                                        <label
-                                            htmlFor="candidates"
-                                            className="font-medium text-gray-700"
-                                        >
-                                            Candidates
-                                        </label>
-                                        <p className="text-gray-500">
-                                            Get notified when a candidate
-                                            applies for a job.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start">
-                                    <div className="flex h-5 items-center">
-                                        <input
                                             id="offers"
                                             name="offers"
                                             type="checkbox"
@@ -73,11 +29,11 @@ export default function NotiSettings() {
                                             htmlFor="offers"
                                             className="font-medium text-gray-700"
                                         >
-                                            Offers
+                                            Messages
                                         </label>
                                         <p className="text-gray-500">
-                                            Get notified when a candidate
-                                            accepts or rejects an offer.
+                                            Get notified when a player send you
+                                            a message
                                         </p>
                                     </div>
                                 </div>
