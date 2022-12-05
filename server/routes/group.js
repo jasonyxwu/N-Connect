@@ -1,8 +1,9 @@
 var Group = require("../models/group");
-
+var Message = require("../models/message");
 module.exports = function (router) {
     var GroupRoute = router.route('/group');
-    var GroupidRoute = router.route('/group/:id');      
+    var GroupidRoute = router.route('/group/:id');  
+    var GroupMessagesRoute = router.route('/group/:id/messages');      
     GroupRoute.post(function (req, res) {
         //create group 
         var group = new Group();
@@ -94,6 +95,38 @@ module.exports = function (router) {
                     message: "Group found",
                     data: gp
                 });
+            }
+        })
+        .catch(function(error) {
+            return res.status(500).send({
+                message: "Server error",
+                data: error
+            });
+        });
+    });
+
+    GroupMessagesRoute.get(function (req, res) {
+        // get all messages in specific group 
+        Group.findById(req.params.id).exec()
+        .then(function(gp) {
+            if(gp == null) {
+                return res.status(404).send({
+                    message: "Group not exists!",
+                    data: []
+                });
+            } else {
+                Message.find({ ToGroup: gp.groupid }, function (err, docs) {
+                    if (err){
+                        console.log(err);
+                    }
+                    else{
+                        return res.status(200).send({
+                            message: "fetch messages succeed",
+                            data: docs
+                        });
+                    }
+                });
+                
             }
         })
         .catch(function(error) {
