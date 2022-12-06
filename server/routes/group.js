@@ -1,6 +1,7 @@
 var User = require("../models/user")
 var Group = require("../models/group");
 var Message = require("../models/message");
+const { update } = require("../models/user");
 module.exports = function (router) {
     var GroupRoute = router.route('/group');
     var GroupidRoute = router.route('/group/:id');  
@@ -24,11 +25,40 @@ module.exports = function (router) {
         } else {
             group.GroupMember = req.body.GroupMember;
         }
+        // Oscar start
+        req.body.GroupMember.forEach(function(id) {
+            User.findById(id).exec()
+            .then(function(user) {
+                if(user == null) {
+                    return res.status(404).send({
+                        message: "Invalid group member",
+                        data: [{"InvalidMember":id}]
+                    });
+                }
+            })
+            .catch(function(error) {
+                return res.status(500).send({
+                    message: "Server error",
+                    data: error
+                });
+            });
+        });
+        req.body.GroupMember.forEach(function(id) {
+            User.findById(id).exec()
+            .then(function(user) {
+                user.Groups.push(group.id);
+                user.save();
+            })
+            .catch(function(error) {
+                return res.status(500).send({
+                    message: "Server error",
+                    data: error
+                });
+            });
+        });
+        // Oscar end
         group.save()
         .then(function(data) {
-            // Oscar start
-            
-            // Oscar end
             return res.status(201).send({
                 message: "Group created",
                 data: data
