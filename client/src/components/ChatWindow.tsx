@@ -13,10 +13,9 @@ export default function ChatWindow(props: { currentChat: String,socket: any }) {
     var socket=props.socket
     const [MessageList, setMessageList]=useState([]);
 
-   
-    /**socket.on('res', mess => {
-        console.log(mess);
-      });**/
+    socket.on('res', mess => {
+        console.log(mess);//用来debug
+      })  
     socket.on('chat', mess => {
         var meslist=[...MessageList];
         var mesl=meslist.concat([mess]);
@@ -29,8 +28,7 @@ export default function ChatWindow(props: { currentChat: String,socket: any }) {
         if (mess=="") {
             return ;
         }
-        console.log(props.currentChat)
-        //socket.emit("init",{});
+
         socket.emit("chat",{Content: mess,
             UserId: userid,
             GroupId: "123"/**props.currentChat.name*/});//到时候搞好了把前面给替换回注释里的

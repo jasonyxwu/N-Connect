@@ -9,7 +9,7 @@ module.exports = server => {
     //加房间
     socket.on('init', (params) =>{
       socket.join("123");
-      console.log("init"+params)
+      console.log("init"+params)//group好了记得改
       /**User.findById(params.id, function (err, temp) {
         if (err) {
           if (err.status==404) {
@@ -62,10 +62,10 @@ module.exports = server => {
             Sender: params.UserId,
             ToGroup: params.GroupId
           });
-          /**socket.emit('res',{ message:  "Created",
+          socket.emit('res',{ message:  "Created",
             data: result,
             status:"201" 
-            });**/
+            });
         })
         .catch(result=>{
           socket.emit('res',{ message:  "server error",
