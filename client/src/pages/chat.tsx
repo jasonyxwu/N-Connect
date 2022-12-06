@@ -4,6 +4,7 @@ import StartChatBar from "../components/StartChatBar";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { io } from "socket.io-client";
+import Link from "next/link";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -79,12 +80,12 @@ export default function Chat() {
                     <Menu.Items className="absolute left-20 z-10 w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1">
                             <Menu.Item>
-                                <a
-                                    href="#"
+                                <Link
+                                    href="/config"
                                     className="hover:bg-gray-100 text-gray-900 block px-4 py-2 text-sm"
                                 >
                                     Account settings
-                                </a>
+                                </Link>
                             </Menu.Item>
                         </div>
                         <form method="POST" action="#">

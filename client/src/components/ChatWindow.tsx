@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
 export interface Message {
@@ -17,7 +17,6 @@ export default function ChatWindow(props: {
     var socket = props.socket;
     const [MessageList, setMessageList] = useState<Message[]>([]);
     const [input, setInput] = useState("");
-
     function SendMessage() {
         //发送消息
         if (input == "") {
@@ -28,14 +27,14 @@ export default function ChatWindow(props: {
             UserId: userid,
             GroupId: "123" /**props.currentChat.name*/,
         }); //到时候搞好了把前面给替换回注释里的
+        setInput("");
     }
 
-    // socket.on("res", (mess: any) => {
-    //     console.log(mess); //用来debug
-    // });
+    socket.on("chat", (mess: any) => {
+        console.log(mess); //用来debug
+    });
 
     socket.on("chat", (message: Message) => {
-        var meslist = [...MessageList];
         setMessageList((MessageList) => [...MessageList, message]);
     });
 
@@ -143,9 +142,11 @@ export default function ChatWindow(props: {
                         id="messageIn"
                         className="w-full border rounded px-2 py-2"
                         type="text"
-                        onChange={(event) => {
-                            setInput(event.target.value);
+                        onChange={(e) => {
+                            console.log(e.target.value);
+                            setInput(e.target.value);
                         }}
+                        value={input}
                     />
                 </div>
                 <div></div>
