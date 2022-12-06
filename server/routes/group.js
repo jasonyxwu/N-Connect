@@ -26,13 +26,13 @@ module.exports = function (router) {
             group.GroupMember = req.body.GroupMember;
         }
         // Oscar start
-        req.body.GroupMember.forEach(function(id) {
-            User.findById(id).exec()
+        req.body.GroupMember.forEach(function(userid) {
+            User.findById(userid).exec()
             .then(function(user) {
                 if(user == null) {
                     return res.status(404).send({
                         message: "Invalid group member",
-                        data: [{"InvalidMember":id}]
+                        data: [{"InvalidMember":userid}]
                     });
                 }
             })
@@ -43,8 +43,8 @@ module.exports = function (router) {
                 });
             });
         });
-        req.body.GroupMember.forEach(function(id) {
-            User.findById(id).exec()
+        req.body.GroupMember.forEach(function(userid) {
+            User.findById(userid).exec()
             .then(function(user) {
                 user.Groups.push(group.id);
                 user.save();
@@ -104,6 +104,26 @@ module.exports = function (router) {
             } 
             else {
                 // insert user into the GroupMember
+                // Oscar start
+                User.findById(userid).exec()
+                .then(function(user) {
+                    if(user == null) {
+                        return res.status(404).send({
+                            message: "Invalid group member",
+                            data: [{"InvalidMember":userid}]
+                        });
+                    } else {
+                        user.Groups.push(gp.id);
+                        user.save();
+                    }
+                })
+                .catch(function(error) {
+                    return res.status(500).send({
+                        message: "Server error",
+                        data: error
+                    });
+                });
+                // Oscar end
                 gp.GroupMember.push(userid);
                 gp.GroupName = name;
                 gp.save();
