@@ -6,7 +6,7 @@ export interface Message {
     sentTime: String;
     isSelf: Boolean;
 }
-const userid="638d54b4c3d4e5886051fcef";//到时候获取全局token
+const userid=Math.random()*100;//到时候获取全局token
 
 
 export default function ChatWindow(props: { currentChat: String,socket: any }) {//假如tempmessage
