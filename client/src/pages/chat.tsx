@@ -11,7 +11,7 @@ function classNames(...classes: any[]) {
 const socket = io("http://localhost:4001/",  { transports: ['websocket', 'polling', 'flashsocket'] });
 
 
-
+const userid="638d54b4c3d4e5886051fcef";//到时候获取全局token
 export interface friend {
     name: String;
     lastUpdateTime: String;
@@ -40,11 +40,14 @@ const friendList: friend[] = [
     },
 ];
 let searchResult: any[] = [];
-
+var flag=0;
 export default function Chat() {
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
-    
+    if (flag==0) {
+        socket.emit('init',{ id:userid});
+        flag=1;
+    }
 
     //TODO: Add search
     useEffect(() => {
