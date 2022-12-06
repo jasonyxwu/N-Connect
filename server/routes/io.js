@@ -28,8 +28,8 @@ module.exports = server => {
     
     //聊天
     socket.on('chat', (params) => {
-        
-        var receiver=params.receiver;
+      console.log(params)
+        var receiver=params.GroupId;
         var date=new Date();
         var time=date.toJSON();
    

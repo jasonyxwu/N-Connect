@@ -1,13 +1,37 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 export interface Message {
     senderName: String;
     messageContent: String;
     sentTime: String;
     isSelf: Boolean;
 }
+const userid="638d54b4c3d4e5886051fcef";//到时候获取全局token
 
-export default function ChatWindow(props: { currentChat: String }) {
+
+export default function ChatWindow(props: { currentChat: String,socket: any }) {//假如tempmessage
+    var socket=props.socket
+    const [MessageList, setMessageList]=useState([{
+        senderName: "Jason",
+        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+        sentTime: "11:45",
+        isSelf: false,
+    }]);
+
+   
+
+    function SendMessage() {//发送消息
+       
+        var mess=document.getElementById("messageIn").value;
+        if (mess=="") {
+            return ;
+        }
+        console.log(props.currentChat)
+        //socket.emit("init",{});
+        socket.emit("chat",{Content: mess,
+            UserId: userid,
+            GroupId: "638d545bc3d4e5886051fced"/**props.currentChat.name*/});//到时候搞好了把前面给替换回注释里的
+    } 
     return (
         <div className="w-full border flex flex-col h-full">
             {/* Group Info */}
@@ -86,7 +110,7 @@ export default function ChatWindow(props: { currentChat: String }) {
                         <p className="text-xs">Arex Started the chatroom</p>
                     </div>
                 </div> */}
-                {tempMessage.map((element, index) => {
+                {MessageList.map((element, index) => {
                     return <ChatBubble {...element} key={index} />;
                 })}
             </div>
@@ -109,8 +133,10 @@ export default function ChatWindow(props: { currentChat: String }) {
                 </div>
                 <div className="flex-1 mx-4">
                     <input
+                        id="messageIn"
                         className="w-full border rounded px-2 py-2"
                         type="text"
+                        
                     />
                 </div>
                 <div>
@@ -127,9 +153,11 @@ export default function ChatWindow(props: { currentChat: String }) {
                         ></path>
                     </svg>
                 </div>
-                <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 ml-5 border-b-4 border-red-700 hover:border-red-500 rounded">
-                    Send
-                </button>
+                <input 
+                type="button" 
+                className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 ml-5 border-b-4 border-red-700 hover:border-red-500 rounded" 
+                onClick={SendMessage}
+                value="Send"/>
             </div>
         </div>
     );
@@ -171,7 +199,7 @@ function ChatBubble(props: Message) {
             </div>
         );
 }
-
+ 
 const tempMessage: Message[] = [
     {
         senderName: "Jason",

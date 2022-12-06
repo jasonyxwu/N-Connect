@@ -3,10 +3,14 @@ import ChatWindow from "../components/ChatWindow";
 import StartChatBar from "../components/StartChatBar";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { io } from "socket.io-client";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
+const socket = io("http://localhost:4001/",  { transports: ['websocket', 'polling', 'flashsocket'] });
+
+
 
 export interface friend {
     name: String;
@@ -40,6 +44,7 @@ let searchResult: any[] = [];
 export default function Chat() {
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
+    
 
     //TODO: Add search
     useEffect(() => {
@@ -212,7 +217,7 @@ export default function Chat() {
             </div>
 
             <div className="flex-grow flex flex-col">
-                <ChatWindow currentChat={currentChat} />
+                <ChatWindow currentChat={currentChat} socket={socket}/> {/*加入MessageList*/}
             </div>
         </div>
     );

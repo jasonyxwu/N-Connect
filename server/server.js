@@ -11,7 +11,14 @@ mongoose.set('useFindAndModify', false)
 var app = express();
 //Socket.io 服务器
 var server = require('http').Server(app);
-var io=require('socket.io')(server);
+var io=require('socket.io')( {
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["chat", "init","disconnect"],
+      credentials: true
+    },
+    noServer: true });
 
 // Use environment defined port or 4000
 var port = process.env.PORT || 4000;
