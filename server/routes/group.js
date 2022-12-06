@@ -26,7 +26,9 @@ module.exports = function (router) {
         }
         group.save()
         .then(function(data) {
-
+            // Oscar start
+            
+            // Oscar end
             return res.status(201).send({
                 message: "Group created",
                 data: data
