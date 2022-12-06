@@ -56,6 +56,12 @@ module.exports = server => {
             Sender: params.UserId,
             ToGroup: params.GroupId
           });
+          socket.emit('chat', {
+            DateCreated: time, 
+            Content: params.Content,
+            Sender: params.UserId,
+            ToGroup: params.GroupId
+          });
           /**socket.emit('res',{ message:  "Created",
             data: result,
             status:"201" 

@@ -11,19 +11,16 @@ const userid="638d54b4c3d4e5886051fcef";//到时候获取全局token
 
 export default function ChatWindow(props: { currentChat: String,socket: any }) {//假如tempmessage
     var socket=props.socket
-    const [MessageList, setMessageList]=useState([{
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    }]);
+    const [MessageList, setMessageList]=useState([]);
 
    
     /**socket.on('res', mess => {
         console.log(mess);
       });**/
     socket.on('chat', mess => {
-        console.log(mess);
+        var meslist=[...MessageList];
+        var mesl=meslist.concat([mess]);
+        setMessageList(mesl);
       })  
 
     function SendMessage() {//发送消息
@@ -171,18 +168,18 @@ export default function ChatWindow(props: { currentChat: String,socket: any }) {
 }
 
 function ChatBubble(props: Message) {
-    if (!props.isSelf)
+    if (props.Sender!=userid)
         return (
             <div className="flex mb-2">
                 <div className="rounded px-1 w-lg">
-                    <p className="text-sm text-teal">{props.senderName}</p>
+                    <p className="text-sm text-teal">{props.Sender}</p>
                     <div className="px-2 py-1 rounded-xl bg-stone-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
-                            {props.messageContent}
+                            {props.Content}
                         </p>
                     </div>
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {props.sentTime}
+                        {props.DateCreated}
                     </p>
                 </div>
             </div>
@@ -192,15 +189,15 @@ function ChatBubble(props: Message) {
         return (
             <div className="flex mb-2 justify-end">
                 <div className="rounded py-2 px-3 w-lg">
-                    <p className="text-sm text-teal">{props.senderName}</p>
+                    <p className="text-sm text-teal">{props.Sender}</p>
                     <div className="px-2 py-1 rounded-xl bg-red-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
-                            {props.messageContent}
+                            {props.Content}
                         </p>
                     </div>
 
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {props.sentTime}
+                        {props.DateCreated}
                     </p>
                 </div>
             </div>
