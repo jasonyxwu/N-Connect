@@ -1,39 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+
 export interface Message {
-    senderName: String;
-    messageContent: String;
-    sentTime: String;
-    isSelf: Boolean;
+    Sender: String;
+    Content: String;
+    DateCreated: String;
 }
-const userid=Math.random()*100;//到时候获取全局token
 
+const userid = (Math.random() * 100).toString(); //到时候获取全局token
 
-export default function ChatWindow(props: { currentChat: String,socket: any }) {//假如tempmessage
-    var socket=props.socket
-    const [MessageList, setMessageList]=useState([]);
+export default function ChatWindow(props: {
+    currentChat: String;
+    socket: any;
+}) {
+    //假如tempmessage
+    var socket = props.socket;
+    const [MessageList, setMessageList] = useState<Message[]>([]);
+    const [input, setInput] = useState("");
 
-    socket.on('res', mess => {
-        console.log(mess);//用来debug
-      })  
-    socket.on('chat', mess => {
-        var meslist=[...MessageList];
-        var mesl=meslist.concat([mess]);
-        setMessageList(mesl);
-      })  
-
-    function SendMessage() {//发送消息
-       
-        var mess=document.getElementById("messageIn").value;
-        if (mess=="") {
-            return ;
+    function SendMessage() {
+        //发送消息
+        if (input == "") {
+            return;
         }
-
-        socket.emit("chat",{Content: mess,
+        socket.emit("chat", {
+            Content: input,
             UserId: userid,
-            GroupId: "123"/**props.currentChat.name*/});//到时候搞好了把前面给替换回注释里的
-        
-    } 
+            GroupId: "123" /**props.currentChat.name*/,
+        }); //到时候搞好了把前面给替换回注释里的
+    }
+
+    // socket.on("res", (mess: any) => {
+    //     console.log(mess); //用来debug
+    // });
+
+    socket.on("chat", (message: Message) => {
+        var meslist = [...MessageList];
+        setMessageList((MessageList) => [...MessageList, message]);
+    });
+
     return (
         <div className="w-full border flex flex-col h-full">
             {/* Group Info */}
@@ -138,35 +143,25 @@ export default function ChatWindow(props: { currentChat: String,socket: any }) {
                         id="messageIn"
                         className="w-full border rounded px-2 py-2"
                         type="text"
-                        
+                        onChange={(event) => {
+                            setInput(event.target.value);
+                        }}
                     />
                 </div>
-                <div>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                    >
-                        <path
-                            fill="#263238"
-                            fillOpacity=".45"
-                            d="M11.999 14.942c2.001 0 3.531-1.53 3.531-3.531V4.35c0-2.001-1.53-3.531-3.531-3.531S8.469 2.35 8.469 4.35v7.061c0 2.001 1.53 3.531 3.53 3.531zm6.238-3.53c0 3.531-2.942 6.002-6.237 6.002s-6.237-2.471-6.237-6.002H3.761c0 4.001 3.178 7.297 7.061 7.885v3.884h2.354v-3.884c3.884-.588 7.061-3.884 7.061-7.885h-2z"
-                        ></path>
-                    </svg>
-                </div>
-                <input 
-                type="button" 
-                className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 ml-5 border-b-4 border-red-700 hover:border-red-500 rounded" 
-                onClick={SendMessage}
-                value="Send"/>
+                <div></div>
+                <input
+                    type="button"
+                    className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 ml-5 border-b-4 border-red-700 hover:border-red-500 rounded"
+                    onClick={SendMessage}
+                    value="Send"
+                />
             </div>
         </div>
     );
 }
 
 function ChatBubble(props: Message) {
-    if (props.Sender!=userid)
+    if (props.Sender != userid)
         return (
             <div className="flex mb-2">
                 <div className="rounded px-1 w-lg">
@@ -201,67 +196,67 @@ function ChatBubble(props: Message) {
             </div>
         );
 }
- 
-const tempMessage: Message[] = [
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "Jason",
-        messageContent:
-            "Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "wdsm",
-        messageContent: "Added you",
-        sentTime: "11:46",
-        isSelf: true,
-    },
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-    {
-        senderName: "Jason",
-        messageContent: "Hello, Does Anyone wants to player spt3 with me?",
-        sentTime: "11:45",
-        isSelf: false,
-    },
-];
+
+// const tempMessage: Message[] = [
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent:
+//             "Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "wdsm",
+//         messageContent: "Added you",
+//         sentTime: "11:46",
+//         isSelf: true,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+//     {
+//         senderName: "Jason",
+//         messageContent: "Hello, Does Anyone wants to player spt3 with me?",
+//         sentTime: "11:45",
+//         isSelf: false,
+//     },
+// ];

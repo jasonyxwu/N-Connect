@@ -8,10 +8,11 @@ import { io } from "socket.io-client";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-const socket = io("http://localhost:4001/",  { transports: ['websocket', 'polling', 'flashsocket'] });
+const socket = io("http://localhost:4001/", {
+    transports: ["websocket", "polling", "flashsocket"],
+});
 
-
-const userid="638d54b4c3d4e5886051fcef";//到时候获取全局token
+const userid = "638d54b4c3d4e5886051fcef"; //到时候获取全局token
 export interface friend {
     name: String;
     lastUpdateTime: String;
@@ -40,12 +41,13 @@ const friendList: friend[] = [
     },
 ];
 let searchResult: any[] = [];
-var flag=0;
+var flag = 0;
+
 export default function Chat() {
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
-    if (flag==0) {
-        socket.emit('init',{ id:userid});
+    if (flag == 0) {
+        socket.emit("init", { id: userid });
     }
 
     //TODO: Add search
@@ -55,13 +57,48 @@ export default function Chat() {
 
     return (
         <div className="flex h-screen w-screen">
-            <div className="w-20 flex flex-col py-2 px-3 justify-between items-center bg-red-600">
-                <div className="mt-3">
+            <Menu
+                as="div"
+                className="w-20 flex flex-col py-2 px-3 justify-between items-center bg-red-600"
+            >
+                <Menu.Button className="mt-3">
                     <img
                         className="w-12 h-12 rounded-full cursor-pointer"
                         src="http://andressantibanez.com/res/avatar.png"
                     />
-                </div>
+                </Menu.Button>
+                <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                >
+                    <Menu.Items className="absolute left-20 z-10 w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="py-1">
+                            <Menu.Item>
+                                <a
+                                    href="#"
+                                    className="hover:bg-gray-100 text-gray-900 block px-4 py-2 text-sm"
+                                >
+                                    Account settings
+                                </a>
+                            </Menu.Item>
+                        </div>
+                        <form method="POST" action="#">
+                            <Menu.Item>
+                                <button
+                                    type="submit"
+                                    className="hover:bg-gray-100 text-gray-900 block w-full px-4 py-2 text-left text-sm"
+                                >
+                                    Sign out
+                                </button>
+                            </Menu.Item>
+                        </form>
+                    </Menu.Items>
+                </Transition>
                 <div className="flex flex-col justfiy-between items-center">
                     <div className="my-2">
                         <svg
@@ -107,7 +144,7 @@ export default function Chat() {
                         </svg>
                     </div>
                 </div>
-            </div>
+            </Menu>
             <div className="w-[25%] flex flex-col">
                 {/* Search Bar */}
                 <div className="py-2 px-2 bg-gray-50">
@@ -200,11 +237,6 @@ export default function Chat() {
                         </Menu.Items>
                     </Transition>
                 </Menu>
-                <div className="">
-                    {searchResult.map((e, i) => {
-                        return <div key={i}></div>;
-                    })}
-                </div>
                 {/* friendList */}
                 <div className="bg-gray-100 flex-1 overflow-auto">
                     {friendList.map((e, i) => (
@@ -219,7 +251,8 @@ export default function Chat() {
             </div>
 
             <div className="flex-grow flex flex-col">
-                <ChatWindow currentChat={currentChat} socket={socket}/> {/*加入MessageList*/}
+                <ChatWindow currentChat={currentChat} socket={socket} />{" "}
+                {/*加入MessageList*/}
             </div>
         </div>
     );
