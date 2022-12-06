@@ -165,10 +165,13 @@ module.exports = function(router) {
                             update.Description = req.body.Description;
                             update.FriendGroups = req.body.FriendGroups;
                             update.Groups = req.body.Groups;
-                            User.findByIdAndUpdate(user.id, update, {new: true}).exec()
-                            // .then(function(updated) {
-
-                            // })
+                            User.findByIdAndUpdate(user.id, update, {new: true})
+                            .then(function(updated) {
+                                return res.status(200).send({
+                                    message: "User updated",
+                                    data: updated
+                                });
+                            })
                             .catch(function(error) {
                                 return res.status(500).send({
                                     message: "Server error",
