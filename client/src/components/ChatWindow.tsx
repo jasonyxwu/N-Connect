@@ -19,10 +19,13 @@ export default function ChatWindow(props: { currentChat: String,socket: any }) {
     }]);
 
    
-    socket.on('res', mess => {
+    /**socket.on('res', mess => {
         console.log(mess);
-      });
-      
+      });**/
+    socket.on('chat', mess => {
+        console.log(mess);
+      })  
+
     function SendMessage() {//发送消息
        
         var mess=document.getElementById("messageIn").value;
@@ -33,7 +36,7 @@ export default function ChatWindow(props: { currentChat: String,socket: any }) {
         //socket.emit("init",{});
         socket.emit("chat",{Content: mess,
             UserId: userid,
-            GroupId: "638d545bc3d4e5886051fced"/**props.currentChat.name*/});//到时候搞好了把前面给替换回注释里的
+            GroupId: "123"/**props.currentChat.name*/});//到时候搞好了把前面给替换回注释里的
         
     } 
     return (
