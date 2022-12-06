@@ -49,6 +49,7 @@ export default function Chat() {
     const [query, setQuery] = useState("");
     if (flag == 0) {
         socket.emit("init", { id: userid });
+        flag=1;
     }
 
     //TODO: Add search

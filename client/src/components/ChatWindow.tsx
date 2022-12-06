@@ -30,12 +30,15 @@ export default function ChatWindow(props: {
         setInput("");
     }
 
-    socket.on("chat", (mess: any) => {
+    socket.on("res", (mess: any) => {
         console.log(mess); //用来debug
     });
 
     socket.on("chat", (message: Message) => {
-        setMessageList((MessageList) => [...MessageList, message]);
+        var mess=[...MessageList];
+        var melist=mess.concat(message);
+        setMessageList(melist);
+        //setMessageList((MessageList) => [...MessageList, message]);
     });
 
     return (
