@@ -95,7 +95,8 @@ module.exports = function (router) {
                 });
             }
             member = gp.GroupMember;
-            if ( member.findIndex(userid) != -1) {
+           
+            if ( member.indexOf(userid) != -1) {
                 // already in the group
                 return res.status(500).json({
                     message: "user already in the group!",
