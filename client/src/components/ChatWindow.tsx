@@ -35,10 +35,7 @@ export default function ChatWindow(props: {
     });
 
     socket.on("chat", (message: Message) => {
-        var mess=[...MessageList];
-        var melist=mess.concat(message);
-        setMessageList(melist);
-        //setMessageList((MessageList) => [...MessageList, message]);
+        setMessageList([...MessageList, message]);
     });
 
     return (
