@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ChatWindow from "../components/ChatWindow";
-import StartChatBar from "../components/StartChatBar";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { io } from "socket.io-client";
 import Link from "next/link";
+import { useSession, signIn, signOut } from "next-auth/react";
+import UserIcon from "../components/UserIcon";
+import ChatSelectBar from "../components/ChatSelectBar";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -14,6 +16,7 @@ const socket = io("http://localhost:4001/", {
 });
 
 const userid = "638d54b4c3d4e5886051fcef"; //到时候获取全局token
+
 export interface friend {
     name: String;
     lastUpdateTime: String;
@@ -45,17 +48,30 @@ let searchResult: any[] = [];
 var flag = 0;
 
 export default function Chat() {
+    const { data: session } = useSession();
+
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
+    const [loading, setLoading] = useState<boolean>(true);
+
     if (flag == 0) {
         socket.emit("init", { id: userid });
-        flag=1;
+        flag = 1;
     }
 
     //TODO: Add search
     useEffect(() => {
         console.log(1);
     }, [query]);
+
+    useEffect(() => {
+        setLoading(true);
+        fetch("/api/profile-data")
+            .then((res) => res.json())
+            .then((data) => {
+                setLoading(false);
+            });
+    }, []);
 
     return (
         <div className="flex h-screen w-screen">
@@ -64,10 +80,7 @@ export default function Chat() {
                 className="w-20 flex flex-col py-2 px-3 justify-between items-center bg-red-600"
             >
                 <Menu.Button className="mt-3">
-                    <img
-                        className="w-12 h-12 rounded-full cursor-pointer"
-                        src="http://andressantibanez.com/res/avatar.png"
-                    />
+                    <UserIcon />
                 </Menu.Button>
                 <Transition
                     as={Fragment}
@@ -147,12 +160,13 @@ export default function Chat() {
                     </div>
                 </div>
             </Menu>
+
             <div className="w-[25%] flex flex-col">
                 {/* Search Bar */}
                 <div className="py-2 px-2 bg-gray-50">
                     <input
                         type="text"
-                        className="w-full px-2 py-2 text-sm"
+                        className="w-full px-2 py-2 text-sm border rounded-md"
                         placeholder="Search or start new chat"
                         onChange={(e) => {
                             setQuery(e.target.value);
@@ -242,7 +256,7 @@ export default function Chat() {
                 {/* friendList */}
                 <div className="bg-gray-100 flex-1 overflow-auto">
                     {friendList.map((e, i) => (
-                        <StartChatBar
+                        <ChatSelectBar
                             {...e}
                             key={i}
                             currentChat={currentChat}

@@ -1,6 +1,6 @@
 import React from "react";
 import { friend } from "../pages/chat";
-export default function StartChatBar(props: any) {
+export default function ChatSelectBar(props: any) {
     if (props.currentChat === "")
         return (
             <div
@@ -15,7 +15,7 @@ export default function StartChatBar(props: any) {
                         src={props.icon.toString()}
                     />
                 </div>
-                <div className="ml-4 flex-1 border-b border-grey-lighter py-4">
+                <div className="ml-4 flex-1 border-b border-grey-lighter py-3">
                     <div className="flex items-bottom justify-between">
                         <p className="text-grey-darkest">{props.name}</p>
                         <p className="text-xs text-grey-darkest">

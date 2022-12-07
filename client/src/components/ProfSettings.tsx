@@ -4,7 +4,7 @@ export default function ProfSettings() {
     return (
         <div className="mt-5">
             <form action="#" method="POST">
-                <div className="shadow sm:overflow-hidden sm:rounded-md">
+                <div className="shadow sm:overflow-hidden sm:rounded-md flex flex-col">
                     <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-3 gap-6">
                             <div className="col-span-3 sm:col-span-2">
@@ -55,12 +55,31 @@ export default function ProfSettings() {
                                     name="about"
                                     rows={3}
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                                    placeholder="Describe your self"
+                                    placeholder="Description"
+                                    defaultValue={""}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="about"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Tag Management
+                            </label>
+                            <div className="mt-1">
+                                <textarea
+                                    id="about"
+                                    name="about"
+                                    rows={3}
+                                    className="mt-1 block w-full h-20 rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                                    placeholder=""
                                     defaultValue={""}
                                 />
                             </div>
                             <p className="mt-2 text-sm text-gray-500">
-                                Brief description for your profile
+                                Add tags so that other players can find you
+                                better!
                             </p>
                         </div>
 

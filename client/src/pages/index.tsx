@@ -23,9 +23,9 @@ export default function Home() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col h-[50%] w-1/3 rounded-lg space-y-8 items-center bg-slate-200">
+                    <div className="flex flex-col w-1/3 rounded-lg space-y-8 items-center bg-slate-200">
                         <form
-                            className="mt-3 space-y-6 w-[90%]"
+                            className="mt-3 space-y-6 w-[90%] my-8"
                             action="#"
                             method="POST"
                         >
@@ -77,7 +77,7 @@ export default function Home() {
                                         id="remember-me"
                                         name="remember-me"
                                         type="checkbox"
-                                        className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
+                                        className="h-4 w-4 rounded border-gray-300 text-red-600 ring-0 focus:ring-red-500"
                                     />
                                     <label
                                         htmlFor="remember-me"
