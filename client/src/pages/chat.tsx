@@ -23,6 +23,7 @@ export interface friend {
     lastUpdateMessage: String;
     icon: String;
 }
+let userToken: string = "";
 
 const friendList: friend[] = [
     {
