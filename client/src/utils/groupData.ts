@@ -1,6 +1,6 @@
 import { DOMAIN } from "./connection";
 
-async function getGroupInfo(groupId: String, token: String) {
+export async function getGroupInfo(groupId: String, token: String) {
     if (!token || token === "") {
         return {};
     }
@@ -19,7 +19,7 @@ async function getGroupInfo(groupId: String, token: String) {
     return json;
 }
 
-async function createGroup(userIds: String[], token: String) {
+export async function createGroup(userIds: String[], token: String) {
     if (!token || token === "") {
         return {};
     }
@@ -41,7 +41,7 @@ async function createGroup(userIds: String[], token: String) {
     return json;
 }
 
-async function getMessagesFromGroup(groupId: String, token: String) {
+export async function getMessagesFromGroup(groupId: String, token: String) {
     if (!token || token === "") {
         return {};
     }
@@ -93,7 +93,7 @@ async function updateGroup(
     return json;
 }
 
-async function leaveGroup(groupId: String, token: String) {
+export async function leaveGroup(groupId: String, token: String) {
     if (!token || token === "") {
         return {};
     }
