@@ -286,7 +286,10 @@ module.exports = function (router) {
             }
         }
     });
-    //group update, should only be used on groups, not any friendgroup
+    // group update, should only be used on groups, not any friendgroup
+    // if req.body.GroupName left undefined, GroupName will not update;
+    // if req.body.GroupMember left undefined, GroupMember will not update;
+    // if req.body.GroupMember can has length more than 1
     router.route('/group/:id').put(function(req, res) {
         // req.body.token = {
             // id: String,
