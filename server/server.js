@@ -15,7 +15,7 @@ const httpServer = createServer(app);
 
 
 // Use environment defined port or 4000
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 8080;
 
 mongoose.set("useCreateIndex",true);
 // Connect to a MongoDB --> Uncomment this once you have a connection string!!

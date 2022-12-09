@@ -19,6 +19,7 @@ export default function ChatWindow(props: {
     const [MessageList, setMessageList] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     function SendMessage() {
+        console.log("fason");
         //发送消息
         if (input == "") {
             return;
@@ -30,8 +31,9 @@ export default function ChatWindow(props: {
         }); //到时候搞好了把前面给替换回注释里的
         setInput("");
     }
-
+    
     socket.on("chat", (message: Message) => {
+        console.log("jieshou");
         setMessageList([...MessageList, message]);
     });
 

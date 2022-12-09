@@ -55,6 +55,7 @@ export default function Chat() {
     const [loading, setLoading] = useState<boolean>(true);
 
     if (flag == 0) {
+        console.log("chushihua");
         socket.emit("init", { id: userid });
         flag = 1;
     }
