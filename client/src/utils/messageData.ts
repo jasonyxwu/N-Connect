@@ -1,9 +1,9 @@
-import { DOMAIN } from "./connection";
+import { SERVER_DOMAIN } from "./connection";
 export async function getAllMessagesFromGroup(groupId: String, token: String) {
     if (!token || token === "") {
         return {};
     }
-    const url = `${DOMAIN}/group/${groupId}/message`;
+    const url = `${SERVER_DOMAIN}/group/${groupId}/message`;
     const response = await fetch(url, {
         method: "GET",
         mode: "cors",
@@ -27,7 +27,7 @@ export async function getLatestMessageFromGroup(
     if (!token || token === "") {
         return {};
     }
-    const url = `${DOMAIN}/group/${groupId}/message`;
+    const url = `${SERVER_DOMAIN}/group/${groupId}/message`;
     const response = await fetch(url, {
         method: "GET",
         mode: "cors",

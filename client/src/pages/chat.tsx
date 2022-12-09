@@ -49,7 +49,7 @@ let searchResult: any[] = [];
 var flag = 0;
 
 export default function Chat() {
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
 
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");

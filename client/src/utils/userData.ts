@@ -1,1 +1,1 @@
-import { DOMAIN } from "./connection";
+import { SERVER_DOMAIN } from "./connection";
