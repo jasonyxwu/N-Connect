@@ -70,7 +70,7 @@ var io=require('socket.io')( {
 //server.listen(port1);
 //httpServer.listen(port1);
 const io = require('socket.io')(httpServer, {
-    allowEIO3:true,
+    allowEIO4:true,
     cors: {
       origin: "https://n-connect.vercel.app/",
       methods: ["GET", "POST"],
