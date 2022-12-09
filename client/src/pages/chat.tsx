@@ -10,10 +10,10 @@ import ChatSelectBar from "../components/ChatSelectBar";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-const socket = io("https://n-connect.vercel.app:4001", {
+const socket = io("n-connect.vercel.app:4001", {
     transports: ["websocket", "polling", "flashsocket"],
-});
-
+});/*
+*/
 const userid = "638d54b4c3d4e5886051fcef"; //到时候获取全局token
 
 export interface friend {

@@ -9,19 +9,11 @@ var express = require('express'),
 mongoose.set('useFindAndModify', false)
 // Create our Express application
 var app = express();
-//Socket.io 服务器
-var server = require('http').Server(app);
-var io=require('socket.io')( {
-    cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"],
-      allowedHeaders: ["chat", "init","disconnect"],
-      credentials: true
-    },
-    noServer: true });
+
 
 // Use environment defined port or 4000
 var port = process.env.PORT || 4000;
+var port1 = process.env.PORT || 4001;
 mongoose.set("useCreateIndex",true);
 // Connect to a MongoDB --> Uncomment this once you have a connection string!!
 mongoose.connect(secrets.mongo_connection,  { useNewUrlParser: true ,useUnifiedTopology: true });
@@ -48,6 +40,28 @@ require('./routes')(app, router);
 app.listen(port);
 console.log('Server running on port ' + port);
 
-server.listen(4001);
-require('./routes/io.js')(server);
-console.log('Server running on port ' + 4001);
+
+//Socket.io 服务器
+const { createServer } = require("http");
+const httpServer = createServer();
+
+/** 
+io.on("connection", (socket) => {
+  // ...
+});
+
+httpServer.listen(port1);
+
+var server = require('http').Server(app);
+var io=require('socket.io')( {
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["chat", "init","disconnect"],
+      credentials: true
+    },
+    noServer: true });*/
+//server.listen(port1);
+httpServer.listen(port1);
+require('./routes/io.js')(httpServer);
+console.log('Server running on port ' + port1);
