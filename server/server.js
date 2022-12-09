@@ -55,7 +55,9 @@ console.log('Server running on port ' + port);
 
 /** 
 
-
+.catch(result=>{
+    console.log(result);
+  })
 httpServer.listen(port1);
 
 var server = require('http').Server(app);

@@ -69,6 +69,7 @@ module.exports = io => {
             });
         })
         .catch(result=>{
+          console.log(result)
           socket.emit('res',{ message:  "server error",
             data: null,
             status:"500" 
@@ -79,8 +80,6 @@ module.exports = io => {
     socket.on('disconnect', reason => {
       console.log('disconnect: ', reason);
     });
-  }).catch(result=>{
-    console.log(result);
   });
 }
 
