@@ -6,11 +6,22 @@ var express = require('express'),
     mongoose = require('mongoose'),
     secrets = require('./config/secrets'),
     bodyParser = require('body-parser');
+
+    
+    //const httpServer = createServer();    
 mongoose.set('useFindAndModify', false)
 // Create our Express application
 var app = express();
 //Socket.io 服务器
-var server = require('http').Server(app);
+//var server = require('http').Server(app);
+
+import { createServer } from "http";
+import { Server } from "socket.io";
+const httpServer = createServer();
+const io = new Server(httpServer, {
+  path: "https://n-connect.vercel.app/"
+});
+/**const httpServer = createServer();
 var io=require('socket.io')( {
     cors: {
       origin: "http://localhost:3000",
@@ -19,7 +30,7 @@ var io=require('socket.io')( {
       credentials: true
     },
     noServer: true });
-
+**/
 // Use environment defined port or 4000
 var port = process.env.PORT || 4000;
 mongoose.set("useCreateIndex",true);
@@ -48,6 +59,6 @@ require('./routes')(app, router);
 app.listen(port);
 console.log('Server running on port ' + port);
 
-server.listen(4001);
-require('./routes/io.js')(server);
+httpServer.listen(4001);
+require('./routes/io.js')(io);
 console.log('Server running on port ' + 4001);

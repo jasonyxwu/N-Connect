@@ -11,7 +11,7 @@ import ChatSelectBar from "../components/ChatSelectBar";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-const socket = io("http://localhost:4001/", {
+const socket = io("https://n-connect-fxspiit78-mp4.vercel.app:4001", {
     transports: ["websocket", "polling", "flashsocket"],
 });
 
