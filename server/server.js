@@ -69,7 +69,14 @@ var io=require('socket.io')( {
     noServer: true });*/
 //server.listen(port1);
 //httpServer.listen(port1);
-require('./routes/io.js')(httpServer);
+const io = require('socket.io')(httpServer, {
+    cors: {
+      //origin: "http://localhost:3000",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["chat", "init","disconnect"],
+      credentials: true
+    }});
+require('./routes/io.js')(io);
 const expressStatusMonitor = require('express-status-monitor');
 app.use(expressStatusMonitor({ websocket: io, port: app.get('port') })); 
 console.log('Server running on port ' + port1);

@@ -2,14 +2,8 @@ var Message=require('../models/message.js');
 var Group=require('../models/group.js');
 var User=require('../models/user.js');
 
-module.exports = server => {
-  const io = require('socket.io')(server, {
-    cors: {
-      //origin: "http://localhost:3000",
-      methods: ["GET", "POST"],
-      allowedHeaders: ["chat", "init","disconnect"],
-      credentials: true
-    }});
+module.exports = io => {
+  
   console.log("fasong")
   io.on('connection', socket => {
     console.log("lianjie")
