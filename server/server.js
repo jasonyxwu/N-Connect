@@ -16,13 +16,12 @@ var app = express();
 //var server = require('http').Server(app);
 
 import { createServer } from "http";
-import { Server } from "socket.io";
 
 const domain = "localhost"; 
 const port1 = 4001; 
 const io = require('socket.io'); 
-const server = http.createServer(); 
-server.listen(port, domain); 
+const server = createServer(); 
+server.listen(port1, domain); 
 
 require('./routes/io.js')(server);
 console.log('Server running on port ' + 4001);
