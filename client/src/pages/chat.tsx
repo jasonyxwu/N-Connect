@@ -10,7 +10,7 @@ import ChatSelectBar from "../components/ChatSelectBar";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-const socket = io("n-connect.vercel.app:4001", {
+const socket = io("n-connect.vercel.app", {
     transports: ["websocket", "polling", "flashsocket"],
 });/*
 */

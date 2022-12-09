@@ -42,7 +42,7 @@ console.log('Server running on port ' + port);
 
 
 //Socket.io 服务器
-const { createServer } = require("https");
+const { createServer } = require("http");
 const httpServer = createServer();
 
 /** 
