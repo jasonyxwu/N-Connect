@@ -4,10 +4,10 @@ var User=require('../models/user.js');
 
 module.exports = server => {
   const io = require('socket.io')(server);
-
+  console.log("fasong")
   io.on('connection', socket => {
+    console.log("lianjie")
     //加房间
-    console.log(socket)
     socket.on('init', (params) =>{
       socket.join("123");
       console.log("init"+params)//group好了记得改
