@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "server",
   "scripts": {
-    "start": "nodemon --exec node server.js"
+    "start": "nodemon --exec node server.js --sticky"
   },
   "babel": {
     "presets": [
