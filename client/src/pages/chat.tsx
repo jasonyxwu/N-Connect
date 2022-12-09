@@ -10,7 +10,7 @@ import ChatSelectBar from "../components/ChatSelectBar";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-const socket = io("https://n-connect-fxspiit78-mp4.vercel.app:4001", {
+const socket = io("https://n-connect.vercel.app:4001", {
     transports: ["websocket", "polling", "flashsocket"],
 });
 
@@ -61,7 +61,7 @@ export default function Chat() {
     useEffect(() => {
         console.log(1);
     }, [query]);
-
+    /** 
     useEffect(() => {
         setLoading(true);
         fetch("/api/profile-data")
@@ -70,7 +70,7 @@ export default function Chat() {
                 setLoading(false);
             });
     }, []);
-
+**/
     return (
         <div className="flex h-screen w-screen">
             <Menu

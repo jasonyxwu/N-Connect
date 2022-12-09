@@ -7,6 +7,7 @@ module.exports = server => {
 
   io.on('connection', socket => {
     //加房间
+    console.log(socket)
     socket.on('init', (params) =>{
       socket.join("123");
       console.log("init"+params)//group好了记得改
