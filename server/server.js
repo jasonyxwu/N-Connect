@@ -72,7 +72,7 @@ var io=require('socket.io')( {
 const io = require('socket.io')(httpServer, {
     allowEIO3:true,
     cors: {
-      //origin: "http://localhost:3000",
+      origin: "https://n-connect.vercel.app/",
       methods: ["GET", "POST"],
       allowedHeaders: ["chat", "init","disconnect"],
       credentials: true
