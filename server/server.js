@@ -74,7 +74,7 @@ var io=require('socket.io')( {
 const io = require('socket.io')(httpServer, {
     allowEIO4:true,
     cors: {
-      origin: "*",
+      //origin: "*",
       methods: ["GET", "POST"],
       allowedHeaders: ["chat", "init","disconnect"],
       credentials: true
