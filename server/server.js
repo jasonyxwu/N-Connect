@@ -18,9 +18,7 @@ var app = express();
 import { createServer } from "http";
 import { Server } from "socket.io";
 const httpServer = createServer();
-const io = new Server(httpServer, {
-  path: "https://n-connect.vercel.app/"
-});
+const io = new Server(httpServer);
 /**const httpServer = createServer();
 var io=require('socket.io')( {
     cors: {
