@@ -1,5 +1,5 @@
-module.exports = ()=>{
-    const { Socket } = require('dgram');
+module.exports = ()=>{}
+const { Socket } = require('dgram');
 
 // Get the packages we need
 var express = require('express'),
@@ -83,5 +83,4 @@ const expressStatusMonitor = require('express-status-monitor');
 app.use(expressStatusMonitor({ websocket: io, port: app.get('port') })); 
 require('./routes/io.js')(io);
 
-
-}
+module.exports = app;
