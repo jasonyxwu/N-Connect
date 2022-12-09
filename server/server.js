@@ -77,6 +77,7 @@ const io = require('socket.io')(httpServer, {
       allowedHeaders: ["chat", "init","disconnect"],
       credentials: true
     }});
-require('./routes/io.js')(io);
 const expressStatusMonitor = require('express-status-monitor');
 app.use(expressStatusMonitor({ websocket: io, port: app.get('port') })); 
+require('./routes/io.js')(io);
+
