@@ -13,7 +13,7 @@ export async function getGroupInfo(groupId: String, token: Token) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(token),
+        body: JSON.stringify({ token: token }),
     });
     const json = await response.json();
     return json;
@@ -33,7 +33,6 @@ export async function createGroup(userIds: String[], token: Token) {
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
         body: JSON.stringify({ users: userIds, token: token }),
     });
@@ -54,8 +53,8 @@ export async function getMessagesFromGroup(groupId: String, token: Token) {
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
+        body: JSON.stringify({ token: token }),
     });
 
     const json = await response.json();
@@ -80,12 +79,12 @@ async function updateGroup(
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
         body: JSON.stringify({
             UserID: userIds,
             GroupID: groupId,
             GroupName: groupName,
+            token: token,
         }),
     });
 
@@ -106,10 +105,10 @@ export async function leaveGroup(groupId: String, token: Token) {
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
         body: JSON.stringify({
             GroupID: groupId,
+            token: token,
         }),
     });
 

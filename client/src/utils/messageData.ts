@@ -11,9 +11,8 @@ export async function getAllMessagesFromGroup(groupId: String, token: String) {
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
-        body: JSON.stringify({ GroupID: groupId }),
+        body: JSON.stringify({ GroupID: groupId, token: token }),
     });
     const json = await response.json();
     return json;
@@ -37,7 +36,7 @@ export async function getLatestMessageFromGroup(
             "Content-Type": "application/json",
             token: token.toString(),
         },
-        body: JSON.stringify({ GroupID: groupId }),
+        body: JSON.stringify({ GroupID: groupId, token: token }),
     });
     const json = await response.json();
     return json;
