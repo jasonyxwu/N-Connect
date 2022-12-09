@@ -15,12 +15,11 @@ var app = express();
 //Socket.io 服务器
 //var server = require('http').Server(app);
 
-import { createServer } from "http";
 
 const domain = "localhost"; 
 const port1 = 4001; 
 const io = require('socket.io'); 
-const server = createServer(); 
+const server = require('http').createServer(); 
 server.listen(port1, domain); 
 
 require('./routes/io.js')(server);
