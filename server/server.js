@@ -9,6 +9,9 @@ var express = require('express'),
 mongoose.set('useFindAndModify', false)
 // Create our Express application
 var app = express();
+//Socket.io 服务器
+const { createServer } = require("http");
+const httpServer = createServer(app);
 
 
 // Use environment defined port or 4000
@@ -37,13 +40,16 @@ app.use(bodyParser.json());
 require('./routes')(app, router);
 
 // Start the server
-app.listen(port);
+//app.listen(port);
+
+app.start = app.listen = function(){
+    return httpServer.listen.apply(httpServer, arguments)
+  }
+  
+  app.start(port)
 console.log('Server running on port ' + port);
 
 
-//Socket.io 服务器
-const { createServer } = require("http");
-const httpServer = createServer();
 
 /** 
 io.on("connection", (socket) => {
@@ -62,6 +68,6 @@ var io=require('socket.io')( {
     },
     noServer: true });*/
 //server.listen(port1);
-httpServer.listen(port1);
+//httpServer.listen(port1);
 require('./routes/io.js')(httpServer);
 console.log('Server running on port ' + port1);
