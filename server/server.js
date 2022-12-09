@@ -70,4 +70,6 @@ var io=require('socket.io')( {
 //server.listen(port1);
 //httpServer.listen(port1);
 require('./routes/io.js')(httpServer);
+const expressStatusMonitor = require('express-status-monitor');
+app.use(expressStatusMonitor({ websocket: io, port: app.get('port') })); 
 console.log('Server running on port ' + port1);

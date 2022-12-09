@@ -6,16 +6,16 @@ import { io } from "socket.io-client";
 import Link from "next/link";
 import UserIcon from "../components/UserIcon";
 import ChatSelectBar from "../components/ChatSelectBar";
-
+//import "./socket.io.js"
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
 //n-connect.vercel.app "localhost:4000", 
 const socket = io("n-connect.vercel.app",{
-   
-    transports: ["websocket", "polling", "flashsocket"],
-});/*
-*/
+    transports: ["websocket", "polling", "flashsocket"], 
+    secure: true
+});
+
 const userid = "638d54b4c3d4e5886051fcef"; //到时候获取全局token
 
 export interface friend {
@@ -265,7 +265,7 @@ export default function Chat() {
                     ))}
                 </div>
             </div>
-
+            <script src="https://n-connect.vercel.app/socket.io/socket.io.js"></script>
             <div className="flex-grow flex flex-col">
                 <ChatWindow currentChat={currentChat} socket={socket} />{" "}
                 {/*加入MessageList*/}
