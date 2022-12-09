@@ -28,6 +28,7 @@ var allowCrossDomain = function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
     next();
 };
+
 app.use(allowCrossDomain);
 
 // Use the body-parser package in our application
