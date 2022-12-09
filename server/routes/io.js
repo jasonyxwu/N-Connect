@@ -79,5 +79,8 @@ module.exports = io => {
     socket.on('disconnect', reason => {
       console.log('disconnect: ', reason);
     });
+  }).catch(result=>{
+    console.log(result);
   });
 }
+
