@@ -43,7 +43,11 @@ module.exports = function(router) {
                     .then(function(data) {
                         return res.status(201).send({
                             message: "User created",
-                            data: data
+                            data: data,
+                            token: {
+                                id: data.id,
+                                Email: data.Email
+                            }
                         });
                     })
                     .catch(function(error) {
@@ -80,7 +84,11 @@ module.exports = function(router) {
             // Login successful, return user data
             return res.status(201).send({
                 message: "User login successful",
-                data: match
+                data: match,
+                token: {
+                    id: data.id,
+                    Email: data.Email
+                }
             });
         })
         .catch(function(error) {
@@ -258,7 +266,11 @@ module.exports = function(router) {
                                             .then(function(updated) {
                                                 return res.status(200).send({
                                                     message: "User updated",
-                                                    data: updated
+                                                    data: updated,
+                                                    token: {
+                                                        id: data.id,
+                                                        Email: data.Email
+                                                    }
                                                 });
                                             })
                                             .catch(function(error) {
