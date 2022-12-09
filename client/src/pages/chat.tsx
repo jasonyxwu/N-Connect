@@ -11,7 +11,7 @@ function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
 //n-connect.vercel.app "localhost:4000", 
-const socket = io("https://n-connect.vercel.app:4001",{
+const socket = io("https://cryptic-journey-82080.herokuapp.com",{
     transports: ["websocket", "polling", "flashsocket"], 
     //secure: true,
     withCredentials: true
@@ -66,7 +66,7 @@ export default function Chat() {
     useEffect(() => {
         console.log(1);
     }, [query]);
-    /** 
+    
     useEffect(() => {
         setLoading(true);
         fetch("/api/profile-data")
@@ -75,7 +75,7 @@ export default function Chat() {
                 setLoading(false);
             });
     }, []);
-**/
+
     return (
         <div className="flex h-screen w-screen">
             <Menu
