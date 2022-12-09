@@ -1,10 +1,10 @@
-import { DOMAIN } from "./connection";
+import { SERVER_DOMAIN, Token } from "./connection";
 
-export async function getGroupInfo(groupId: String, token: String) {
-    if (!token || token === "") {
+export async function getGroupInfo(groupId: String, token: Token) {
+    if (!token) {
         return {};
     }
-    const url = `${DOMAIN}/group/${groupId}`;
+    const url = `${SERVER_DOMAIN}/group/${groupId}`;
     const response = await fetch(url, {
         method: "GET",
         mode: "cors",
@@ -12,18 +12,18 @@ export async function getGroupInfo(groupId: String, token: String) {
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
+        body: JSON.stringify({ token: token }),
     });
     const json = await response.json();
     return json;
 }
 
-export async function createGroup(userIds: String[], token: String) {
-    if (!token || token === "") {
+export async function createGroup(userIds: String[], token: Token) {
+    if (!token) {
         return {};
     }
-    const url = `${DOMAIN}/group`;
+    const url = `${SERVER_DOMAIN}/group`;
     const response = await fetch(url, {
         method: "POST",
         mode: "cors",
@@ -33,19 +33,18 @@ export async function createGroup(userIds: String[], token: String) {
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
-        body: JSON.stringify({ users: userIds }),
+        body: JSON.stringify({ users: userIds, token: token }),
     });
     const json = await response.json();
     return json;
 }
 
-export async function getMessagesFromGroup(groupId: String, token: String) {
-    if (!token || token === "") {
+export async function getMessagesFromGroup(groupId: String, token: Token) {
+    if (!token) {
         return {};
     }
-    const url = `${DOMAIN}/group/${groupId}/messages`;
+    const url = `${SERVER_DOMAIN}/group/${groupId}/messages`;
 
     const response = await fetch(url, {
         method: "GET",
@@ -54,8 +53,8 @@ export async function getMessagesFromGroup(groupId: String, token: String) {
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
+        body: JSON.stringify({ token: token }),
     });
 
     const json = await response.json();
@@ -66,12 +65,12 @@ async function updateGroup(
     groupId: String,
     userIds: String[],
     groupName: String,
-    token: String
+    token: Token
 ) {
-    if (!token || token === "") {
+    if (!token) {
         return {};
     }
-    const url = `${DOMAIN}/group`;
+    const url = `${SERVER_DOMAIN}/group`;
 
     const response = await fetch(url, {
         method: "PUT",
@@ -80,12 +79,12 @@ async function updateGroup(
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
         body: JSON.stringify({
             UserID: userIds,
             GroupID: groupId,
             GroupName: groupName,
+            token: token,
         }),
     });
 
@@ -93,11 +92,11 @@ async function updateGroup(
     return json;
 }
 
-export async function leaveGroup(groupId: String, token: String) {
-    if (!token || token === "") {
+export async function leaveGroup(groupId: String, token: Token) {
+    if (!token) {
         return {};
     }
-    const url = `${DOMAIN}/group`;
+    const url = `${SERVER_DOMAIN}/group`;
 
     const response = await fetch(url, {
         method: "DELETE",
@@ -106,10 +105,10 @@ export async function leaveGroup(groupId: String, token: String) {
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
         body: JSON.stringify({
             GroupID: groupId,
+            token: token,
         }),
     });
 
