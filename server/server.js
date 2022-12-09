@@ -17,9 +17,21 @@ var app = express();
 
 import { createServer } from "http";
 import { Server } from "socket.io";
-const httpServer = createServer();
+
+const domain = "localhost"; 
+const port1 = 4001; 
+const io = require('socket.io'); 
+const server = http.createServer(); 
+server.listen(port, domain); 
+
+require('./routes/io.js')(server);
+console.log('Server running on port ' + 4001);
+/**
+ * const httpServer = createServer();
 const io = new Server(httpServer);
-/**const httpServer = createServer();
+ * const httpServer = createServer();
+const io = new Server(httpServer);
+const httpServer = createServer();
 var io=require('socket.io')( {
     cors: {
       origin: "http://localhost:3000",
@@ -31,6 +43,9 @@ var io=require('socket.io')( {
 **/
 // Use environment defined port or 4000
 var port = process.env.PORT || 4000;
+
+
+
 mongoose.set("useCreateIndex",true);
 // Connect to a MongoDB --> Uncomment this once you have a connection string!!
 mongoose.connect(secrets.mongo_connection,  { useNewUrlParser: true ,useUnifiedTopology: true });
@@ -57,6 +72,3 @@ require('./routes')(app, router);
 app.listen(port);
 console.log('Server running on port ' + port);
 
-httpServer.listen(4001);
-require('./routes/io.js')(io);
-console.log('Server running on port ' + 4001);
