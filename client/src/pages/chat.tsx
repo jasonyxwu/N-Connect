@@ -13,7 +13,9 @@ function classNames(...classes: any[]) {
 //n-connect.vercel.app "localhost:4000", 
 const socket = io("https://n-connect.vercel.app:4001",{
     transports: ["websocket", "polling", "flashsocket"], 
-    secure: true
+    //secure: true,
+    withCredentials: true
+    
 });
 
 const userid = "638d54b4c3d4e5886051fcef"; //到时候获取全局token
