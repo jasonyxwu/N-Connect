@@ -18,6 +18,7 @@ function evokeNintendoAuth() {}
 
 export default function Config() {
     let [currentOption, setcurrentOption] = useState("");
+
     return (
         <div className="grid grid-cols-5">
             <div className="col-span-1">

@@ -4,7 +4,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { io } from "socket.io-client";
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
 import UserIcon from "../components/UserIcon";
 import ChatSelectBar from "../components/ChatSelectBar";
 
@@ -49,8 +48,6 @@ let searchResult: any[] = [];
 var flag = 0;
 
 export default function Chat() {
-    const { data: session } = useSession();
-
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
     const [loading, setLoading] = useState<boolean>(true);
