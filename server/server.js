@@ -16,7 +16,7 @@ const httpServer = createServer(app);
 
 
 // Use environment defined port or 4000
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 4001;
 
 mongoose.set("useCreateIndex",true);
 // Connect to a MongoDB --> Uncomment this once you have a connection string!!
@@ -43,20 +43,18 @@ require('./routes')(app, router);
 
 // Start the server
 //app.listen(port);
-
+ 
 app.start = app.listen = function(){
     return httpServer.listen.apply(httpServer, arguments)
   }
   
-  app.start(port)
+app.start(port)
 console.log('Server running on port ' + port);
 
 
 
 /** 
-io.on("connection", (socket) => {
-  // ...
-});
+
 
 httpServer.listen(port1);
 
@@ -79,8 +77,8 @@ const io = require('socket.io')(httpServer, {
       allowedHeaders: ["chat", "init","disconnect"],
       credentials: true
     }});
-//const expressStatusMonitor = require('express-status-monitor');
-//app.use(expressStatusMonitor({ websocket: io, port: app.get('port') })); 
+const expressStatusMonitor = require('express-status-monitor');
+app.use(expressStatusMonitor({ websocket: io, port: app.get('port') })); 
 require('./routes/io.js')(io);
 
 module.exports = app;
