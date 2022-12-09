@@ -11,7 +11,7 @@ mongoose.set('useFindAndModify', false)
 // Create our Express application
 var app = express();
 //Socket.io 服务器
-const { createServer } = require("https");
+const { createServer } = require("http");
 const httpServer = createServer(app);
 
 
@@ -77,8 +77,7 @@ const io = require('socket.io')(httpServer, {
       allowedHeaders: ["chat", "init","disconnect"],
       credentials: true
     }});
-const expressStatusMonitor = require('express-status-monitor');
-app.use(expressStatusMonitor({ websocket: io, port: app.get('port') })); 
+
 require('./routes/io.js')(io);
 
 module.exports = app;

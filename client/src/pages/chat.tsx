@@ -11,7 +11,7 @@ function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
 //n-connect.vercel.app "localhost:4000", 
-const socket = io("localhost",{
+const socket = io("localhost:4001",{
     transports: ["websocket", "polling", "flashsocket"], 
     secure: true
 });
