@@ -10,7 +10,7 @@ mongoose.set('useFindAndModify', false)
 // Create our Express application
 var app = express();
 //Socket.io 服务器
-const { createServer } = require("http");
+const { createServer } = require("https");
 const httpServer = createServer(app);
 
 
