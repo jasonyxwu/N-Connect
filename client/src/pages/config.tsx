@@ -3,16 +3,17 @@ import React, { useState } from "react";
 import NotiSettings from "../components/NotiSettings";
 import ProfSettings from "../components/ProfSettings";
 import UserIcon from "../components/UserIcon";
-const navigation = [
-    { name: "Dashboard", href: "#", current: true },
-    { name: "Team", href: "#", current: false },
-    { name: "Projects", href: "#", current: false },
-    { name: "Calendar", href: "#", current: false },
-];
 
-function classNames(...classes: String[]) {
-    return classes.filter(Boolean).join(" ");
-}
+// const navigation = [
+//     { name: "Dashboard", href: "#", current: true },
+//     { name: "Team", href: "#", current: false },
+//     { name: "Projects", href: "#", current: false },
+//     { name: "Calendar", href: "#", current: false },
+// ];
+
+// function classNames(...classes: String[]) {
+//     return classes.filter(Boolean).join(" ");
+// }
 
 function evokeNintendoAuth() {}
 
@@ -23,7 +24,7 @@ export default function Config() {
         <div className="grid grid-cols-5">
             <div className="col-span-1">
                 <div className="h-screen flex flex-col justify-center overflow-y-auto py-3 px-3 bg-red-600">
-                    <Link href="/chat" className="flex items-center mt-2 ml-1">
+                    <Link href="/chat" className="flex items-center ml-1">
                         <UserIcon />
                     </Link>
 

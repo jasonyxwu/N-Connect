@@ -1,5 +1,6 @@
 import React from "react";
-import { friend } from "../pages/chat";
+import { chatItem } from "../pages/chat";
+
 export default function ChatSelectBar(props: any) {
     if (props.currentChat === "")
         return (
