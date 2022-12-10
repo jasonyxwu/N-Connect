@@ -34,7 +34,6 @@ export async function getLatestMessageFromGroup(
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json",
-            token: token.toString(),
         },
         body: JSON.stringify({ GroupID: groupId, token: token }),
     });

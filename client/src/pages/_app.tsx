@@ -1,9 +1,13 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Token } from "../utils/connection";
-import { useState } from "react";
+import { Provider } from "react-redux";
+import store from "../store";
 
 export default function App({ Component, pageProps }: AppProps) {
-    const [token, setToken] = useState<Token>();
-    return <Component token={token} {...pageProps} />;
+    return (
+        <Provider store={store}>
+            <Component {...pageProps} />;
+        </Provider>
+    );
 }

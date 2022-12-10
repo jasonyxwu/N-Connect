@@ -6,16 +6,18 @@ import { io } from "socket.io-client";
 import Link from "next/link";
 import UserIcon from "../components/UserIcon";
 import ChatSelectBar from "../components/ChatSelectBar";
-//import "./socket.io.js"
+import { useSelector, useDispatch } from "react-redux";
+import { setAuthState } from "../slices/authSlice";
+import { AppState } from "../store";
+
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-//n-connect.vercel.app "localhost:4000", 
-const socket = io("https://cryptic-journey-82080.herokuapp.com",{
-    transports: ["websocket", "polling", "flashsocket"], 
+//n-connect.vercel.app "localhost:4000",
+const socket = io("https://cryptic-journey-82080.herokuapp.com", {
+    transports: ["websocket", "polling", "flashsocket"],
     //secure: true,
-    withCredentials: true
-    
+    withCredentials: true,
 });
 
 const userid = "638d54b4c3d4e5886051fcef"; //到时候获取全局token
@@ -55,6 +57,7 @@ export default function Chat() {
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
     const [loading, setLoading] = useState<boolean>(true);
+    const isAuth = useSelector((state: AppState) => state.auth.authState);
 
     if (flag == 0) {
         console.log("chushihua");
@@ -66,15 +69,15 @@ export default function Chat() {
     useEffect(() => {
         console.log(1);
     }, [query]);
-    
-    useEffect(() => {
-        setLoading(true);
-        fetch("/api/profile-data")
-            .then((res) => res.json())
-            .then((data) => {
-                setLoading(false);
-            });
-    }, []);
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     fetch("/api/profile-data")
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     return (
         <div className="flex h-screen w-screen">

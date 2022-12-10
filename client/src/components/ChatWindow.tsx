@@ -31,7 +31,7 @@ export default function ChatWindow(props: {
         }); //到时候搞好了把前面给替换回注释里的
         setInput("");
     }
-    
+
     socket.on("chat", (message: Message) => {
         console.log("jieshou");
         setMessageList([...MessageList, message]);
@@ -57,9 +57,28 @@ export default function ChatWindow(props: {
                 </div>
 
                 <div className="flex">
-                    {/* Search */}
                     {/* invite*/}
+
                     <div className="">
+                        <div className="relative inline-block text-left">
+                            <div className="inline-flex w-full justify-center rounded-md  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6"
+                                >
+                                    <path
+                                        strokeOpacity=".6"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
                         <Menu
                             as="div"
                             className="relative inline-block text-left"

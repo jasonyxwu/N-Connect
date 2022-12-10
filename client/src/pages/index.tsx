@@ -1,9 +1,8 @@
 import Head from "next/head";
-import { LockClosedIcon } from "@heroicons/react/20/solid";
 import type { GetServerSideProps, GetServerSidePropsContext } from "next";
 import HomePageCarousel from "../components/HomePageCarousel";
 import LoginForm from "../components/LoginForm";
-
+import Router from "next/router";
 export default function Home() {
     return (
         <div className="relative">
@@ -33,7 +32,7 @@ export default function Home() {
         </div>
     );
 }
-export const getServerSideProps: GetServerSideProps = async (
+export const getInitialProps: GetServerSideProps = async (
     context: GetServerSidePropsContext
 ) => {
     return {
