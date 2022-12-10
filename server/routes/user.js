@@ -1,3 +1,4 @@
+const { token } = require("../config/secrets.js");
 var User = require("../models/user.js");
 
 module.exports = function(router) {
@@ -199,13 +200,18 @@ module.exports = function(router) {
                 User.findById(token.id).exec()
                 .then(function(user) {
                     if(user == null) {
-                        return res.status(404).send({
+                        return res.status(400).send({
                             message: "Invalid token id",
                             data: [{"InvalidTokenID":token.id}]
                         });
                     } else if(token.Email != user.Email) {
-                        return res.status(404).send({
+                        return res.status(400).send({
                             message: "Token Email does not match id",
+                            data: [{"InvalidTokenEmail":token.Email}]
+                        });
+                    } else if(token.id != req.params.id) {
+                        return res.status(400).send({
+                            message: "Token has no access to update",
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
@@ -244,7 +250,9 @@ module.exports = function(router) {
                                                 data: []
                                             });
                                         }else{
-                                            update.Email = req.body.Email;
+                                            if (req.body.Email != undefined && req.body.Email != "") {
+                                                update.Email = req.body.Email;
+                                            }
                                             update.Description = req.body.Description;
                                             if (req.body.FriendGroups != undefined) {
                                                 update.FriendGroups = req.body.FriendGroups;
