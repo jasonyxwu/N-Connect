@@ -107,7 +107,7 @@ module.exports = function(router) {
             // id: String,
             // Email: String 
         // }
-        // Token verification end
+        // Token verification start
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
@@ -139,7 +139,7 @@ module.exports = function(router) {
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
-                        // Tokenverification end
+                        // Token verification end
                         User.findById(req.params.id).exec()
                         .then(function(user) {
                             if(user == null) {
@@ -178,7 +178,7 @@ module.exports = function(router) {
             // id: String,
             // Email: String 
         // }
-        // Token verification end
+        // Token verification start
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
@@ -215,7 +215,7 @@ module.exports = function(router) {
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
-                        // Tokenverification end
+                        // Token verification end
                         User.findById(req.params.id).exec()
                         .then(function(user) {
                             if(user == null) {
