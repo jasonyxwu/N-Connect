@@ -20,29 +20,28 @@ module.exports = function (router) {
                 data: []
             });
         } else {
-            token = req.body.token;
-            if (token.id == undefined) {
+            if (req.body.token.id == undefined) {
                 return res.status(404).send({
                     message: "No valid token id",
                     data: []
                 });
-            } else if (token.Email == undefined) {
+            } else if (req.body.token.Email == undefined) {
                 return res.status(404).send({
                     message: "No valid token Email",
                     data: []
                 });
             } else {
-                User.findById(token.id).exec()
+                User.findById(req.body.token.id).exec()
                 .then(function(user) {
                     if(user == null) {
                         return res.status(404).send({
                             message: "Invalid token id",
-                            data: [{"InvalidTokenID":token.id}]
+                            data: [{"InvalidTokenID":req.body.token.id}]
                         });
-                    } else if(token.Email != user.Email) {
+                    } else if(req.body.token.Email != user.Email) {
                         return res.status(404).send({
                             message: "Token Email does not match id",
-                            data: [{"InvalidTokenEmail":token.Email}]
+                            data: [{"InvalidTokenEmail":req.body.token.Email}]
                         });
                     } else {
                         // Token verification end
@@ -97,29 +96,28 @@ module.exports = function (router) {
                 data: []
             });
         } else {
-            token = req.body.token;
-            if (token.id == undefined) {
+            if (req.body.token.id == undefined) {
                 return res.status(404).send({
                     message: "No valid token id",
                     data: []
                 });
-            } else if (token.Email == undefined) {
+            } else if (req.body.token.Email == undefined) {
                 return res.status(404).send({
                     message: "No valid token Email",
                     data: []
                 });
             } else {
-                User.findById(token.id).exec()
+                User.findById(req.body.token.id).exec()
                 .then(function(user) {
                     if(user == null) {
                         return res.status(404).send({
                             message: "Invalid token id",
-                            data: [{"InvalidTokenID":token.id}]
+                            data: [{"InvalidTokenID":req.body.token.id}]
                         });
-                    } else if(token.Email != user.Email) {
+                    } else if(req.body.token.Email != user.Email) {
                         return res.status(404).send({
                             message: "Token Email does not match id",
-                            data: [{"InvalidTokenEmail":token.Email}]
+                            data: [{"InvalidTokenEmail":req.body.token.Email}]
                         });
                     } else {
                         // Token verification end
@@ -168,29 +166,28 @@ module.exports = function (router) {
                 data: []
             });
         } else {
-            token = req.body.token;
-            if (token.id == undefined) {
+            if (req.body.token.id == undefined) {
                 return res.status(404).send({
                     message: "No valid token id",
                     data: []
                 });
-            } else if (token.Email == undefined) {
+            } else if (req.body.token.Email == undefined) {
                 return res.status(404).send({
                     message: "No valid token Email",
                     data: []
                 });
             } else {
-                User.findById(token.id).exec()
+                User.findById(req.body.token.id).exec()
                 .then(function(user) {
                     if(user == null) {
                         return res.status(404).send({
                             message: "Invalid token id",
-                            data: [{"InvalidTokenID":token.id}]
+                            data: [{"InvalidTokenID":req.body.token.id}]
                         });
-                    } else if(token.Email != user.Email) {
+                    } else if(req.body.token.Email != user.Email) {
                         return res.status(404).send({
                             message: "Token Email does not match id",
-                            data: [{"InvalidTokenEmail":token.Email}]
+                            data: [{"InvalidTokenEmail":req.body.token.Email}]
                         });
                     } else {
                         // Token verification end
@@ -232,53 +229,3 @@ module.exports = function (router) {
 
     return router;
 }
-        // // req.body.token = {
-        //     // id: String,
-        //     // Email: String 
-        // // }
-        // // Token verification start
-        // if (req.body.token == undefined) {
-        //     return res.status(404).send({
-        //         message: "No valid token",
-        //         data: []
-        //     });
-        // } else {
-        //     token = req.body.token;
-        //     if (token.id == undefined) {
-        //         return res.status(404).send({
-        //             message: "No valid token id",
-        //             data: []
-        //         });
-        //     } else if (token.Email == undefined) {
-        //         return res.status(404).send({
-        //             message: "No valid token Email",
-        //             data: []
-        //         });
-        //     } else {
-        //         User.findById(token.id).exec()
-        //         .then(function(user) {
-        //             if(user == null) {
-        //                 return res.status(404).send({
-        //                     message: "Invalid token id",
-        //                     data: [{"InvalidTokenID":token.id}]
-        //                 });
-        //             } else if(token.Email != user.Email) {
-        //                 return res.status(404).send({
-        //                     message: "Token Email does not match id",
-        //                     data: [{"InvalidTokenEmail":token.Email}]
-        //                 });
-        //             } else {
-        //                 // Tokenverification end
-
-        //                 // Main Function
-                        
-        //             }
-        //         })
-        //         .catch(function(error) {
-        //             return res.status(500).send({
-        //                 message: "Server error",
-        //                 data: error
-        //             });
-        //         });
-        //     }
-        // }
