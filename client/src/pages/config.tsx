@@ -4,7 +4,7 @@ import NotiSettings from "../components/NotiSettings";
 import ProfSettings from "../components/ProfSettings";
 import UserIcon from "../components/UserIcon";
 
-import {getNSOLogin} from "../../../server/nso/nso.js"
+import {getNSOLogin} from "../../../server/nso/api.js"
 
 // const navigation = [
 //     { name: "Dashboard", href: "#", current: true },
