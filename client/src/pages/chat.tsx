@@ -98,7 +98,7 @@ export default function Chat() {
 
     return (
         <>
-            {showFriendModal ? <ModalFriend /> : null}
+            {showFriendModal ? <ModalFriend setShowFriendModal={setShowFriendModal}/> : null}
             <div className="flex h-screen w-screen">
                 <Menu
                     as="div"

@@ -262,15 +262,39 @@ async function addFriendToGroup() {
     //这块逻辑先不写 Modal直接用这个文件import的friendList（我已经添加了）
 }
 
-export function ModalFriend(props: any) {
+export function ModalFriend(props: {setShowFriendModal: React.Dispatch<React.SetStateAction<boolean>>;}) {
+
     return (
         // mt === margin-top     ml === margin-left   w === width   h === height
         // 具体可以查这个网址 https://tailwindcomponents.com/cheatsheet/
         // 同时，背景的更改应该也在这里完成，会有一个screensize的大div(有点像加滤镜)
         <div>
             <div className=" h-screen w-screen z-1 fixed bg-slate-800 opacity-40"></div>
+            
             <div className="mt-[20vh] ml-[20vw] w-[60vw] h-[60vh] bg-white z-2 fixed">
                 {/*这里要一个大方画布*/}
+                <button
+                type="submit"
+                onClick={() => {
+                    props.setShowFriendModal(false);
+                }}
+                className=" text-gray-900 px-2 py-2 fixed "
+                >
+                <svg version="1.1"
+                width="24"
+                height="24"
+                    xmlns="http://www.w3.org/2000/svg">
+                <line x1="1" y1="11" 
+                      x2="11" y2="1" 
+                        stroke="black" 
+                      stroke-width="2"/>
+                    <line x1="1" y1="1" 
+                        x2="11" y2="11" 
+                        stroke="black" 
+                        stroke-width="2"/>
+                    </svg>
+                
+            </button>
                 <div className="flex flex-wrap mx-3 my-2 h-full w-full center items-center justify-center">
                     {/*这里是个flex*/}
                     {friendList.map((item, index) => (
@@ -278,6 +302,7 @@ export function ModalFriend(props: any) {
                             type="submit"
                             key={index}
                             onClick={addFriendToGroup}
+                            className="ml-[1vw]"
                         >
                             {/*Addfriend*/}
                             <div>
