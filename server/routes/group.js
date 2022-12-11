@@ -8,7 +8,10 @@ module.exports = function (router) {
     var GroupidRoute = router.route('/group/:id');  
     var GroupMessagesRoute = router.route('/group/:id/messages');
     // Oscar start
-    // Create group      
+    // Create group
+    // GroupName defined and not ""
+    // GroupMember.length >= 2
+    // Each userid in GroupMember valid      
     router.route('/group').post(function(req, res) {
         // req.body.token = {
             // id: String,
@@ -142,7 +145,9 @@ module.exports = function (router) {
     });
     
 
-    // Create friend group 
+    // Create friend group
+    // GroupMember.length == 2
+    // Each userid in GroupMember valid  
     router.route('/friendgroup').post(function(req, res) {
         // req.body.token = {
             // id: String,
