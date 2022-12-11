@@ -4,7 +4,7 @@ import NotiSettings from "../components/NotiSettings";
 import ProfSettings from "../components/ProfSettings";
 import UserIcon from "../components/UserIcon";
 
-import {getNSOLogin} from "../../../server/nso/api.js"
+import {getNSOLogin} from "../nso/api.js"
 
 // const navigation = [
 //     { name: "Dashboard", href: "#", current: true },
@@ -22,10 +22,22 @@ import {getNSOLogin} from "../../../server/nso/api.js"
 /*
 * written by yt.h 2022 12.10
 */
+
+/*
+<a id="authorize-switch-approval-link" href="npf71b963c1b7b6d119://auth#session_state=1c..." 
+class="c-btn c-btn-primary c-btn-small c-btn-tiny">Select this account</a>
+*/
 function evokeNintendoAuth() {
     var url = getNSOLogin();
     var name = "user";
-    window.open(url);
+    window.open(url, "mozillaWindow", "popup");
+    var obj = document.getElementById("authorize-switch-approval-link");
+    if (obj == null) {
+        console.log("btn not find");
+    } else {
+        var redirectURL = obj.getAttribute('href');
+        console.log(redirectURL);
+    }
 }
 
 export default function Config() {
