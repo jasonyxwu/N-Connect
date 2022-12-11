@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { Token } from "../utils/connection";
+import { Token } from "../utils/global";
 import { Provider } from "react-redux";
 import store from "../store";
 
