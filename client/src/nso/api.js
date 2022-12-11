@@ -45,3 +45,21 @@ export function getNSOLogin() {
     const stringParams = arrayParams.join('&');
     return `https://accounts.nintendo.com/connect/1.0.0/authorize?${stringParams}`;
 }
+
+export function getUserNameByRedirectUrl(url) {
+    const params = {};
+    var name;
+    // extract three params from url 
+    // the sessionTokenCode is params.session_token_code
+    url.split('#')[1]
+            .split('&')
+            .forEach(str => {
+            const splitStr = str.split('=');
+            params[splitStr[0]] = splitStr[1];
+            });
+
+
+
+
+    return name;
+}

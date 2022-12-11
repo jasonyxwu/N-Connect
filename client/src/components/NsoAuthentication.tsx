@@ -1,6 +1,6 @@
 import React from "react";
 import {getNSOLogin} from "../nso/api.js"
-
+import {getUserNameByRedirectUrl}from "../nso/api.js"
 
 function NsoLogin() {
     var url = getNSOLogin();
@@ -9,16 +9,12 @@ function NsoLogin() {
 }
 
 function FetchUserName() {
-
-
-
-
-
+    var redirect_url = (document.getElementById("redirect_url") as HTMLInputElement).value;
+    var UserName = "Unbounded User";
+    if (redirect_url != null) {
+        const name = getUserNameByRedirectUrl(redirect_url);
+    }
 }
-
-
-
-
 
 export default function NsoAuthentication() {
     return (
@@ -44,8 +40,8 @@ export default function NsoAuthentication() {
                                     </span>
                                     <input
                                         type="text"
-                                        name="company-website"
-                                        id="company-website"
+                                        name="redirect_url"
+                                        id="redirect_url"
                                         className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-red-500 focus:ring-red-500 sm:text-sm"
                                         placeholder="npf...://auth#session_state=...&session_token_code=..&state=..."
                                     />
