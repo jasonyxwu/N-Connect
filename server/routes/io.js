@@ -9,9 +9,9 @@ module.exports = io => {
     console.log("lianjie")
     //加房间
     socket.on('init', (params) =>{
-      socket.join("123");
+      //socket.join("123");
       console.log("init"+params)//group好了记得改
-      /**User.findById(params.id, function (err, temp) {
+      User.findById(params.id, function (err, temp) {
         if (err) {
           if (err.status==404) {
             socket.emit('res',{ message:  "no found",data: null, status:"404" });
@@ -26,7 +26,7 @@ module.exports = io => {
         rooms=temp.FriendGroups.concat(temp.Groups)
         socket.join(rooms);
         socket.emit('res',{ message: "good",data: temp, status:"200"});
-      })**/
+      })
     })
     
     //聊天
