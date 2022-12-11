@@ -1,4 +1,24 @@
 import React from "react";
+import {getNSOLogin} from "../nso/api.js"
+
+
+function NsoLogin() {
+    var url = getNSOLogin();
+    var name = "user";
+    var login_window = window.open(url, "mozillaWindow", "popup");
+}
+
+function FetchUserName() {
+
+
+
+
+
+}
+
+
+
+
 
 export default function NsoAuthentication() {
     return (
@@ -9,6 +29,7 @@ export default function NsoAuthentication() {
                         <div className="grid grid-cols-3 gap-6">
                             <div className="col-span-3 sm:col-span-2">
                                 <button
+                                    onClick={NsoLogin}
                                     type="button"
                                     className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                                 >
@@ -33,6 +54,7 @@ export default function NsoAuthentication() {
                         </div>
                         <div className="grid grid-cols-3 gap-6">
                             <button
+                                onClick = {FetchUserName}
                                 type="submit"
                                 className="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                             >
