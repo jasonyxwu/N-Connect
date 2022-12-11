@@ -4,6 +4,8 @@ import NotiSettings from "../components/NotiSettings";
 import ProfSettings from "../components/ProfSettings";
 import UserIcon from "../components/UserIcon";
 
+import {getNSOLogin} from "../../../server/nso/api.js"
+
 // const navigation = [
 //     { name: "Dashboard", href: "#", current: true },
 //     { name: "Team", href: "#", current: false },
@@ -15,7 +17,16 @@ import UserIcon from "../components/UserIcon";
 //     return classes.filter(Boolean).join(" ");
 // }
 
-function evokeNintendoAuth() {}
+
+
+/*
+* written by yt.h 2022 12.10
+*/
+function evokeNintendoAuth() {
+    var url = getNSOLogin();
+    var name = "user";
+    window.open(url);
+}
 
 export default function Config() {
     let [currentOption, setcurrentOption] = useState("");
