@@ -37,6 +37,7 @@ function evokeNintendoAuth() {
 }
 
 export default function Config() {
+    const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const isAuth = useSelector((state: AppState) => state.auth.authState);
     const [currentOption, setcurrentOption] = useState("");
     // useEffect(() => {

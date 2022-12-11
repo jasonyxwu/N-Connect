@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
 import Router, { useRouter } from "next/router";
+import { userInfo } from "../slices/userSlice";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -74,9 +75,16 @@ export default function Chat() {
     const [query, setQuery] = useState("");
     const [chatMode, setChatMode] = useState("friend");
     const [loading, setLoading] = useState<boolean>(true);
-    const isAuth = useSelector((state: AppState) => state.auth.authState);
+    const isAuth: boolean = useSelector(
+        (state: AppState) => state.auth.authState
+    );
+    const userInfo: userInfo = useSelector(
+        (state: AppState) => state.user.userInfo
+    );
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
+
+    // TODO: uncomment this
     // useEffect(() => {
     //     if (!isAuth) Router.push("/");
     // }, [isAuth]);
