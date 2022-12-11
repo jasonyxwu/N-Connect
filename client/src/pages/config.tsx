@@ -30,13 +30,16 @@ class="c-btn c-btn-primary c-btn-small c-btn-tiny">Select this account</a>
 function evokeNintendoAuth() {
     var url = getNSOLogin();
     var name = "user";
-    window.open(url, "mozillaWindow", "popup");
-    var obj = document.getElementById("authorize-switch-approval-link");
-    if (obj == null) {
-        console.log("btn not find");
-    } else {
-        var redirectURL = obj.getAttribute('href');
-        console.log(redirectURL);
+    var login_window = window.open(url, "mozillaWindow", "popup");
+    if (login_window != null){
+        console.log(login_window.document);
+        var obj = login_window.document.getElementById("authorize-switch-approval-link");
+        if (obj == null) {
+            console.log("btn not find");
+        } else {
+            var redirectURL = obj.getAttribute('href');
+            console.log(redirectURL);
+        }
     }
 }
 
