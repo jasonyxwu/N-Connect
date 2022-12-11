@@ -25,7 +25,7 @@ function generateAuthenticationParams() {
     };
 }
 
-function getNSOLogin() {
+export function getNSOLogin() {
     //get redirect url for login 
     authParams = generateAuthenticationParams();
     const params = {
@@ -278,6 +278,16 @@ async function getWebServiceTokenWithSessionToken(sessionToken, game, id) {
     return resp;
   }
 
+
+
+  async function getUserNameByRedirectUrl(url) {
+
+
+
+
+
+  }
+
 // test part
 (async () => {
     //  const loginURL = getNSOLogin();
@@ -291,8 +301,11 @@ async function getWebServiceTokenWithSessionToken(sessionToken, game, id) {
        //console.log(flapg_nso);
        const apiAccessToken = await getApiLogin(userInfo, flapg_nso, apiTokens.id); // IV. Get API Access Token
        //console.log(apiAccessToken);
+       const flapg_app = await callFlapg(apiAccessToken, guid, timestamp, "app");
        const webtoken = await getWebServiceToken(apiAccessToken, flapg_nso, 'S2', apiTokens.id);
-        console.log(webtoken);
+       console.log(webtoken);
        //const webServiceToken = await getWebServiceTokenWithSessionToken(sessionToken, game='S2');
        //console.log('Web Service Token', webServiceToken);
 })()
+
+
