@@ -56,6 +56,9 @@ module.exports = function (router) {
                         } else {
                             group.GroupName = req.body.GroupName;
                         }
+                        if(req.body.GroupIcon != undefined && req.body.GroupIcon != "") {
+                            group.groupIcon = req.body.GroupIcon;
+                        }
                         if(req.body.GroupMember == undefined || req.body.GroupMember.length < 2) {
                             return res.status(400).send({
                                 message: "Group Member cannot be less than 2",
@@ -347,6 +350,9 @@ module.exports = function (router) {
                                         .then(function(data) {
                                             if (req.body.GroupName != undefined && req.body.GroupName != "") {
                                                 group.GroupName = req.body.GroupName;
+                                            }
+                                            if(req.body.GroupIcon != undefined && req.body.GroupIcon != "") {
+                                                group.groupIcon = req.body.GroupIcon;
                                             }
                                             group.save()
                                             .then(function(data) {
