@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import NotiSettings from "../components/NotiSettings";
+import NsoAuthentication from "../components/NsoAuthentication";
 import ProfSettings from "../components/ProfSettings";
 import UserIcon from "../components/UserIcon";
 
@@ -27,6 +28,7 @@ import {getNSOLogin} from "../nso/api.js"
 <a id="authorize-switch-approval-link" href="npf71b963c1b7b6d119://auth#session_state=1c..." 
 class="c-btn c-btn-primary c-btn-small c-btn-tiny">Select this account</a>
 */
+//  onClick={evokeNintendoAuth}
 function evokeNintendoAuth() {
     var url = getNSOLogin();
     var name = "user";
@@ -103,7 +105,7 @@ export default function Config() {
                         <li>
                             <button
                                 className="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-red-800 w-full"
-                                onClick={evokeNintendoAuth}
+                                onClick={() => setcurrentOption("NSO")}
                             >
                                 <svg
                                     aria-hidden="true"
@@ -151,7 +153,7 @@ export default function Config() {
             </div>
             <div className="col-span-4 mt-4">
                 {(currentOption === "Profile" && <ProfSettings />) ||
-                    (currentOption === "Notification" && <NotiSettings />)}
+                    (currentOption === "Notification" && <NotiSettings />) || (currentOption === "NSO" && <NsoAuthentication />)}
             </div>
         </div>
     );
