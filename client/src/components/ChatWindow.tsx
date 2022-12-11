@@ -278,7 +278,7 @@ export function ModalFriend(props: {setShowFriendModal: React.Dispatch<React.Set
                 onClick={() => {
                     props.setShowFriendModal(false);
                 }}
-                className=" text-gray-900 px-2 py-2 fixed "
+                className=" text-gray-900 px-2 py-2 fixed"
                 >
                 <svg version="1.1"
                 width="24"
