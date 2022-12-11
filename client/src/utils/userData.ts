@@ -19,7 +19,7 @@ export async function getUserInfo(userId: String, token: Token) {
     return json;
 }
 
-export async function loginUser(email: String, password:string) {
+export async function loginUser(email: String, password: string) {
     const url = `${SERVER_DOMAIN}/user/login`;
     const response = await fetch(url, {
         method: "POST",
@@ -31,11 +31,16 @@ export async function loginUser(email: String, password:string) {
         },
         body: JSON.stringify({ Email: email, Password: password }),
     });
+    console.log(response);
     const json = await response.json();
     return json;
 }
 
-export async function createUser(email: String, password:string, username: string) {
+export async function createUser(
+    email: String,
+    password: string,
+    username: string
+) {
     const url = `${SERVER_DOMAIN}/user`;
     const response = await fetch(url, {
         method: "POST",
@@ -45,7 +50,11 @@ export async function createUser(email: String, password:string, username: strin
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({Email: email, Password: password, UserName: username}),
+        body: JSON.stringify({
+            Email: email,
+            Password: password,
+            UserName: username,
+        }),
     });
     const json = await response.json();
     return json;

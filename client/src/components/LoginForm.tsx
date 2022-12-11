@@ -1,8 +1,18 @@
 import React, { useState } from "react";
-
+import { loginUser } from "../utils/userData";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 export default function LoginForm() {
-    const [mode, setMode] = useState<String>("signin");
+    const [mode, setMode] = useState<string>("signin");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
+    function login() {
+        loginUser(email, password)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => console.log(error));
+    }
     return mode === "signin" ? (
         <form className="mt-3 space-y-6 w-[90%] my-8" action="#" method="POST">
             <input type="hidden" name="remember" defaultValue="true" />
@@ -19,6 +29,7 @@ export default function LoginForm() {
                         required
                         className="h-12 relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                         placeholder="Email address"
+                        onChange={(event) => setEmail(event.target.value)}
                     />
                 </div>
                 <div>
@@ -33,6 +44,7 @@ export default function LoginForm() {
                         required
                         className="h-12 relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                         placeholder="Password"
+                        onChange={(event) => setPassword(event.target.value)}
                     />
                 </div>
             </div>
@@ -68,6 +80,7 @@ export default function LoginForm() {
                 <button
                     type="submit"
                     className="h-12 group relative flex w-full justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-lg font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                    onClick={login}
                 >
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <LockClosedIcon
@@ -107,6 +120,7 @@ export default function LoginForm() {
                         required
                         className="h-12 relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                         placeholder="Email address"
+                        onChange={(event) => setEmail(event.target.value)}
                     />
                 </div>
                 <div>
@@ -121,6 +135,7 @@ export default function LoginForm() {
                         required
                         className="h-12 relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                         placeholder="Password"
+                        onChange={(event) => setPassword(event.target.value)}
                     />
                 </div>
                 <div>
@@ -183,6 +198,7 @@ export default function LoginForm() {
                         required
                         className="h-12 relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                         placeholder="Email address"
+                        onChange={(event) => setEmail(event.target.value)}
                     />
                 </div>
             </div>
