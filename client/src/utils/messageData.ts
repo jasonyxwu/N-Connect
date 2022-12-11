@@ -1,4 +1,4 @@
-import { SERVER_DOMAIN } from "./connection";
+import { SERVER_DOMAIN } from "./global";
 export async function getAllMessagesFromGroup(groupId: String, token: String) {
     if (!token || token === "") {
         return {};

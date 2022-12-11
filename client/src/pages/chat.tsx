@@ -9,6 +9,7 @@ import ChatSelectBar from "../components/ChatSelectBar";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
+import Router from "next/router";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -75,7 +76,12 @@ export default function Chat() {
     const [loading, setLoading] = useState<boolean>(true);
     const isAuth = useSelector((state: AppState) => state.auth.authState);
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
+    // if (!isAuth) {
+    //     //TODO: force redirect to chat.tsx
+    //     Router.push("/");
+    // }
     if (flag == 0) {
         console.log("chushihua");
         socket.emit("init", { id: userid });
@@ -98,7 +104,9 @@ export default function Chat() {
 
     return (
         <>
-            {showFriendModal ? <ModalFriend setShowFriendModal={setShowFriendModal}/> : null}
+            {showFriendModal ? (
+                <ModalFriend setShowFriendModal={setShowFriendModal} />
+            ) : null}
             <div className="flex h-screen w-screen">
                 <Menu
                     as="div"
@@ -132,6 +140,9 @@ export default function Chat() {
                                     <button
                                         type="submit"
                                         className="hover:bg-gray-100 text-gray-900 block w-full px-4 py-2 text-left text-sm"
+                                        onClick={() =>
+                                            dispatch(setAuthState(false))
+                                        }
                                     >
                                         Sign out
                                     </button>

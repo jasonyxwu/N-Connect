@@ -10,6 +10,7 @@ export default function Home() {
     const isAuth = useSelector((state: AppState) => state.auth.authState);
     if (isAuth) {
         //TODO: force redirect to chat.tsx
+        Router.push("/chat");
     }
     // TODO: figure out why overflow
     return (
