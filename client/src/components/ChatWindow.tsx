@@ -269,10 +269,20 @@ export function ModalFriend(props: {setShowFriendModal: React.Dispatch<React.Set
         // 具体可以查这个网址 https://tailwindcomponents.com/cheatsheet/
         // 同时，背景的更改应该也在这里完成，会有一个screensize的大div(有点像加滤镜)
         <div>
-            <div className=" h-screen w-screen z-1 fixed bg-slate-800 opacity-40"></div>
+            <button
+                type="submit"
+                onClick={() => {
+                    props.setShowFriendModal(false);
+                }}
+                >
+                <div className=" h-screen w-screen z-1 fixed bg-slate-800 opacity-40" />
+            </button>
+ 
+           
             
             <div className="mt-[20vh] ml-[20vw] w-[60vw] h-[60vh] bg-white z-2 fixed">
                 {/*这里要一个大方画布*/}
+                <p className="text-gray-300 text-center">select friends to be added to the group</p>
                 <button
                 type="submit"
                 onClick={() => {
