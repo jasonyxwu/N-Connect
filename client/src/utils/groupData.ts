@@ -1,4 +1,4 @@
-import { SERVER_DOMAIN, Token } from "./connection";
+import { SERVER_DOMAIN, Token } from "./global";
 
 export async function getGroupInfo(groupId: String, token: Token) {
     if (!token) {
@@ -19,7 +19,12 @@ export async function getGroupInfo(groupId: String, token: Token) {
     return json;
 }
 
-export async function createGroup(userIds: String[], token: Token, GroupName: String) {
+export async function createGroup(
+    userIds: String[],
+    token: Token,
+    GroupName: String,
+    groupIcon: String
+) {
     if (!token) {
         return {};
     }
@@ -34,7 +39,12 @@ export async function createGroup(userIds: String[], token: Token, GroupName: St
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ GroupMember: userIds, token: token, GroupName: GroupName }),
+        body: JSON.stringify({
+            GroupMember: userIds,
+            token: token,
+            GroupName: GroupName,
+            GroupIcon: groupIcon,
+        }),
     });
     const json = await response.json();
     return json;
@@ -85,6 +95,7 @@ async function updateGroup(
     groupId: String,
     userIds: String[],
     groupName: String,
+    groupIcon: String,
     token: Token
 ) {
     if (!token) {
@@ -104,6 +115,7 @@ async function updateGroup(
             GroupMember: userIds,
             GroupID: groupId,
             GroupName: groupName,
+            GroupIcon: groupIcon,
             token: token,
         }),
     });

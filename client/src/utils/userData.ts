@@ -1,4 +1,4 @@
-import { SERVER_DOMAIN, Token } from "./connection";
+import { SERVER_DOMAIN, Token } from "./global";
 
 export async function getUserInfo(userId: String, token: Token) {
     if (!token) {

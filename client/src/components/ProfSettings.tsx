@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ProfSettings() {
     return (
-        <div className="mt-5">
+        <div className="mt-2">
             <form action="#" method="POST">
                 <div className="shadow sm:overflow-hidden sm:rounded-md flex flex-col">
                     <div className="space-y-6 bg-white px-4 py-5 sm:p-6">

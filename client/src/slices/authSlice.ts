@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import { Token } from "../utils/connection";
+import { Token } from "../utils/global";
 import { AppState } from "../store";
 
 import type { PayloadAction } from "@reduxjs/toolkit";
