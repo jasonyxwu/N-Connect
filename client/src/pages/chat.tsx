@@ -9,11 +9,13 @@ import ChatSelectBar from "../components/ChatSelectBar";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
+import Router, { useRouter } from "next/router";
+import { userInfo } from "../slices/userSlice";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-//n-connect.vercel.app "localhost:4000",
+//n-connect.vercel.app "localhost:4000",http://localhost:4001/https://cryptic-journey-82080.herokuapp.com
 const socket = io("https://cryptic-journey-82080.herokuapp.com", {
     transports: ["websocket", "polling", "flashsocket"],
     //secure: true,
@@ -73,15 +75,25 @@ export default function Chat() {
     const [query, setQuery] = useState("");
     const [chatMode, setChatMode] = useState("friend");
     const [loading, setLoading] = useState<boolean>(true);
-    const isAuth = useSelector((state: AppState) => state.auth.authState);
+    const isAuth: boolean = useSelector(
+        (state: AppState) => state.auth.authState
+    );
+    const userInfo: userInfo = useSelector(
+        (state: AppState) => state.user.userInfo
+    );
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
+    const dispatch = useDispatch();
+
+    // TODO: uncomment this
+    // useEffect(() => {
+    //     if (!isAuth) Router.push("/");
+    // }, [isAuth]);
 
     if (flag == 0) {
         console.log("chushihua");
         socket.emit("init", { id: userid });
         flag = 1;
     }
-
     //TODO: Add search
     useEffect(() => {
         console.log(1);
@@ -98,7 +110,9 @@ export default function Chat() {
 
     return (
         <>
-            {showFriendModal ? <ModalFriend setShowFriendModal={setShowFriendModal}/> : null}
+            {showFriendModal ? (
+                <ModalFriend setShowFriendModal={setShowFriendModal} />
+            ) : null}
             <div className="flex h-screen w-screen">
                 <Menu
                     as="div"
@@ -127,16 +141,17 @@ export default function Chat() {
                                     </Link>
                                 </Menu.Item>
                             </div>
-                            <form method="POST" action="#">
-                                <Menu.Item>
-                                    <button
-                                        type="submit"
-                                        className="hover:bg-gray-100 text-gray-900 block w-full px-4 py-2 text-left text-sm"
-                                    >
-                                        Sign out
-                                    </button>
-                                </Menu.Item>
-                            </form>
+                            <Menu.Item>
+                                <button
+                                    type="submit"
+                                    className="hover:bg-gray-100 text-gray-900 block w-full px-4 py-2 text-left text-sm"
+                                    onClick={() => {
+                                        dispatch(setAuthState(false));
+                                    }}
+                                >
+                                    Sign out
+                                </button>
+                            </Menu.Item>
                         </Menu.Items>
                     </Transition>
                     <div className="flex flex-col justfiy-between items-center">

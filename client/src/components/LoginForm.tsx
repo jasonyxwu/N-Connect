@@ -1,15 +1,33 @@
 import React, { useState } from "react";
 import { loginUser } from "../utils/userData";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthState } from "../slices/authSlice";
+import { setUserState, setUserToken, userInfo } from "../slices/userSlice";
+import { Token } from "../utils/global";
 export default function LoginForm() {
     const [mode, setMode] = useState<string>("signin");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const dispatch = useDispatch();
 
     function login() {
         loginUser(email, password)
             .then((res) => {
+                const data = res.data;
+                dispatch(setAuthState(true));
+                const Info: userInfo = {
+                    name: data.UserName,
+                    url: "",
+                    token: res.token,
+                    groupList: data.Groups,
+                    friendList: data.FriendGroups,
+                    Description: data.Description,
+                };
+                dispatch(setUserState(Info));
                 console.log(res);
+                // TODO: validate token dispatch
+                //dispatch(setTokenState(res));
             })
             .catch((error) => console.log(error));
     }

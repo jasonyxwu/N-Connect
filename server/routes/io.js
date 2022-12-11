@@ -23,9 +23,15 @@ module.exports = io => {
         if (temp==null) {
           socket.emit('res',{ message:  "no found",data: temp, status:"404"});
         }
+        
         rooms=temp.FriendGroups.concat(temp.Groups)
-        socket.join(rooms);
+        if (rooms==null){
+          socket.emit('res',{ message: "good, no room",data: temp, status:"200"});
+        }else{
+            socket.join(rooms);
         socket.emit('res',{ message: "good",data: temp, status:"200"});
+        }
+        
       })**/
     })
     

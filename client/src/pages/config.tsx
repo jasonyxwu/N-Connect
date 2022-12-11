@@ -1,28 +1,17 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NotiSettings from "../components/NotiSettings";
 import NsoAuthentication from "../components/NsoAuthentication";
 import ProfSettings from "../components/ProfSettings";
 import UserIcon from "../components/UserIcon";
-
-import {getNSOLogin} from "../nso/api.js"
-
-// const navigation = [
-//     { name: "Dashboard", href: "#", current: true },
-//     { name: "Team", href: "#", current: false },
-//     { name: "Projects", href: "#", current: false },
-//     { name: "Calendar", href: "#", current: false },
-// ];
-
-// function classNames(...classes: String[]) {
-//     return classes.filter(Boolean).join(" ");
-// }
-
-
+import { AppState } from "../store";
+import Router from "next/router";
+import { getNSOLogin } from "../nso/api.js";
 
 /*
-* written by yt.h 2022 12.10
-*/
+ * written by yt.h 2022 12.10
+ */
 
 /*
 <a id="authorize-switch-approval-link" href="npf71b963c1b7b6d119://auth#session_state=1c..." 
@@ -33,24 +22,30 @@ function evokeNintendoAuth() {
     var url = getNSOLogin();
     var name = "user";
     var login_window = window.open(url, "mozillaWindow", "popup");
-    if (login_window != null){
+    if (login_window != null) {
         console.log(login_window.document);
-        var obj = login_window.document.getElementById("authorize-switch-approval-link");
+        var obj = login_window.document.getElementById(
+            "authorize-switch-approval-link"
+        );
         if (obj == null) {
             console.log("btn not find");
         } else {
-            var redirectURL = obj.getAttribute('href');
+            var redirectURL = obj.getAttribute("href");
             console.log(redirectURL);
         }
     }
 }
 
 export default function Config() {
-    let [currentOption, setcurrentOption] = useState("");
-
+    const userInfo = useSelector((state: AppState) => state.user.userInfo);
+    const isAuth = useSelector((state: AppState) => state.auth.authState);
+    const [currentOption, setcurrentOption] = useState("");
+    // useEffect(() => {
+    //     if (!isAuth) Router.push("/");
+    // }, [isAuth]);
     return (
-        <div className="grid grid-cols-5">
-            <div className="col-span-1">
+        <div className="w-screen h-screen flex">
+            <div className="w-70">
                 <div className="h-screen flex flex-col justify-center overflow-y-auto py-3 px-3 bg-red-600">
                     <Link href="/chat" className="flex items-center ml-1">
                         <UserIcon />
@@ -151,9 +146,10 @@ export default function Config() {
                     </Link>
                 </div>
             </div>
-            <div className="col-span-4 mt-4">
+            <div className="flex-grow overflow-scroll">
                 {(currentOption === "Profile" && <ProfSettings />) ||
-                    (currentOption === "Notification" && <NotiSettings />) || (currentOption === "NSO" && <NsoAuthentication />)}
+                    (currentOption === "Notification" && <NotiSettings />) ||
+                    (currentOption === "NSO" && <NsoAuthentication />)}
             </div>
         </div>
     );

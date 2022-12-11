@@ -1,4 +1,4 @@
-import { SERVER_DOMAIN, Token } from "./connection";
+import { SERVER_DOMAIN, Token } from "./global";
 
 export async function getUserInfo(userId: String, token: Token) {
     if (!token) {
@@ -31,7 +31,6 @@ export async function loginUser(email: String, password: string) {
         },
         body: JSON.stringify({ Email: email, Password: password }),
     });
-    console.log(response);
     const json = await response.json();
     return json;
 }
