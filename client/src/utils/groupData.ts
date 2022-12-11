@@ -19,7 +19,7 @@ export async function getGroupInfo(groupId: String, token: Token) {
     return json;
 }
 
-export async function createGroup(userIds: String[], token: Token) {
+export async function createGroup(userIds: String[], token: Token, GroupName: String) {
     if (!token) {
         return {};
     }
@@ -34,7 +34,27 @@ export async function createGroup(userIds: String[], token: Token) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ users: userIds, token: token }),
+        body: JSON.stringify({ GroupMember: userIds, token: token, GroupName: GroupName }),
+    });
+    const json = await response.json();
+    return json;
+}
+export async function createFriendGroup(userIds: String[], token: Token) {
+    if (!token) {
+        return {};
+    }
+    const url = `${SERVER_DOMAIN}/friendgroup`;
+    const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ GroupMember: userIds, token: token }),
     });
     const json = await response.json();
     return json;
@@ -81,7 +101,7 @@ async function updateGroup(
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            UserID: userIds,
+            GroupMember: userIds,
             GroupID: groupId,
             GroupName: groupName,
             token: token,

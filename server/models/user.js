@@ -8,6 +8,7 @@ var UserSchema = new mongoose.Schema({
     FriendGroups: {type: [String], default: []},
     Groups: {type: [String], default: []},
     Description: {type: String, default: ""},
+    Icon: {type: String, default: ""},
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -254,10 +254,9 @@ module.exports = function(router) {
                                                 data: []
                                             });
                                         }else{
-                                            if (req.body.Email != undefined && req.body.Email != "") {
-                                                update.Email = req.body.Email;
+                                            if (req.body.Description != undefined && req.body.Description != "") {
+                                                update.Description = req.body.Description;
                                             }
-                                            update.Description = req.body.Description;
                                             if (req.body.FriendGroups != undefined) {
                                                 update.FriendGroups = req.body.FriendGroups;
                                             } else {
@@ -269,9 +268,14 @@ module.exports = function(router) {
                                                 update.Groups = match.Groups;
                                             }
                                             if(req.body.Password != undefined && req.body.Password != "") {
-                                                update.Password = req.body.Groups;
+                                                update.Password = req.body.Password;
                                             } else {
                                                 update.Password = match.Password
+                                            }
+                                            if(req.body.Icon != undefined && req.body.Icon != "") {
+                                                update.Icon = req.body.Icon;
+                                            } else {
+                                                update.Icon = match.Icon
                                             }
                                             update.DateCreated = match.DateCreated
                                             User.findByIdAndUpdate(user.id, update, {new: true}).exec()
