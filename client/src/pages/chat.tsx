@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ChatWindow from "../components/ChatWindow";
+import ChatWindow, { ModalFriend } from "../components/ChatWindow";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { io } from "socket.io-client";
@@ -9,7 +9,6 @@ import ChatSelectBar from "../components/ChatSelectBar";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
-import ListFriend from "../modals/ListFriend";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -31,7 +30,7 @@ export interface chatItem {
 }
 let userToken: string = "";
 
-const friendList: chatItem[] = [
+export const friendList: chatItem[] = [
     {
         name: "Arex",
         lastUpdateTime: "12:45pm",
@@ -99,6 +98,7 @@ export default function Chat() {
 
     return (
         <>
+            {showFriendModal ? <ModalFriend /> : null}
             <div className="flex h-screen w-screen">
                 <Menu
                     as="div"
@@ -333,9 +333,6 @@ export default function Chat() {
                     {/*加入MessageList*/}
                 </div>
             </div>
-            {/* {showFriendModal ? (
-                <ListFriend setShowFriendModal={setShowFriendModal} />
-            ) : null} */}
         </>
     );
 }

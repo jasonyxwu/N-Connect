@@ -27,7 +27,6 @@ export default function Config() {
                     <Link href="/chat" className="flex items-center ml-1">
                         <UserIcon />
                     </Link>
-
                     <ul className="space-y-4 h-full pt-[100%]">
                         <li>
                             <a

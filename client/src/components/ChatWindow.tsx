@@ -1,15 +1,13 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import ListFriend from "../modals/ListFriend";
+import { friendList } from "../pages/chat";
 
 export interface Message {
     Sender: String;
     Content: String;
     DateCreated: String;
 }
-
-
 
 const userid = (Math.random() * 100).toString(); //到时候获取全局token
 
@@ -18,7 +16,7 @@ export default function ChatWindow(props: {
     currentChat: String;
     socket: any;
     setShowFriendModal: React.Dispatch<React.SetStateAction<boolean>>;
-    showFriendModal:boolean;
+    showFriendModal: boolean;
 }) {
     //假如tempmessage
     var socket = props.socket;
@@ -38,13 +36,6 @@ export default function ChatWindow(props: {
         }); //到时候搞好了把前面给替换回注释里的
         setInput("");
     }
-    var modal = document.getElementsByClassName("modal");
-
-    if (props.showFriendModal){
-        modal[0].style.display = "none";//这里似乎有点小问题
-    }else{
-        modal[0].style.display = "block";
-    }   
 
     socket.on("chat", (message: Message) => {
         console.log("jieshou");
@@ -132,9 +123,10 @@ export default function ChatWindow(props: {
                             <div className="relative inline-block text-left">
                                 <button
                                     className="inline-flex w-full justify-center rounded-md  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                    onClick={() =>
-                                        props.setShowFriendModal(true)
-                                    }
+                                    onClick={() => {
+                                        props.setShowFriendModal(true);
+                                        console.log(props.showFriendModal);
+                                    }}
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -197,18 +189,12 @@ export default function ChatWindow(props: {
                         </div>
                     </div>
                 </div>
-
                 {/* chat content */}
                 <div className="flex-1 py-2 px-3 flex-grow overflow-auto">
                     {MessageList.map((element, index) => {
                         return <ChatBubble {...element} key={index} />;
                     })}
                 </div>
-
-                <div className="modal">{/*这个class要有position: fixed; z-index: 1; */}
-                    <ModalFriend friendList={}/> {/*这里面填friend */}
-                </div>
-                   
                 {/* input window */}
                 <div className="bg-grey-lighter px-4 py-4 flex items-center justify-end border">
                     {/* Emoji */}
@@ -272,26 +258,38 @@ function ChatBubble(props: Message) {
         );
 }
 
-
-async function addFriendToGroup(friend) {
-    return await axios.get(url+friend);
+async function addFriendToGroup() {
+    //这块逻辑先不写 Modal直接用这个文件import的friendList（我已经添加了）
 }
 
-function ModalFriend(props: any) {
+export function ModalFriend(props: any) {
     return (
-        <div className="">{/*这里要一个大方画布*/}
-            <div className="">{/*这里是个flex*/}
-            {props.friendList.map((item, index) => (
-                <button type="submit" onClick={item=>addFriendToGroup(item)}>{/*Addfriend*/}
-                <div>
-                    <img
-                        className=""
-                        src={item.icon.toString()}
-                    />
-                    <p className="">{item.name}</p>
+        // mt === margin-top     ml === margin-left   w === width   h === height
+        // 具体可以查这个网址 https://tailwindcomponents.com/cheatsheet/
+        // 同时，背景的更改应该也在这里完成，会有一个screensize的大div(有点像加滤镜)
+        <div>
+            <div className=" h-screen w-screen z-1 fixed bg-slate-800 opacity-40"></div>
+            <div className="mt-[20vh] ml-[20vw] w-[60vw] h-[60vh] bg-white z-2 fixed">
+                {/*这里要一个大方画布*/}
+                <div className="flex flex-wrap mx-3 my-2 h-full w-full center items-center justify-center">
+                    {/*这里是个flex*/}
+                    {friendList.map((item, index) => (
+                        <button
+                            type="submit"
+                            key={index}
+                            onClick={addFriendToGroup}
+                        >
+                            {/*Addfriend*/}
+                            <div>
+                                <img
+                                    className="w-8 h-8"
+                                    src={item.icon.toString()}
+                                />
+                                <p className="">{item.name}</p>
+                            </div>
+                        </button>
+                    ))}
                 </div>
-                </button>))
-            }
             </div>
         </div>
     );
