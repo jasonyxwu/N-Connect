@@ -66,8 +66,10 @@ module.exports = function(router) {
     // User login
     router.route("/user/login").post(function(req, res) {
         // Find the user of Email 
+        console.log(req.body.Email)
         User.findOne({Email: req.body.Email}).exec()
         .then(function(match) {
+            console.log(match)
             // No user found, that means this Email is not registered yet
             if (match == null) {
                 return res.status(404).send({
@@ -83,16 +85,18 @@ module.exports = function(router) {
                 });
             } 
             // Login successful, return user data
+            
             return res.status(201).send({
                 message: "User login successful",
                 data: match,
                 token: {
-                    id: data.id,
-                    Email: data.Email
+                    id: match.id,
+                    Email: match.Email
                 }
             });
         })
         .catch(function(error) {
+            console.log(error)
             return res.status(500).send({
                 message: "Server error",
                 data: error
@@ -114,7 +118,7 @@ module.exports = function(router) {
                 data: []
             });
         } else {
-            token = req.body.token;
+            var token = req.body.token;
             if (token.id == undefined) {
                 return res.status(404).send({
                     message: "No valid token id",
