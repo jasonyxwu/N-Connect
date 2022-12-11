@@ -328,6 +328,7 @@ export default function Chat() {
                         currentChat={currentChat}
                         socket={socket}
                         setShowFriendModal={setShowFriendModal}
+                        showFriendModal={showFriendModal}
                     />{" "}
                     {/*加入MessageList*/}
                 </div>

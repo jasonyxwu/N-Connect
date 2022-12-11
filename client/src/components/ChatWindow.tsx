@@ -1,12 +1,15 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
+import ListFriend from "../modals/ListFriend";
 
 export interface Message {
     Sender: String;
     Content: String;
     DateCreated: String;
 }
+
+
 
 const userid = (Math.random() * 100).toString(); //到时候获取全局token
 
@@ -15,6 +18,7 @@ export default function ChatWindow(props: {
     currentChat: String;
     socket: any;
     setShowFriendModal: React.Dispatch<React.SetStateAction<boolean>>;
+    showFriendModal:boolean;
 }) {
     //假如tempmessage
     var socket = props.socket;
@@ -34,9 +38,13 @@ export default function ChatWindow(props: {
         }); //到时候搞好了把前面给替换回注释里的
         setInput("");
     }
-    function addFriendToGroup() {
-        //TODO: show selection modal
-    }
+    var modal = document.getElementsByClassName("modal");
+
+    if (props.showFriendModal){
+        modal[0].style.display = "none";//这里似乎有点小问题
+    }else{
+        modal[0].style.display = "block";
+    }   
 
     socket.on("chat", (message: Message) => {
         console.log("jieshou");
@@ -197,6 +205,10 @@ export default function ChatWindow(props: {
                     })}
                 </div>
 
+                <div className="modal">{/*这个class要有position: fixed; z-index: 1; */}
+                    <ModalFriend friendList={}/> {/*这里面填friend */}
+                </div>
+                   
                 {/* input window */}
                 <div className="bg-grey-lighter px-4 py-4 flex items-center justify-end border">
                     {/* Emoji */}
@@ -258,4 +270,29 @@ function ChatBubble(props: Message) {
                 </div>
             </div>
         );
+}
+
+
+async function addFriendToGroup(friend) {
+    return await axios.get(url+friend);
+}
+
+function ModalFriend(props: any) {
+    return (
+        <div className="">{/*这里要一个大方画布*/}
+            <div className="">{/*这里是个flex*/}
+            {props.friendList.map((item, index) => (
+                <button type="submit" onClick={item=>addFriendToGroup(item)}>{/*Addfriend*/}
+                <div>
+                    <img
+                        className=""
+                        src={item.icon.toString()}
+                    />
+                    <p className="">{item.name}</p>
+                </div>
+                </button>))
+            }
+            </div>
+        </div>
+    );
 }
