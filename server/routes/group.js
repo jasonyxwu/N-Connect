@@ -14,7 +14,7 @@ module.exports = function (router) {
             // id: String,
             // Email: String 
         // }
-        // Token verification end
+        // Token verification start
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
@@ -46,7 +46,7 @@ module.exports = function (router) {
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
-                        // Tokenverification end
+                        // Token verification end
                         var group = new Group();
                         if(req.body.GroupName == undefined || req.body.GroupName == "") {
                             return res.status(400).send({
@@ -145,7 +145,7 @@ module.exports = function (router) {
             // id: String,
             // Email: String 
         // }
-        // Token verification end
+        // Token verification start
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
@@ -177,7 +177,7 @@ module.exports = function (router) {
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
-                        // Tokenverification end
+                        // Token verification end
                         var group = new Group();
                         group.GroupName = "private chat "+group.id;
                         if(req.body.GroupMember == undefined || req.body.GroupMember.length != 2) {
@@ -270,7 +270,7 @@ module.exports = function (router) {
             // id: String,
             // Email: String 
         // }
-        // Token verification end
+        // Token verification start
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
@@ -302,7 +302,7 @@ module.exports = function (router) {
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
-                        // Tokenverification end
+                        // Token verification end
                         Group.findById(req.params.id).exec()
                         .then(function(group) {
                             if (group == null) {
@@ -483,7 +483,7 @@ module.exports = function (router) {
             // id: String,
             // Email: String 
         // }
-        // Token verification end
+        // Token verification start
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
@@ -515,7 +515,7 @@ module.exports = function (router) {
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
-                        // Tokenverification end
+                        // Token verification end
                         Group.findById(req.params.id).exec()
                         .then(function(gp) {
                             if(gp == null) {
@@ -585,7 +585,7 @@ module.exports = function (router) {
                             data: [{"InvalidTokenEmail":token.Email}]
                         });
                     } else {
-                        // Tokenverification end
+                        // Token verification end
                         // get all messages in specific group 
                         Group.findById(req.params.id).exec()
                         .then(function(gp) {

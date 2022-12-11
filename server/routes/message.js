@@ -9,78 +9,276 @@ module.exports = function (router) {
     var messageidRoute = router.route('/message/:id');
     //debug 用
     messageRoute.post(function (req, res) {
-       
-        var date=new Date();
-        var time=date.toJSON();
-   
-        if (req.body.UserId== null || req.body.GroupId==null) {
-            return res.status(400).send({ message:  "Empty user or group",
-            data: null
+        // req.body.token = {
+            // id: String,
+            // Email: String 
+        // }
+        // Token verification start
+        if (req.body.token == undefined) {
+            return res.status(404).send({
+                message: "No valid token",
+                data: []
             });
+        } else {
+            token = req.body.token;
+            if (token.id == undefined) {
+                return res.status(404).send({
+                    message: "No valid token id",
+                    data: []
+                });
+            } else if (token.Email == undefined) {
+                return res.status(404).send({
+                    message: "No valid token Email",
+                    data: []
+                });
+            } else {
+                User.findById(token.id).exec()
+                .then(function(user) {
+                    if(user == null) {
+                        return res.status(404).send({
+                            message: "Invalid token id",
+                            data: [{"InvalidTokenID":token.id}]
+                        });
+                    } else if(token.Email != user.Email) {
+                        return res.status(404).send({
+                            message: "Token Email does not match id",
+                            data: [{"InvalidTokenEmail":token.Email}]
+                        });
+                    } else {
+                        // Token verification end
+                        var date=new Date();
+                        var time=date.toJSON();
+                
+                        if (req.body.UserId== null || req.body.GroupId==null) {
+                            return res.status(400).send({ message:  "Empty user or group",
+                            data: null
+                            });
+                        }
+                        var message = new Message({
+                            DateCreated: time, 
+                            Content: req.body.Content,
+                            Sender: req.body.UserId,
+                            ToGroup: req.body.GroupId
+                        })
+                        message.save().then(result=>{
+                            return res.status(201).send({ message:  "Created",
+                            data: result
+                            });
+                        })
+                        .catch(result=>{
+                            return res.status(500).send({ message:  "server error",
+                            data: null
+                            });
+                        })
+                        
+                    }
+                })
+                .catch(function(error) {
+                    return res.status(500).send({
+                        message: "Server error",
+                        data: error
+                    });
+                });
+            }
         }
-        var message = new Message({
-            DateCreated: time, 
-            Content: req.body.Content,
-            Sender: req.body.UserId,
-            ToGroup: req.body.GroupId
-          })
-        message.save().then(result=>{
-            return res.status(201).send({ message:  "Created",
-            data: result
-            });
-        })
-        .catch(result=>{
-            return res.status(500).send({ message:  "server error",
-            data: null
-            });
-        })
+        
     });
    
 
     messageidRoute.get(function (req, res) {
-        var id=req.params.id;       
-        var sel=JSON.parse(req.query.select||"{}")
-        Message.findById(id, function (err, temp) {
-            if (err) {
-                if (err.status==404) {
-                    return res.status(404).send({ message:  "no found",data: null});
-                }
-                else{
-                    return res.status(500).send({ message:  "server error",data: null});
-                }
-            }
-            if (temp==null) {
-                return res.status(404).send({ message:  "no found",data: temp});
-            }
-            return res.status(200).send({ message:  "OK",
-                data: temp
+        // req.body.token = {
+            // id: String,
+            // Email: String 
+        // }
+        // Token verification start
+        if (req.body.token == undefined) {
+            return res.status(404).send({
+                message: "No valid token",
+                data: []
             });
-      }).select(sel);
+        } else {
+            token = req.body.token;
+            if (token.id == undefined) {
+                return res.status(404).send({
+                    message: "No valid token id",
+                    data: []
+                });
+            } else if (token.Email == undefined) {
+                return res.status(404).send({
+                    message: "No valid token Email",
+                    data: []
+                });
+            } else {
+                User.findById(token.id).exec()
+                .then(function(user) {
+                    if(user == null) {
+                        return res.status(404).send({
+                            message: "Invalid token id",
+                            data: [{"InvalidTokenID":token.id}]
+                        });
+                    } else if(token.Email != user.Email) {
+                        return res.status(404).send({
+                            message: "Token Email does not match id",
+                            data: [{"InvalidTokenEmail":token.Email}]
+                        });
+                    } else {
+                        // Token verification end
+
+                            var id=req.params.id;       
+                            var sel=JSON.parse(req.query.select||"{}")
+                            Message.findById(id, function (err, temp) {
+                                if (err) {
+                                    if (err.status==404) {
+                                        return res.status(404).send({ message:  "no found",data: null});
+                                    }
+                                    else{
+                                        return res.status(500).send({ message:  "server error",data: null});
+                                    }
+                                }
+                                if (temp==null) {
+                                    return res.status(404).send({ message:  "no found",data: temp});
+                                }
+                                return res.status(200).send({ message:  "OK",
+                                    data: temp
+                                });
+                        }).select(sel);
+                        
+                    }
+                })
+                .catch(function(error) {
+                    return res.status(500).send({
+                        message: "Server error",
+                        data: error
+                    });
+                });
+            }
+        }
+        
     });
 
     messageidRoute.delete(function (req, res) {
-        var id=req.params.id;//AndRemove
-        Message.findByIdAndRemove(id, function (err, temp) {
-            if (err) {
-              if (err.status==404) {
-                  return res.status(404).send({ message:  "task no found",data: null});
-              }
-              else{
-                  return res.status(500).send({ message:  "server error",data: null});
-              }
+        // req.body.token = {
+            // id: String,
+            // Email: String 
+        // }
+        // Token verification start
+        if (req.body.token == undefined) {
+            return res.status(404).send({
+                message: "No valid token",
+                data: []
+            });
+        } else {
+            token = req.body.token;
+            if (token.id == undefined) {
+                return res.status(404).send({
+                    message: "No valid token id",
+                    data: []
+                });
+            } else if (token.Email == undefined) {
+                return res.status(404).send({
+                    message: "No valid token Email",
+                    data: []
+                });
+            } else {
+                User.findById(token.id).exec()
+                .then(function(user) {
+                    if(user == null) {
+                        return res.status(404).send({
+                            message: "Invalid token id",
+                            data: [{"InvalidTokenID":token.id}]
+                        });
+                    } else if(token.Email != user.Email) {
+                        return res.status(404).send({
+                            message: "Token Email does not match id",
+                            data: [{"InvalidTokenEmail":token.Email}]
+                        });
+                    } else {
+                        // Token verification end
+
+                        var id=req.params.id;//AndRemove
+                        Message.findByIdAndRemove(id, function (err, temp) {
+                            if (err) {
+                            if (err.status==404) {
+                                return res.status(404).send({ message:  "task no found",data: null});
+                            }
+                            else{
+                                return res.status(500).send({ message:  "server error",data: null});
+                            }
+                            }
+                            if (temp) {
+                                return res.status(200).send({ message:  "OK",
+                                    data: temp
+                                }); 
+                            }
+                            return res.status(404).send({ message:  "not found",
+                                data: temp
+                            });  
+                        });
+                        
+                    }
+                })
+                .catch(function(error) {
+                    return res.status(500).send({
+                        message: "Server error",
+                        data: error
+                    });
+                });
             }
-            if (temp) {
-                return res.status(200).send({ message:  "OK",
-                    data: temp
-                }); 
-            }
-            return res.status(404).send({ message:  "not found",
-                data: temp
-            });  
-        });
+        }
+        
     });
 
     
 
     return router;
 }
+        // // req.body.token = {
+        //     // id: String,
+        //     // Email: String 
+        // // }
+        // // Token verification start
+        // if (req.body.token == undefined) {
+        //     return res.status(404).send({
+        //         message: "No valid token",
+        //         data: []
+        //     });
+        // } else {
+        //     token = req.body.token;
+        //     if (token.id == undefined) {
+        //         return res.status(404).send({
+        //             message: "No valid token id",
+        //             data: []
+        //         });
+        //     } else if (token.Email == undefined) {
+        //         return res.status(404).send({
+        //             message: "No valid token Email",
+        //             data: []
+        //         });
+        //     } else {
+        //         User.findById(token.id).exec()
+        //         .then(function(user) {
+        //             if(user == null) {
+        //                 return res.status(404).send({
+        //                     message: "Invalid token id",
+        //                     data: [{"InvalidTokenID":token.id}]
+        //                 });
+        //             } else if(token.Email != user.Email) {
+        //                 return res.status(404).send({
+        //                     message: "Token Email does not match id",
+        //                     data: [{"InvalidTokenEmail":token.Email}]
+        //                 });
+        //             } else {
+        //                 // Tokenverification end
+
+        //                 // Main Function
+                        
+        //             }
+        //         })
+        //         .catch(function(error) {
+        //             return res.status(500).send({
+        //                 message: "Server error",
+        //                 data: error
+        //             });
+        //         });
+        //     }
+        // }
