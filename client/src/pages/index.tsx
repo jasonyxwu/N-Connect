@@ -5,13 +5,13 @@ import LoginForm from "../components/LoginForm";
 import { AppState } from "../store";
 import { useSelector } from "react-redux";
 import Router from "next/router";
+import { useEffect } from "react";
 
 export default function Home() {
     const isAuth = useSelector((state: AppState) => state.auth.authState);
-    if (isAuth) {
-        //TODO: force redirect to chat.tsx
-        Router.push("/chat");
-    }
+    useEffect(() => {
+        if (isAuth) Router.push("/chat");
+    }, [isAuth]);
     // TODO: figure out why overflow
     return (
         <div>

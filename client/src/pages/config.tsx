@@ -1,10 +1,12 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NotiSettings from "../components/NotiSettings";
 import NsoAuthentication from "../components/NsoAuthentication";
 import ProfSettings from "../components/ProfSettings";
 import UserIcon from "../components/UserIcon";
-
+import { AppState } from "../store";
+import Router from "next/router";
 import { getNSOLogin } from "../nso/api.js";
 
 // const navigation = [
@@ -46,8 +48,11 @@ function evokeNintendoAuth() {
 }
 
 export default function Config() {
-    let [currentOption, setcurrentOption] = useState("");
-
+    const isAuth = useSelector((state: AppState) => state.auth.authState);
+    const [currentOption, setcurrentOption] = useState("");
+    useEffect(() => {
+        if (!isAuth) Router.push("/");
+    }, [isAuth]);
     return (
         <div className="w-screen h-screen flex">
             <div className="w-60">
@@ -153,7 +158,8 @@ export default function Config() {
             </div>
             <div className="flex-grow overflow-scroll">
                 {(currentOption === "Profile" && <ProfSettings />) ||
-                    (currentOption === "Notification" && <NotiSettings />) || (currentOption === "NSO" && <NsoAuthentication />)}
+                    (currentOption === "Notification" && <NotiSettings />) ||
+                    (currentOption === "NSO" && <NsoAuthentication />)}
             </div>
         </div>
     );

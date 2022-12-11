@@ -9,7 +9,7 @@ import ChatSelectBar from "../components/ChatSelectBar";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -77,17 +77,15 @@ export default function Chat() {
     const isAuth = useSelector((state: AppState) => state.auth.authState);
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (!isAuth) Router.push("/");
+    }, [isAuth]);
 
-    // if (!isAuth) {
-    //     //TODO: force redirect to chat.tsx
-    //     Router.push("/");
-    // }
     if (flag == 0) {
         console.log("chushihua");
         socket.emit("init", { id: userid });
         flag = 1;
     }
-
     //TODO: Add search
     useEffect(() => {
         console.log(1);
@@ -135,19 +133,17 @@ export default function Chat() {
                                     </Link>
                                 </Menu.Item>
                             </div>
-                            <form method="POST" action="#">
-                                <Menu.Item>
-                                    <button
-                                        type="submit"
-                                        className="hover:bg-gray-100 text-gray-900 block w-full px-4 py-2 text-left text-sm"
-                                        onClick={() =>
-                                            dispatch(setAuthState(false))
-                                        }
-                                    >
-                                        Sign out
-                                    </button>
-                                </Menu.Item>
-                            </form>
+                            <Menu.Item>
+                                <button
+                                    type="submit"
+                                    className="hover:bg-gray-100 text-gray-900 block w-full px-4 py-2 text-left text-sm"
+                                    onClick={() => {
+                                        dispatch(setAuthState(false));
+                                    }}
+                                >
+                                    Sign out
+                                </button>
+                            </Menu.Item>
                         </Menu.Items>
                     </Transition>
                     <div className="flex flex-col justfiy-between items-center">

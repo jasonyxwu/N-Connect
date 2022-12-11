@@ -31,7 +31,6 @@ export async function loginUser(email: String, password: string) {
         },
         body: JSON.stringify({ Email: email, Password: password }),
     });
-    console.log(response);
     const json = await response.json();
     return json;
 }
