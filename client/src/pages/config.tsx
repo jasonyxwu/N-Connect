@@ -9,17 +9,6 @@ import { AppState } from "../store";
 import Router from "next/router";
 import { getNSOLogin } from "../nso/api.js";
 
-// const navigation = [
-//     { name: "Dashboard", href: "#", current: true },
-//     { name: "Team", href: "#", current: false },
-//     { name: "Projects", href: "#", current: false },
-//     { name: "Calendar", href: "#", current: false },
-// ];
-
-// function classNames(...classes: String[]) {
-//     return classes.filter(Boolean).join(" ");
-// }
-
 /*
  * written by yt.h 2022 12.10
  */
@@ -50,12 +39,12 @@ function evokeNintendoAuth() {
 export default function Config() {
     const isAuth = useSelector((state: AppState) => state.auth.authState);
     const [currentOption, setcurrentOption] = useState("");
-    useEffect(() => {
-        if (!isAuth) Router.push("/");
-    }, [isAuth]);
+    // useEffect(() => {
+    //     if (!isAuth) Router.push("/");
+    // }, [isAuth]);
     return (
         <div className="w-screen h-screen flex">
-            <div className="w-60">
+            <div className="w-70">
                 <div className="h-screen flex flex-col justify-center overflow-y-auto py-3 px-3 bg-red-600">
                     <Link href="/chat" className="flex items-center ml-1">
                         <UserIcon />

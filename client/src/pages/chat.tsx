@@ -77,9 +77,9 @@ export default function Chat() {
     const isAuth = useSelector((state: AppState) => state.auth.authState);
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (!isAuth) Router.push("/");
-    }, [isAuth]);
+    // useEffect(() => {
+    //     if (!isAuth) Router.push("/");
+    // }, [isAuth]);
 
     if (flag == 0) {
         console.log("chushihua");
