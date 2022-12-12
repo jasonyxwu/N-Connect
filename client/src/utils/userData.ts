@@ -16,7 +16,9 @@ export async function getUserInfo(userId: String, token: Token) {
         },
         body: JSON.stringify({ token: token }),
     });
+
     const json = await response.json();
+    console.log(json);
     return json;
 }
 
