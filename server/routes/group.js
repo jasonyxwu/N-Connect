@@ -209,7 +209,7 @@ module.exports = function (router) {
                                         data: {InvalidID: userid}
                                     });
                                 });
-                            }).exec()
+                            })
                             .then(function(data) {
                                 // Push group id to all user
                                 group.GroupMember = req.body.GroupMember;
@@ -219,7 +219,7 @@ module.exports = function (router) {
                                         user.FriendGroups.push(group.id);
                                         user.save();
                                     });
-                                }).exec()
+                                })
                                 .then(function(data) {
                                     group.save()
                                     .then(function(data) {
