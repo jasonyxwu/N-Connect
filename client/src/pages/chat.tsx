@@ -119,7 +119,7 @@ export default function Chat() {
                     className="w-20 flex flex-col  justify-between items-center bg-red-600"
                 >
                     <Menu.Button className="mt-3">
-                        <UserIcon />
+                        <UserIcon url={userInfo.url}/>
                     </Menu.Button>
                     <Transition
                         as={Fragment}
