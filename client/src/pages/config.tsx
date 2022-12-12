@@ -9,33 +9,6 @@ import { AppState } from "../store";
 import Router from "next/router";
 import { getNSOLogin } from "../nso/api.js";
 
-/*
- * written by yt.h 2022 12.10
- */
-
-/*
-<a id="authorize-switch-approval-link" href="npf71b963c1b7b6d119://auth#session_state=1c..." 
-class="c-btn c-btn-primary c-btn-small c-btn-tiny">Select this account</a>
-*/
-//  onClick={evokeNintendoAuth}
-// function evokeNintendoAuth() {
-//     var url = getNSOLogin();
-//     var name = "user";
-//     var login_window = window.open(url.url, "mozillaWindow", "popup");
-//     if (login_window != null) {
-//         console.log(login_window.document);
-//         var obj = login_window.document.getElementById(
-//             "authorize-switch-approval-link"
-//         );
-//         if (obj == null) {
-//             console.log("btn not find");
-//         } else {
-//             var redirectURL = obj.getAttribute("href");
-//             console.log(redirectURL);
-//         }
-//     }
-// }
-
 export default function Config() {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const isAuth = useSelector((state: AppState) => state.auth.authState);
@@ -47,9 +20,14 @@ export default function Config() {
         <div className="w-screen h-screen flex">
             <div className="w-70">
                 <div className="h-screen flex flex-col justify-center overflow-y-auto py-3 px-3 bg-red-600">
-                    <Link href="/chat" className="flex items-center ml-1">
-                        <UserIcon url={userInfo.url} />
-                    </Link>
+                    <div>
+                        <Link href="/chat" className="flex items-center ml-1">
+                            <UserIcon url={userInfo.url} />
+                        </Link>
+                        <div className="text-l mt-2 font-extrabold tracking-tight leading-none text-white md:text-2xl lg:text-3xl">
+                            {userInfo.name}
+                        </div>
+                    </div>
                     <ul className="space-y-4 h-full pt-[100%]">
                         <li>
                             <a

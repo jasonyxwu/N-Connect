@@ -5,7 +5,7 @@ import { getUserNameByRedirectUrl } from "../nso/api.js";
 import { setUserNameIcon } from "../slices/userSlice";
 
 import { AppState } from "../store.js";
-import { updateUserInfo } from "../utils/userData";
+import { updateUserNameIcon } from "../utils/userData";
 
 export default function NsoAuthentication() {
     let codeVerifier = "";
@@ -33,11 +33,11 @@ export default function NsoAuthentication() {
             dispatch(
                 setUserNameIcon({ name: UserInfo.name, url: UserInfo.imageUri })
             );
+            console.log(userInfo);
             //post userInfo
-            updateUserInfo(userInfo)
+            updateUserNameIcon(UserInfo.name, UserInfo.imageUri, userInfo.token)
                 .then((res) => {
                     console.log(res);
-                    alert(UserInfo.name);
                 })
                 .catch((err) => {
                     console.log(err);

@@ -10,9 +10,12 @@ export interface friendInfo {
     UserID: string;
     UserName: string;
     iconUrl: string;
+    lastUpdateTime: string | null;
+    lastMessage: string | null;
 }
 export interface groupInfo {
     GroupID: string;
     GroupName: string;
     GroupMember: string[];
+    Description: string;
 }

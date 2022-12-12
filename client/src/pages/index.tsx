@@ -26,6 +26,7 @@ export default function Home() {
                 </h2>
                 <p className="mt-2 text-center text-md text-gray-600">
                     A search-and-chat platform for nintendo switch players
+                    7A7xQ4l
                 </p>
             </div>
 

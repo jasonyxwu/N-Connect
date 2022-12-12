@@ -24,12 +24,12 @@ const socket = io("https://cryptic-journey-82080.herokuapp.com/", {
 //到时候获取全局token
 
 export interface chatItem {
+    id: string;
     name: String;
     lastUpdateTime: String;
     lastUpdateMessage: String;
     icon: String;
 }
-let userToken: string = "";
 
 let searchResult: any[] = [];
 var flag = 0;
@@ -42,13 +42,14 @@ export default function Chat() {
     const isAuth: boolean = useSelector(
         (state: AppState) => state.auth.authState
     );
+    const [barElements, setBarElements] = useState();
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
     const userid = userInfo.token.id;
     useEffect(() => {
         if (!isAuth) Router.push("/");
-    }, [isAuth]);
+    }, [isAuth, userInfo.friendList, userInfo.groupList]);
 
     if (flag == 0) {
         console.log("chushihua");
@@ -268,23 +269,25 @@ export default function Chat() {
 
                         {/* friendList */}
                         <div className="bg-gray-100 flex-1 overflow-auto">
-                            {chatMode === "friend"
-                                ? friendList.map((e, i) => (
-                                      <ChatSelectBar
-                                          {...e}
-                                          key={i}
-                                          currentChat={currentChat}
-                                          setCurrentChat={setCurrentChat}
-                                      />
-                                  ))
-                                : groupList.map((e, i) => (
-                                      <ChatSelectBar
-                                          {...e}
-                                          key={i}
-                                          currentChat={currentChat}
-                                          setCurrentChat={setCurrentChat}
-                                      />
-                                  ))}
+                            {
+                                // Promise.all(
+                                //     userInfo.friendList.map((id) =>
+                                //         getUserInfo(id, userInfo.token)
+                                //     )
+                                // ).then((responses) => {
+                                //     responses.forEach((e) => console.log(e));
+                                //     console.log(friendInfo);
+                                // })
+                                /* return <div></div>;
+                                // return (
+                                //     <ChatSelectBar
+                                //         {...friendInfo}
+                                //         key={index}
+                                //         currentChat={currentChat}
+                                //         setCurrentChat={setCurrentChat}
+                                //     />
+                                // ); */
+                            }
                         </div>
                     </div>
                 ) : null}
@@ -303,39 +306,3 @@ export default function Chat() {
         </>
     );
 }
-
-export const friendList: chatItem[] = [
-    {
-        name: "Arex",
-        lastUpdateTime: "12:45pm",
-        icon: "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg",
-        lastUpdateMessage: "Wanna salmonrun?",
-    },
-    {
-        name: "Bieshawo",
-        lastUpdateTime: "12:45pm",
-        icon: "https://www.biography.com/.image/t_share/MTE5NDg0MDU1MTIyMTE4MTU5/arnold-schwarzenegger-9476355-1-402.jpg",
-        lastUpdateMessage: "I'll be back",
-    },
-    {
-        name: "TrashP1ayer",
-        lastUpdateTime: "12:45pm",
-        icon: "https://www.famousbirthdays.com/headshots/russell-crowe-6.jpg",
-        lastUpdateMessage: "Good job!",
-    },
-];
-
-const groupList: chatItem[] = [
-    {
-        name: "Arex",
-        lastUpdateTime: "12:45pm",
-        icon: "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg",
-        lastUpdateMessage: "Wanna salmonrun?",
-    },
-    {
-        name: "Bieshawo",
-        lastUpdateTime: "12:45pm",
-        icon: "https://www.biography.com/.image/t_share/MTE5NDg0MDU1MTIyMTE4MTU5/arnold-schwarzenegger-9476355-1-402.jpg",
-        lastUpdateMessage: "I'll be back",
-    },
-];

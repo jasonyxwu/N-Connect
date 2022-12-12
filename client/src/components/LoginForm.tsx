@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createUser, loginUser } from "../utils/userData";
+import { createUser, getUsersInfo, loginUser } from "../utils/userData";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
@@ -28,6 +28,9 @@ export default function LoginForm() {
                         friendList: data.FriendGroups,
                         Description: data.Description,
                     };
+                    getUsersInfo(data.Groups, data.token).then((res) =>
+                        console.log(res)
+                    );
                     dispatch(setAuthState(true));
                     dispatch(setUserState(Info));
                 } else {

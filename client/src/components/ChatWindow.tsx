@@ -1,11 +1,10 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import { friendList } from "../pages/chat";
 import { AppState } from "../store";
 //import { userInfo } from "../slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-import {getUserInfo} from "../utils/userData"
+import { getUserInfo } from "../utils/userData";
 export interface Message {
     Sender: String;
     Content: String;
@@ -21,7 +20,7 @@ export default function ChatWindow(props: {
     showFriendModal: boolean;
 }) {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
-    const userid = userInfo.token.id; 
+    const userid = userInfo.token.id;
     //假如tempmessage
     var socket = props.socket;
     const [MessageList, setMessageList] = useState<Message[]>([]);
@@ -225,16 +224,13 @@ export default function ChatWindow(props: {
 
 function ChatBubble(props: Message) {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
-    const userid = userInfo.token.id; 
+    const userid = userInfo.token.id;
     const [name, setName] = useState("");
-    var date= props.DateCreated.substring(11, 16);
-    if (props.Sender != userid){
-        const sender= getUserInfo(props.Sender,userInfo.token);
-        sender.then(
-            function(name){
-                setName(name.data.UserName);
-            }
-        )
+    if (props.Sender != userid) {
+        const sender = getUserInfo(props.Sender, userInfo.token);
+        sender.then(function (name) {
+            setName(name.data.UserName);
+        });
         return (
             <div className="flex mb-2">
                 <div className="rounded px-1 w-lg">
@@ -245,13 +241,12 @@ function ChatBubble(props: Message) {
                         </p>
                     </div>
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {date}
+                        {props.DateCreated.substring(11, 16)}
                     </p>
                 </div>
             </div>
-        );// if message send by self, justify end
-    }
-    else{
+        ); // if message send by self, justify end
+    } else {
         return (
             <div className="flex mb-2 justify-end">
                 <div className="rounded py-2 px-3 w-lg">
@@ -263,7 +258,7 @@ function ChatBubble(props: Message) {
                     </div>
 
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {date}
+                        {props.DateCreated.substring(11, 16)}
                     </p>
                 </div>
             </div>
@@ -279,9 +274,6 @@ export function ModalFriend(props: {
     setShowFriendModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
-        // mt === margin-top     ml === margin-left   w === width   h === height
-        // 具体可以查这个网址 https://tailwindcomponents.com/cheatsheet/
-        // 同时，背景的更改应该也在这里完成，会有一个screensize的大div(有点像加滤镜)
         <div>
             <div
                 onClick={() => {
@@ -318,7 +310,7 @@ export function ModalFriend(props: {
                                 x2="11"
                                 y2="1"
                                 stroke="black"
-                                stroke-width="2"
+                                strokeWidth="2"
                             />
                             <line
                                 x1="1"
@@ -326,11 +318,11 @@ export function ModalFriend(props: {
                                 x2="11"
                                 y2="11"
                                 stroke="black"
-                                stroke-width="2"
+                                strokeWidth="2"
                             />
                         </svg>
                     </button>
-                    {friendList.map((item, index) => (
+                    {/* {friendList.map((item, index) => (
                         <div
                             className="w-30 h-30 border rounded-md hover:bg-slate-200"
                             key={index}
@@ -344,7 +336,7 @@ export function ModalFriend(props: {
                                 {item.name}
                             </p>
                         </div>
-                    ))}
+                    ))} */}
                 </div>
             </div>
         </div>

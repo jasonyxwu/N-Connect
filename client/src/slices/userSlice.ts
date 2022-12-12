@@ -9,8 +9,8 @@ export interface userInfo {
     url: string;
     token: Token; // id included
     Description: string;
-    friendList: friendInfo[];
-    groupList: groupInfo[];
+    friendList: string[];
+    groupList: string[];
 }
 
 export interface userState {
@@ -47,10 +47,10 @@ export const userSlice = createSlice({
             state.userInfo.name = action.payload.name;
             state.userInfo.url = action.payload.url;
         },
-        setUserFriendList(state, action: PayloadAction<friendInfo[]>) {
+        setUserFriendList(state, action: PayloadAction<string[]>) {
             state.userInfo.friendList = action.payload;
         },
-        setUserGroupList(state, action: PayloadAction<groupInfo[]>) {
+        setUserGroupList(state, action: PayloadAction<string[]>) {
             state.userInfo.groupList = action.payload;
         },
         setUserDescription(

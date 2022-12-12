@@ -1,5 +1,6 @@
 import React from "react";
 import { chatItem } from "../pages/chat";
+import UserIcon from "./UserIcon";
 
 export default function ChatSelectBar(props: any) {
     if (props.currentChat === "")
@@ -11,10 +12,7 @@ export default function ChatSelectBar(props: any) {
                 }}
             >
                 <div>
-                    <img
-                        className="h-12 w-12 rounded-full"
-                        src={props.icon.toString()}
-                    />
+                    <UserIcon url={props.icon} />
                 </div>
                 <div className="ml-4 flex-1 border-b border-grey-lighter py-3">
                     <div className="flex items-bottom justify-between">
