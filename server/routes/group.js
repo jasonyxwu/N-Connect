@@ -205,8 +205,8 @@ module.exports = function (router) {
                                 })
                                 .catch(function(error) {
                                     return res.status(500).send({
-                                        message: "Server error",
-                                        data: error
+                                        message: "User not exist",
+                                        data: {InvalidID: userid}
                                     });
                                 });
                             }).exec()
@@ -218,12 +218,6 @@ module.exports = function (router) {
                                     .then(function(user) {
                                         user.FriendGroups.push(group.id);
                                         user.save();
-                                    })
-                                    .catch(function(error) {
-                                        return res.status(500).send({
-                                            message: "Server error",
-                                            data: error
-                                        });
                                     });
                                 }).exec()
                                 .then(function(data) {
@@ -236,21 +230,21 @@ module.exports = function (router) {
                                     })
                                     .catch(function(error) {
                                         return res.status(500).send({
-                                            message: "Server error",
+                                            message: "Server error4",
                                             data: error
                                         });
                                     });
                                 })
                                 .catch(function(error) {
                                     return res.status(500).send({
-                                        message: "Server error",
+                                        message: "Server error3",
                                         data: error
                                     });
                                 });
                             })
                             .catch(function(error) {
                                 return res.status(500).send({
-                                    message: "Server error",
+                                    message: "Server error2",
                                     data: error
                                 });
                             });
@@ -260,7 +254,7 @@ module.exports = function (router) {
                 })
                 .catch(function(error) {
                     return res.status(500).send({
-                        message: "Server error",
+                        message: "Server error1",
                         data: error
                     });
                 });
@@ -560,7 +554,7 @@ module.exports = function (router) {
             // id: String,
             // Email: String 
         // }
-        // Token verification end
+        // Token verification start
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
@@ -640,7 +634,7 @@ module.exports = function (router) {
         //     // id: String,
         //     // Email: String 
         // // }
-        // // Token verification end
+        // // Token verification start
         // if (req.body.token == undefined) {
         //     return res.status(404).send({
         //         message: "No valid token",
@@ -671,7 +665,7 @@ module.exports = function (router) {
         //                     data: [{"InvalidTokenEmail":req.body.token.Email}]
         //                 });
         //             } else {
-        //                 // Tokenverification end
+        //                 // Token verification end
 
         //                 // Main Function
                         
