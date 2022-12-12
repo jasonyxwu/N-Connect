@@ -1,7 +1,7 @@
 var User = require("../models/user")
 var Group = require("../models/group");
 var Message = require("../models/message");
-const { update } = require("../models/user");
+const { update, findById } = require("../models/user");
 const { token } = require("../config/secrets");
 module.exports = function (router) {
     var GroupRoute = router.route('/group');
@@ -188,6 +188,7 @@ module.exports = function (router) {
     });
     // group update, should only be used on groups, not any friendgroup
     // if req.body.GroupName left undefined, GroupName will not update;
+    // if req.body.GroupIcon left undefined, GroupIcon will not update
     // if req.body.GroupMember left undefined, GroupMember will not update;
     // if req.body.GroupMember can has length more than 1
     router.route('/group/:id').put(function(req, res) {
@@ -351,6 +352,7 @@ module.exports = function (router) {
     //     });
     // });
         
+    // get group on id
     GroupidRoute.post(function (req, res) {
         // req.body.token = {
             // id: String,
@@ -420,6 +422,7 @@ module.exports = function (router) {
         }
     });
 
+    // get group messages
     GroupMessagesRoute.post(function (req, res) {
         // req.body.token = {
             // id: String,
@@ -497,6 +500,65 @@ module.exports = function (router) {
             }
         }
     });
+
+    // leave group
+    router.route('/group/:id/exit').post(function (req, res) {
+        // req.body.token = {
+            // id: String,
+            // Email: String 
+        // }
+        // Token verification start
+        if (req.body.token == undefined) {
+            return res.status(404).send({
+                message: "No valid token",
+                data: []
+            });
+        } else {
+            if (req.body.token.id == undefined) {
+                return res.status(404).send({
+                    message: "No valid token id",
+                    data: []
+                });
+            } else if (req.body.token.Email == undefined) {
+                return res.status(404).send({
+                    message: "No valid token Email",
+                    data: []
+                });
+            } else {
+                User.findById(req.body.token.id).exec()
+                .then(function(user) {
+                    if(user == null) {
+                        return res.status(404).send({
+                            message: "Invalid token id",
+                            data: [{"InvalidTokenID":req.body.token.id}]
+                        });
+                    } else if(req.body.token.Email != user.Email) {
+                        return res.status(404).send({
+                            message: "Token Email does not match id",
+                            data: [{"InvalidTokenEmail":req.body.token.Email}]
+                        });
+                    } else {
+                        // Token verification end
+
+                        Group.findById(req.params.id).exec()
+                        .then(function(group) {
+                            user.Groups.pull(group.id);
+                            user.save();
+                            group.GroupMember.pull(user.id);
+                            group.save();
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    return res.status(500).send({
+                        message: "Server error",
+                        data: error
+                    });
+                });
+            }
+        }
+    });
+
     return router;
 }
 
