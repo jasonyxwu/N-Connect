@@ -67,65 +67,25 @@ module.exports = function (router) {
                                 data: []
                             });
                         } else {
-                            // Verify that all users exist
+                            // Push friendgroup id to all user
                             req.body.GroupMember.forEach(function(userid) {
                                 User.findById(userid).exec()
                                 .then(function(user) {
-                                    if(user == null) {
-                                        return res.status(404).send({
-                                            message: "Invalid group member",
-                                            data: [{"InvalidMember":userid}]
-                                        });
-                                    }
-                                })
-                                .catch(function(error) {
-                                    return res.status(500).send({
-                                        message: "Server error",
-                                        data: error
-                                    });
+                                    user.Groups.push(group.id);
+                                    user.save();
                                 });
-                            }).exec()
+                            });
+                            group.GroupMember = req.body.GroupMember;
+                            group.save()
                             .then(function(data) {
-                                // Push group id to all user
-                                group.GroupMember = req.body.GroupMember;
-                                req.body.GroupMember.forEach(function(userid) {
-                                    User.findById(userid).exec()
-                                    .then(function(user) {
-                                        user.Groups.push(group.id);
-                                        user.save();
-                                    })
-                                    .catch(function(error) {
-                                        return res.status(500).send({
-                                            message: "Server error",
-                                            data: error
-                                        });
-                                    });
-                                }).exec()
-                                .then(function(data) {
-                                    group.save()
-                                    .then(function(data) {
-                                        return res.status(201).send({
-                                            message: "Group created",
-                                            data: data
-                                        });
-                                    })
-                                    .catch(function(error) {
-                                        return res.status(500).send({
-                                            message: "Server error",
-                                            data: error
-                                        });
-                                    });
-                                })
-                                .catch(function(error) {
-                                    return res.status(500).send({
-                                        message: "Server error",
-                                        data: error
-                                    });
+                                return res.status(201).send({
+                                    message: "Group created",
+                                    data: data
                                 });
                             })
                             .catch(function(error) {
                                 return res.status(500).send({
-                                    message: "Server error",
+                                    message: "Server error4",
                                     data: error
                                 });
                             });
@@ -192,64 +152,29 @@ module.exports = function (router) {
                                 data: []
                             });
                         } else {
-                            // Verify that all users exist
+                            // Push friendgroup id to all user
                             req.body.GroupMember.forEach(function(userid) {
                                 User.findById(userid).exec()
                                 .then(function(user) {
-                                    if(user == null) {
-                                        return res.status(404).send({
-                                            message: "Invalid group member",
-                                            data: [{"InvalidMember":userid}]
-                                        });
-                                    }
-                                })
-                                .catch(function(error) {
-                                    return res.status(500).send({
-                                        message: "User not exist",
-                                        data: {InvalidID: userid}
-                                    });
+                                    user.FriendGroups.push(group.id);
+                                    user.save();
                                 });
-                            })
+                            });
+                            group.GroupMember = req.body.GroupMember;
+                            group.save()
                             .then(function(data) {
-                                // Push group id to all user
-                                group.GroupMember = req.body.GroupMember;
-                                req.body.GroupMember.forEach(function(userid) {
-                                    User.findById(userid).exec()
-                                    .then(function(user) {
-                                        user.FriendGroups.push(group.id);
-                                        user.save();
-                                    });
-                                })
-                                .then(function(data) {
-                                    group.save()
-                                    .then(function(data) {
-                                        return res.status(201).send({
-                                            message: "Group created",
-                                            data: data
-                                        });
-                                    })
-                                    .catch(function(error) {
-                                        return res.status(500).send({
-                                            message: "Server error4",
-                                            data: error
-                                        });
-                                    });
-                                })
-                                .catch(function(error) {
-                                    return res.status(500).send({
-                                        message: "Server error3",
-                                        data: error
-                                    });
+                                return res.status(201).send({
+                                    message: "Group created",
+                                    data: data
                                 });
                             })
                             .catch(function(error) {
                                 return res.status(500).send({
-                                    message: "Server error2",
+                                    message: "Server error4",
                                     data: error
                                 });
                             });
                         }
-
                     }
                 })
                 .catch(function(error) {
@@ -311,90 +236,36 @@ module.exports = function (router) {
                                 });
                             } else {
                                 if (req.body.GroupMember != undefined && req.body.GroupMember.length > 0) {
+                                    // Push friendgroup id to all user
                                     req.body.GroupMember.forEach(function(userid) {
                                         User.findById(userid).exec()
                                         .then(function(user) {
-                                            if(user == null) {
-                                                return res.status(404).send({
-                                                    message: "Invalid group member",
-                                                    data: [{"InvalidMember":userid}]
-                                                });
-                                            }
-                                        })
-                                        .catch(function(error) {
-                                            return res.status(500).send({
-                                                message: "Server error",
-                                                data: error
-                                            });
-                                        });
-                                    }).exec()
-                                    .then(function(data) {
-                                        req.body.GroupMember.forEach(function(userid) {
-                                            User.findById(userid).exec()
-                                            .then(function(user) {
-                                                user.Groups.push(group.id);
-                                                user.save();
-                                                group.GroupMember.push(user.id);
-                                            })
-                                            .catch(function(error) {
-                                                return res.status(500).send({
-                                                    message: "Server error",
-                                                    data: error
-                                                });
-                                            });
-                                        }).exec()
-                                        .then(function(data) {
-                                            if (req.body.GroupName != undefined && req.body.GroupName != "") {
-                                                group.GroupName = req.body.GroupName;
-                                            }
-                                            if(req.body.GroupIcon != undefined && req.body.GroupIcon != "") {
-                                                group.groupIcon = req.body.GroupIcon;
-                                            }
-                                            group.save()
-                                            .then(function(data) {
-                                                return res.status(201).send({
-                                                    message: "Group updated",
-                                                    data: data
-                                                });
-                                            })
-                                            .catch(function(error) {
-                                                return res.status(500).send({
-                                                    message: "Server error",
-                                                    data: error
-                                                });
-                                            });
-                                        })
-                                        .catch(function(error) {
-                                            return res.status(500).send({
-                                                message: "Server error",
-                                                data: error
-                                            });
-                                        });
-                                    })
-                                    .catch(function(error) {
-                                        return res.status(500).send({
-                                            message: "Server error",
-                                            data: error
-                                        });
-                                    });
-                                } else {
-                                    if (req.body.GroupName != undefined && req.body.GroupName != "") {
-                                        group.GroupName = req.body.GroupName;
-                                    }
-                                    group.save()
-                                    .then(function(data) {
-                                        return res.status(201).send({
-                                            message: "Group updated",
-                                            data: data
-                                        });
-                                    })
-                                    .catch(function(error) {
-                                        return res.status(500).send({
-                                            message: "Server error",
-                                            data: error
+                                            group.GroupMember.push(user.id);
+                                            group.save();
+                                            user.Groups.push(group.id);
+                                            user.save();
                                         });
                                     });
                                 }
+                                if (req.body.GroupName != undefined && req.body.GroupName != "") {
+                                    group.GroupName = req.body.GroupName;
+                                }
+                                if (req.body.GroupIcon != undefined && req.body.GroupIcon != "") {
+                                    group.GroupIcon = req.body.GroupIcon;
+                                }
+                                group.save()
+                                .then(function(data) {
+                                    return res.status(201).send({
+                                        message: "Group updated",
+                                        data: data
+                                    });
+                                })
+                                .catch(function(error) {
+                                    return res.status(500).send({
+                                        message: "Server error",
+                                        data: error
+                                    });
+                                });
                             }
                         })
                         .catch(function(error) {
