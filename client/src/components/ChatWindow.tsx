@@ -38,7 +38,7 @@ export default function ChatWindow(props: {
         socket.emit("chat", {
             Content: input,
             UserId: userid,
-            GroupId: props.currentChat.id /**props.currentChat.name*/,
+            GroupId: props.currentChat.id||props.chatMode /**props.currentChat.name*/,
         }); //到时候搞好了把前面给替换回注释里的
         setInput("");
     }
@@ -79,7 +79,7 @@ export default function ChatWindow(props: {
                 {/* chat content */}
                 <div className="flex-1 py-2 px-3 flex-grow overflow-auto">
                     {MessageList.map((element, index) => {
-                        return <ChatBubble {...element} key={index} />;
+                        return <ChatBubble Message={{...element}} key={index} currentChat={props.chatMode}/>;
                     })}
                 </div>
 
