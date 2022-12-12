@@ -1,49 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createUser, loginUser } from "../utils/userData";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { setUserState, setUserToken, userInfo } from "../slices/userSlice";
-import { Token } from "../utils/global";
 export default function LoginForm() {
     const [mode, setMode] = useState<string>("signin");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [checkPassword, setCheckPassword] = useState<string>("");
+    const [checkMessage, setCheckMessage] = useState<string>("");
     const dispatch = useDispatch();
+
+    useEffect(() => setCheckMessage(""), [mode]);
 
     function login() {
         loginUser(email, password)
             .then((res) => {
-                const data = res.data;
-                dispatch(setAuthState(true));
-                const Info: userInfo = {
-                    name: data.UserName,
-                    url: "",
-                    token: res.token,
-                    groupList: data.Groups,
-                    friendList: data.FriendGroups,
-                    Description: data.Description,
-                };
-                dispatch(setUserState(Info));
                 console.log(res);
-                // TODO: validate token dispatch
-                //dispatch(setTokenState(res));
+                if (res.token) {
+                    const data = res.data;
+                    const Info: userInfo = {
+                        name: data.UserName,
+                        url: "",
+                        token: res.token,
+                        groupList: data.Groups,
+                        friendList: data.FriendGroups,
+                        Description: data.Description,
+                    };
+                    dispatch(setAuthState(true));
+                    dispatch(setUserState(Info));
+                } else {
+                    setCheckMessage("Cannot find your account");
+                }
             })
             .catch((error) => console.log(error));
     }
     function signup() {
-        createUser(email, password, "Anomynous User")
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        if (checkPassword === password)
+            createUser(email, password, "Anomynous User")
+                .then((res) => {
+                    if (res.token) {
+                        const data = res.data;
+                        const Info: userInfo = {
+                            name: data.UserName,
+                            url: "",
+                            token: res.token,
+                            groupList: data.Groups,
+                            friendList: data.FriendGroups,
+                            Description: data.Description,
+                        };
+                        dispatch(setAuthState(true));
+                        dispatch(setUserState(Info));
+                    } else {
+                        setCheckMessage(res.message);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        else {
+            setCheckMessage("Passwords don't match");
+        }
     }
     return mode === "signin" ? (
-        <form className="mt-3 space-y-6 w-[90%] my-8" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
+        <div className="mt-5 space-y-6 w-[90%] my-8">
             <div className="-space-y-px rounded-md shadow-sm">
+                {checkMessage !== "" ? (
+                    <div className="h-7 bg-red-600 rounded-md text-sm mt-1 mb-1 pt-1 pl-3 w-full text-stone-50">
+                        {checkMessage}
+                    </div>
+                ) : null}
+
                 <div>
                     <label htmlFor="email-address" className="sr-only">
                         Email address
@@ -64,7 +92,6 @@ export default function LoginForm() {
                         Password
                     </label>
                     <input
-                        id="password"
                         name="password"
                         type="password"
                         autoComplete="current-password"
@@ -92,7 +119,7 @@ export default function LoginForm() {
                     </label>
                 </div>
 
-                <div className="text-sm">
+                <div className="justify-end text-sm">
                     <a
                         href="#"
                         className="font-medium text-red-600 hover:text-red-500"
@@ -130,11 +157,16 @@ export default function LoginForm() {
                     </button>
                 </div>
             </div>
-        </form>
+        </div>
     ) : mode === "register" ? (
-        <form className="mt-3 space-y-6 w-[90%] my-8" action="#" method="POST">
+        <div className="mt-3 space-y-3 w-[90%] my-8">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
+                {checkMessage !== "" ? (
+                    <div className="h-7 bg-red-400 rounded-md text-sm mt-1 mb-1 pt-1 pl-3 w-full text-stone-50">
+                        {checkMessage}
+                    </div>
+                ) : null}
                 <div>
                     <label htmlFor="email-address" className="sr-only">
                         Email address
@@ -155,7 +187,6 @@ export default function LoginForm() {
                         Password
                     </label>
                     <input
-                        id="password"
                         name="password"
                         type="password"
                         autoComplete="current-password"
@@ -175,6 +206,9 @@ export default function LoginForm() {
                         type="password"
                         autoComplete="current-password"
                         required
+                        onChange={(event) =>
+                            setCheckPassword(event.target.value)
+                        }
                         className="h-12 relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                         placeholder="Confirm Password"
                     />
@@ -208,11 +242,16 @@ export default function LoginForm() {
                     </button>
                 </div>
             </div>
-        </form>
+        </div>
     ) : (
-        <form className="mt-3 space-y-6 w-[90%] my-8" action="#" method="POST">
+        <div className="mt-3 space-y-6 w-[90%] my-8">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
+                {checkMessage !== "" ? (
+                    <div className="h-7 bg-red-400 rounded-md text-sm mt-1 mb-1 pt-1 pl-3 w-full text-stone-50">
+                        {checkMessage}
+                    </div>
+                ) : null}
                 <div className="divider text-sm">Enter Your Account Email</div>
                 <div>
                     <label htmlFor="email-address" className="sr-only">
@@ -250,6 +289,6 @@ export default function LoginForm() {
                     </button>
                 </div>
             </div>
-        </form>
+        </div>
     );
 }

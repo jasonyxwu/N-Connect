@@ -1,6 +1,5 @@
-
 import { SERVER_DOMAIN, Token } from "./global";
-import {userInfo } from "../slices/userSlice";
+import { userInfo } from "../slices/userSlice";
 
 export async function getUserInfo(userId: String, token: Token) {
     if (!token) {
@@ -34,7 +33,7 @@ export async function searchUsers(UserName: String, token: Token) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token: token, UserName: UserName}),
+        body: JSON.stringify({ token: token, UserName: UserName }),
     });
     const json = await response.json();
     return json;
@@ -51,6 +50,22 @@ export async function loginUser(email: String, password: string) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ Email: email, Password: password }),
+    });
+    const json = await response.json();
+    return json;
+}
+
+export async function getPswd(email: String) {
+    const url = `${SERVER_DOMAIN}/user/findpassword`;
+    const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Email: email }),
     });
     const json = await response.json();
     return json;
@@ -94,7 +109,13 @@ export async function updateUserInfo(userInfo: userInfo) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify( userInfo ),
+        body: JSON.stringify({
+            token: userInfo.token,
+            UserName: userInfo.name,
+            FriendGroups: userInfo.friendList,
+            Groups: userInfo.groupList,
+            Description: userInfo.Description,
+        }),
     });
     const json = await response.json();
     return json;

@@ -4,8 +4,6 @@ import { AppState } from "../store";
 import { Token } from "../utils/global";
 import { friendInfo, groupInfo } from "../utils/global";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { User } from "next-auth";
-
 export interface userInfo {
     name: string;
     url: string;

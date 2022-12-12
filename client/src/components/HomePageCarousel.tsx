@@ -9,7 +9,8 @@ export default function HomePageCarousel() {
                 className="rounded-lg opacity-80"
                 width="550"
                 height="550"
-                alt=""
+                alt="carousel of nintendo games"
+                priority
             ></Image>
         </div>
     );

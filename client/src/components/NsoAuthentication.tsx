@@ -19,23 +19,30 @@ export default function NsoAuthentication() {
         var login_window = window.open(url, "mozillaWindow", "popup");
     }
     async function FetchUserName() {
-        var redirect_url = (document.getElementById("redirect_url") as HTMLInputElement).value;
+        var redirect_url = (
+            document.getElementById("redirect_url") as HTMLInputElement
+        ).value;
         console.log(redirect_url);
         //var UserName = "Unbounded User";
         if (redirect_url != null) {
-            const UserInfo = await getUserNameByRedirectUrl(redirect_url, codeVerifier); 
-            dispatch(setUserNameIcon({name:UserInfo.name, url:UserInfo.imageUri}));
+            const UserInfo = await getUserNameByRedirectUrl(
+                redirect_url,
+                codeVerifier
+            );
+            dispatch(
+                setUserNameIcon({ name: UserInfo.name, url: UserInfo.imageUri })
+            );
             console.log(UserInfo.name);
-            //alert(UserInfo);
+            alert(UserInfo.name);
             //post userInfo
-            updateUserInfo(userInfo).then((res)=>{
-                console.log(res);
-
-            }).catch((err)=>{
-                console.log(err);
-            });
-        }
-        else {
+            updateUserInfo(userInfo)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
             alert("null link");
         }
     }
