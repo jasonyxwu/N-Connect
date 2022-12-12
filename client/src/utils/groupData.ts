@@ -49,7 +49,7 @@ export async function createGroup(
     const json = await response.json();
     return json;
 }
-export async function createFriendGroup(userIds: String[], token: Token) {
+export async function createFriendGroup(userIds: string[], token: Token) {
     if (!token) {
         return {};
     }

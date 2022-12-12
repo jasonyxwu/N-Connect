@@ -10,6 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
 import Router, { useRouter } from "next/router";
+import { searchUsers } from "../utils/userData";
+import { createFriendGroup } from "../utils/groupData";
 //import { userInfo } from "../slices/userSlice";
 
 function classNames(...classes: any[]) {
@@ -22,22 +24,76 @@ const socket = io("https://cryptic-journey-82080.herokuapp.com", {
     withCredentials: true,
 });
 //到时候获取全局token
-
-export interface chatItem {
-    id: string;
-    name: String;
-    lastUpdateTime: String;
-    lastUpdateMessage: String;
-    icon: String;
-}
-
-let searchResult: any[] = [];
 var flag = 0;
+
+export interface searchedUserInfo {
+    UserName: string;
+    Icon: string;
+    Id: string;
+    Description: string;
+    Email: string;
+}
+// export function ModalUserDetail(props: {
+//     setShowUserDetail: React.Dispatch<React.SetStateAction<boolean>>;
+//     item: searchedUserInfo;
+// }) {
+//     return (
+//         <div>
+//             <div
+//                 onClick={() => {
+//                     props.setShowUserDetail(false);
+//                 }}
+//             >
+//                 <div className=" h-screen w-screen z-1 fixed bg-slate-800 opacity-40" />
+//             </div>
+
+//             <div className="mt-[20vh] ml-[20vw] w-[60vw] h-[60vh] bg-white z-2 fixed">
+//                 <div className="flex flex-wrap h-full w-full center items-center justify-center bg-slate-50 relative">
+//                     {/*这里是个flex*/}
+//                     <p className="w-full text-center absolute top-4">
+//                         Select friends to add to the group
+//                     </p>
+//                     <button
+//                         type="submit"
+//                         onClick={() => {
+//                             props.setShowUserDetail(false);
+//                         }}
+//                         className=" text-gray-900 py-3 absolute right-0 top-0"
+//                     >
+//                         <svg
+//                             version="1.1"
+//                             width="24"
+//                             height="24"
+//                             xmlns="http://www.w3.org/2000/svg"
+//                         >
+//                             <line
+//                                 x1="1"
+//                                 y1="11"
+//                                 x2="11"
+//                                 y2="1"
+//                                 stroke="black"
+//                                 strokeWidth="2"
+//                             />
+//                             <line
+//                                 x1="1"
+//                                 y1="1"
+//                                 x2="11"
+//                                 y2="11"
+//                                 stroke="black"
+//                                 strokeWidth="2"
+//                             />
+//                         </svg>
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
 
 export default function Chat() {
     const [query, setQuery] = useState("");
     const [chatMode, setChatMode] = useState("friend");
-    const [loading, setLoading] = useState<boolean>(true);
+    // const [loading, setLoading] = useState<boolean>(true);
     const isAuth: boolean = useSelector(
         (state: AppState) => state.auth.authState
     );
@@ -45,6 +101,7 @@ export default function Chat() {
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
     const userid = userInfo.token.id;
+    const [searchResults, setSearchResults] = useState<searchedUserInfo[]>([]);
 
     const [currentWindow, setCurrentWindow] = useState<{
         id: string;
@@ -70,10 +127,13 @@ export default function Chat() {
         flag = 1;
     }
     //TODO: Add search
-    useEffect(() => {
-        console.log("search active");
-    }, [query]);
-
+    async function evokeChat(item: searchedUserInfo) {
+        const result = await createFriendGroup(
+            [item.Description, userInfo.token.id],
+            userInfo.token
+        );
+        console.log(result);
+    }
     return (
         <>
             {showFriendModal ? (
@@ -200,15 +260,39 @@ export default function Chat() {
                 {chatMode !== "world" ? (
                     <div className="w-[25%] min-w-fit flex flex-col">
                         {/* Search Bar */}
-                        <div className="py-2 px-2 bg-gray-50">
+                        <div className="py-2 px-2 bg-gray-50 flex">
                             <input
                                 type="text"
-                                className="w-full px-2 py-2 text-sm border rounded-md"
+                                className="w-[80%] px-2 py-2 text-sm border rounded-md flex-grow"
                                 placeholder="Search or start new chat"
                                 onChange={(e) => {
                                     setQuery(e.target.value);
                                 }}
                             />
+                            <button
+                                className="w-20 h-11 ml-1 px-2 py-2 text-sm border rounded-md bg-red-200 hover:bg-red-400"
+                                placeholder="Search or start new chat"
+                                onClick={() =>
+                                    searchUsers(query, userInfo.token).then(
+                                        (res) => {
+                                            setSearchResults(
+                                                res.data.map((user: any) => {
+                                                    return {
+                                                        UserName: user.UserName,
+                                                        Description:
+                                                            user.Description,
+                                                        Email: user.Email,
+                                                        Id: user._id,
+                                                        Icon: user.Icon,
+                                                    };
+                                                })
+                                            );
+                                        }
+                                    )
+                                }
+                            >
+                                Search
+                            </button>
                         </div>
                         {/*TODO: Associate Search Results*/}
                         <Menu
@@ -225,71 +309,40 @@ export default function Chat() {
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="absolute z-1 w-full origin-top divide-y divide-gray-50 rounded-sm bg-gray-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <div className="py-1">
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <a
-                                                    href="#"
-                                                    className={classNames(
-                                                        active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                        "block px-4 py-2 text-sm"
-                                                    )}
-                                                >
-                                                    User
-                                                </a>
-                                            )}
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <a
-                                                    href="#"
-                                                    className={classNames(
-                                                        active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                        "block px-4 py-2 text-sm"
-                                                    )}
-                                                >
-                                                    User2
-                                                </a>
-                                            )}
-                                        </Menu.Item>
-                                    </div>
-                                    <div className="py-1">
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <a
-                                                    href="#"
-                                                    className={classNames(
-                                                        active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                        "block px-4 py-2 text-sm"
-                                                    )}
-                                                >
-                                                    Archive
-                                                </a>
-                                            )}
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <a
-                                                    href="#"
-                                                    className={classNames(
-                                                        active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                        "block px-4 py-2 text-sm"
-                                                    )}
-                                                >
-                                                    Move
-                                                </a>
-                                            )}
-                                        </Menu.Item>
-                                    </div>
+                                <Menu.Items className="absolute z-1 w-full origin-top divide-y divide-gray rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    {searchResults.map(
+                                        (item: searchedUserInfo, index) => (
+                                            <Menu.Item key={index}>
+                                                <div className="px-2 py-1 w-full flex items-center">
+                                                    <UserIcon
+                                                        url={item.Icon}
+                                                    ></UserIcon>
+                                                    <div className="px-3">
+                                                        {item.UserName}
+                                                    </div>
+                                                    <div className="ml-auto">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth={2}
+                                                            stroke="currentColor"
+                                                            className="w-8 h-8 ml-auto cursor-pointer hover:fill-slate-200 "
+                                                            onClick={() => {
+                                                                evokeChat(item);
+                                                            }}
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                            />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </Menu.Item>
+                                        )
+                                    )}
                                 </Menu.Items>
                             </Transition>
                         </Menu>

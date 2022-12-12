@@ -72,6 +72,22 @@ export async function getPswd(email: String) {
     return json;
 }
 
+export async function findUser(userName: string, token: Token) {
+    const url = `${SERVER_DOMAIN}/user`;
+    const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: token, UserName: userName }),
+    });
+    const json = await response.json();
+    return json;
+}
+
 export async function createUser(
     email: String,
     password: string,
