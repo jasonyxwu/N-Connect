@@ -353,7 +353,7 @@ module.exports = function(router) {
                         });
                     } else {
                         // Token verification end
-                        User.find({UserName:/req.body.UserName/i}).exec()
+                        User.find({UserName:{$regex:req.body.UserName}}).exec()
                         .then(function(users) {
                             return res.status(200).send({
                                 message: "Users found",
