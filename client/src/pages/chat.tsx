@@ -300,9 +300,9 @@ export default function Chat() {
                                 ? userInfo.friendList.map((element, index) => (
                                       <ChatSelectBar
                                           key={index}
-                                          name={element.data.GroupName}
-                                          icon={element.data.GroupIcon}
-                                          id={element.data._id}
+                                          name={element.data.UserName}
+                                          icon={element.data.Icon}
+                                          id={element.data.GroupId}
                                           changeWindow={changeWindow}
                                       />
                                   ))
@@ -318,7 +318,6 @@ export default function Chat() {
                         </div>
                     </div>
                 ) : null}
-                <script src="https://n-connect.vercel.app/socket.io/socket.io.js"></script>
                 <div className="flex-grow flex flex-col">
                     <ChatWindow
                         chatMode={chatMode}

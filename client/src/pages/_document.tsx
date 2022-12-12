@@ -14,6 +14,7 @@ export default function Document() {
                     src="https://kit.fontawesome.com/b3171c5c91.js"
                     crossOrigin="anonymous"
                 ></script>
+                <script src="https://n-connect.vercel.app/socket.io/socket.io.js"></script>
             </Head>
             <body>
                 <Main />

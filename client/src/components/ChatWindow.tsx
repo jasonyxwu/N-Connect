@@ -19,9 +19,7 @@ export default function ChatWindow(props: {
     setShowFriendModal: React.Dispatch<React.SetStateAction<boolean>>;
     showFriendModal: boolean;
 }) {
-    useEffect(() => {
-        console.log(props.currentChat);
-    }, [props.currentChat]);
+    useEffect(() => {}, [props.currentChat]);
 
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const userid = userInfo.token.id;
@@ -38,7 +36,9 @@ export default function ChatWindow(props: {
         socket.emit("chat", {
             Content: input,
             UserId: userid,
-            GroupId: props.currentChat.id||props.chatMode /**props.currentChat.name*/,
+            GroupId:
+                props.currentChat.id ||
+                props.chatMode /**props.currentChat.name*/,
         }); //到时候搞好了把前面给替换回注释里的
         setInput("");
     }
@@ -79,7 +79,13 @@ export default function ChatWindow(props: {
                 {/* chat content */}
                 <div className="flex-1 py-2 px-3 flex-grow overflow-auto">
                     {MessageList.map((element, index) => {
-                        return <ChatBubble Message={{...element}} key={index} currentChat={props.chatMode}/>;
+                        return (
+                            <ChatBubble
+                                Message={{ ...element }}
+                                key={index}
+                                currentChat={props.chatMode}
+                            />
+                        );
                     })}
                 </div>
 
@@ -131,82 +137,90 @@ export default function ChatWindow(props: {
                         </div>
                     </div>
 
-                    <div className="flex">
-                        {/* invite*/}
-                        <div>
-                            {/* Add button */}
-                            <div className="relative inline-block text-left">
-                                <button
-                                    className="inline-flex w-full justify-center rounded-md  px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                    onClick={() => {
-                                        props.setShowFriendModal(true);
-                                    }}
+                    {props.chatMode === "friend" ? null : (
+                        <div className="flex">
+                            {/* invite*/}
+                            <div>
+                                {/* Add button */}
+                                <div className="relative inline-block text-left">
+                                    <button
+                                        className="inline-flex w-full justify-center rounded-md  px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                        onClick={() => {
+                                            props.setShowFriendModal(true);
+                                        }}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={2.2}
+                                            stroke="currentColor"
+                                            className="w-6 h-6"
+                                        >
+                                            <path
+                                                strokeOpacity=".6"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <Menu
+                                    as="div"
+                                    className="relative inline-block text-left"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={2.2}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path
-                                            strokeOpacity=".6"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
-                                </button>
-                            </div>
-                            <Menu
-                                as="div"
-                                className="relative inline-block text-left"
-                            >
-                                <Menu.Button className="inline-flex w-full justify-center rounded-md  px-2 py-2 lg:mr-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                        height="24"
-                                    >
-                                        <path
-                                            fill="#263238"
-                                            fillOpacity=".6"
-                                            d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"
-                                        ></path>
-                                    </svg>
-                                </Menu.Button>
+                                    <Menu.Button className="inline-flex w-full justify-center rounded-md  px-2 py-2 lg:mr-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                        >
+                                            <path
+                                                fill="#263238"
+                                                fillOpacity=".6"
+                                                d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"
+                                            ></path>
+                                        </svg>
+                                    </Menu.Button>
 
-                                <Transition
-                                    enter="transition ease-out duration-100"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100"
-                                    leave="transition ease-in duration-75"
-                                    leaveFrom="transform opacity-100 scale-100"
-                                    leaveTo="transform opacity-0 scale-95"
-                                >
-                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div className="py-1 w-auto">
-                                            <Menu.Item>
-                                                <a
-                                                    href="#"
-                                                    className="text-red-600 block px-4 py-2 text-small"
-                                                >
-                                                    Leave Group
-                                                </a>
-                                            </Menu.Item>
-                                        </div>
-                                    </Menu.Items>
-                                </Transition>
-                            </Menu>
+                                    <Transition
+                                        enter="transition ease-out duration-100"
+                                        enterFrom="transform opacity-0 scale-95"
+                                        enterTo="transform opacity-100 scale-100"
+                                        leave="transition ease-in duration-75"
+                                        leaveFrom="transform opacity-100 scale-100"
+                                        leaveTo="transform opacity-0 scale-95"
+                                    >
+                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div className="py-1 w-auto">
+                                                <Menu.Item>
+                                                    <a
+                                                        href="#"
+                                                        className="text-red-600 block px-4 py-2 text-small"
+                                                    >
+                                                        Leave Group
+                                                    </a>
+                                                </Menu.Item>
+                                            </div>
+                                        </Menu.Items>
+                                    </Transition>
+                                </Menu>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
                 {/* chat content */}
                 <div className="flex-1 py-2 px-3 flex-grow overflow-auto">
                     {MessageList.map((element, index) => {
-                        return <ChatBubble Message={{...element}} key={index} currentChat={props.currentChat.id}/>;
+                        return (
+                            <ChatBubble
+                                Message={{ ...element }}
+                                key={index}
+                                currentChat={props.currentChat.id}
+                            />
+                        );
                     })}
                 </div>
                 {/* input window */}
@@ -235,13 +249,12 @@ export default function ChatWindow(props: {
         );
 }
 
-function ChatBubble(props: {Message: any;
-    currentChat: any;}) {
+function ChatBubble(props: { Message: any; currentChat: any }) {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const userid = userInfo.token.id;
     const [name, setName] = useState("");
-    if (props.currentChat!=props.Message.ToGroup){
-        return 
+    if (props.currentChat != props.Message.ToGroup) {
+        return <></>;
     }
     if (props.Message.Sender != userid) {
         const sender = getUserInfo(props.Message.Sender, userInfo.token);
@@ -281,10 +294,6 @@ function ChatBubble(props: {Message: any;
             </div>
         );
     }
-}
-
-async function addFriendToGroup() {
-    //这块逻辑先不写 Modal直接用这个文件import的friendList（我已经添加了）
 }
 
 export function ModalFriend(props: {
