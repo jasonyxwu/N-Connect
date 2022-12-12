@@ -11,7 +11,7 @@ module.exports = io => {
     socket.on('init', (params) =>{
       socket.join("123");
       console.log("init"+params)//group好了记得改
-      /**User.findById(params.id, function (err, temp) {
+      User.findById(params.id, function (err, temp) {
         if (err) {
           if (err.status==404) {
             socket.emit('res',{ message:  "no found",data: null, status:"404" });
@@ -25,6 +25,7 @@ module.exports = io => {
         }
         
         rooms=temp.FriendGroups.concat(temp.Groups)
+        console.log("init"+rooms);
         if (rooms==null){
           socket.emit('res',{ message: "good, no room",data: temp, status:"200"});
         }else{
@@ -32,7 +33,7 @@ module.exports = io => {
         socket.emit('res',{ message: "good",data: temp, status:"200"});
         }
         
-      })**/
+      })
     })
     
     //聊天
