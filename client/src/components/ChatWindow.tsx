@@ -2,14 +2,16 @@ import { Menu, Transition } from "@headlessui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { friendList } from "../pages/chat";
-
+import { AppState } from "../store";
+//import { userInfo } from "../slices/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {getUserInfo} from "../utils/userData"
 export interface Message {
     Sender: String;
     Content: String;
     DateCreated: String;
 }
-
-const userid = (Math.random() * 100).toString(); //到时候获取全局token
+//到时候获取全局token
 
 export default function ChatWindow(props: {
     chatMode: String;
@@ -18,6 +20,8 @@ export default function ChatWindow(props: {
     setShowFriendModal: React.Dispatch<React.SetStateAction<boolean>>;
     showFriendModal: boolean;
 }) {
+    const userInfo = useSelector((state: AppState) => state.user.userInfo);
+    const userid = userInfo.token.id; 
     //假如tempmessage
     var socket = props.socket;
     const [MessageList, setMessageList] = useState<Message[]>([]);
@@ -220,11 +224,15 @@ export default function ChatWindow(props: {
 }
 
 function ChatBubble(props: Message) {
-    if (props.Sender != userid)
+    const userInfo = useSelector((state: AppState) => state.user.userInfo);
+    const userid = userInfo.token.id; 
+
+    if (props.Sender != userid){
+        var sender=getUserInfo(props.Sender,userInfo.token)
         return (
             <div className="flex mb-2">
                 <div className="rounded px-1 w-lg">
-                    <p className="text-sm text-teal">{props.Sender}</p>
+                    <p className="text-sm text-teal">{sender.UserName}</p>
                     <div className="px-2 py-1 rounded-xl bg-stone-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
                             {props.Content}
@@ -235,13 +243,13 @@ function ChatBubble(props: Message) {
                     </p>
                 </div>
             </div>
-        );
-    // if message send by self, justify end
-    else
+        );// if message send by self, justify end
+    }
+    else{
         return (
             <div className="flex mb-2 justify-end">
                 <div className="rounded py-2 px-3 w-lg">
-                    <p className="text-sm text-teal">{props.Sender}</p>
+                    <p className="text-sm text-teal">{userInfo.name}</p>
                     <div className="px-2 py-1 rounded-xl bg-red-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
                             {props.Content}
@@ -254,6 +262,7 @@ function ChatBubble(props: Message) {
                 </div>
             </div>
         );
+    }
 }
 
 async function addFriendToGroup() {

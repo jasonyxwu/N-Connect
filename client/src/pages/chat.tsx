@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
 import Router, { useRouter } from "next/router";
-import { userInfo } from "../slices/userSlice";
+//import { userInfo } from "../slices/userSlice";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -21,8 +21,7 @@ const socket = io("https://cryptic-journey-82080.herokuapp.com", {
     //secure: true,
     withCredentials: true,
 });
-
-const userid = "638d54b4c3d4e5886051fcef"; //到时候获取全局token
+//到时候获取全局token
 
 export interface chatItem {
     name: String;
@@ -71,6 +70,8 @@ let searchResult: any[] = [];
 var flag = 0;
 
 export default function Chat() {
+    
+   
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
     const [chatMode, setChatMode] = useState("friend");
@@ -78,12 +79,11 @@ export default function Chat() {
     const isAuth: boolean = useSelector(
         (state: AppState) => state.auth.authState
     );
-    const userInfo: userInfo = useSelector(
-        (state: AppState) => state.user.userInfo
-    );
+    const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
-
+    const userid = userInfo.token.id; 
+    console.log(userInfo.token.id);
     // TODO: uncomment this
     // useEffect(() => {
     //     if (!isAuth) Router.push("/");
