@@ -226,20 +226,26 @@ export default function ChatWindow(props: {
 function ChatBubble(props: Message) {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const userid = userInfo.token.id; 
-
+    const [name, setName] = useState("");
+    var date= props.DateCreated.substring(11, 16);
     if (props.Sender != userid){
-        const sender=getUserInfo(props.Sender,userInfo.token);
+        const sender= getUserInfo(props.Sender,userInfo.token);
+        sender.then(
+            function(name){
+                setName(name.data.UserName);
+            }
+        )
         return (
             <div className="flex mb-2">
                 <div className="rounded px-1 w-lg">
-                    <p className="text-sm text-teal">{sender.UserName}</p>
+                    <p className="text-sm text-teal">{name}</p>
                     <div className="px-2 py-1 rounded-xl bg-stone-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
                             {props.Content}
                         </p>
                     </div>
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {props.DateCreated}
+                        {date}
                     </p>
                 </div>
             </div>
@@ -257,7 +263,7 @@ function ChatBubble(props: Message) {
                     </div>
 
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {props.DateCreated}
+                        {date}
                     </p>
                 </div>
             </div>
