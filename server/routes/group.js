@@ -466,7 +466,7 @@ module.exports = function (router) {
                                     data: []
                                 });
                             } else {
-                                Message.find({ ToGroup: gp.groupid }, function (err, docs) {
+                                Message.find({ ToGroup: gp.groupid }, {$slice:3}, function (err, docs) {
                                     if (err){
                                         console.log(err);
                                     }
