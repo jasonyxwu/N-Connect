@@ -241,7 +241,6 @@ module.exports = function (router) {
                                         User.findById(userid).exec()
                                         .then(function(user) {
                                             group.GroupMember.push(user.id);
-                                            group.save();
                                             user.Groups.push(group.id);
                                             user.save();
                                         });
