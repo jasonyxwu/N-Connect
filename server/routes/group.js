@@ -188,6 +188,7 @@ module.exports = function (router) {
     });
     // group update, should only be used on groups, not any friendgroup
     // if req.body.GroupName left undefined, GroupName will not update;
+    // if req.body.GroupIcon left undefined, GroupIcon will not update
     // if req.body.GroupMember left undefined, GroupMember will not update;
     // if req.body.GroupMember can has length more than 1
     router.route('/group/:id').put(function(req, res) {
@@ -351,6 +352,7 @@ module.exports = function (router) {
     //     });
     // });
         
+    // get group on id
     GroupidRoute.post(function (req, res) {
         // req.body.token = {
             // id: String,
@@ -420,6 +422,7 @@ module.exports = function (router) {
         }
     });
 
+    // get group messages
     GroupMessagesRoute.post(function (req, res) {
         // req.body.token = {
             // id: String,
@@ -497,6 +500,8 @@ module.exports = function (router) {
             }
         }
     });
+
+    // leave group
     router.route('/group/:id/exit').post(function (req, res) {
         // req.body.token = {
             // id: String,

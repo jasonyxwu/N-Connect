@@ -105,7 +105,7 @@ module.exports = function(router) {
     });
 
 
-    // User on id
+    // Get user on id
     router.route("/user/:id").post(function(req, res) {      
         // req.body.token = {
             // id: String,
@@ -177,6 +177,7 @@ module.exports = function(router) {
         
     });
 
+    // Update user, each parameter optional
     router.route("/user/:id").put(function(req, res) {
         // req.body.token = {
             // id: String,
@@ -317,6 +318,7 @@ module.exports = function(router) {
         }
     });
 
+    // Search user by UserName
     router.route("/users").post(function(req, res) {
         // req.body.token = {
             // id: String,
