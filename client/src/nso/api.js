@@ -43,10 +43,128 @@ export function getNSOLogin() {
       arrayParams.push(`${key}=${params[key]}`);
     }
     const stringParams = arrayParams.join('&');
-    return `https://accounts.nintendo.com/connect/1.0.0/authorize?${stringParams}`;
+    return {url:`https://accounts.nintendo.com/connect/1.0.0/authorize?${stringParams}`, codeVerifier: authParams.codeVerifier};
 }
 
-export function getUserNameByRedirectUrl(url) {
+
+const request2 = require('request-promise-native');
+const jar = request2.jar();
+const request = request2.defaults({ jar: jar });
+const userAgentVersion = `2.4.0`; // version of Nintendo Switch App, updated once or twice per year
+async function getSessionToken(session_token_code, codeVerifier) {
+    const resp = await request({
+      method: 'POST',
+      uri: 'https://calm-cove-04963.herokuapp.com/https://accounts.nintendo.com/connect/1.0.0/api/session_token',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Platform': 'Android',
+        'X-ProductVersion': userAgentVersion,
+        'User-Agent': `OnlineLounge/${userAgentVersion} NASDKAPI Android`
+      },
+      form: {
+        client_id: '71b963c1b7b6d119',
+        session_token_code: session_token_code,
+        session_token_code_verifier: codeVerifier
+      },
+      json: true
+    });
+  
+    return resp.session_token;
+}
+
+const userAgentString = `com.nintendo.znca/${userAgentVersion} (Android/7.1.2)`;
+
+async function getApiToken(session_token) {
+    const resp = await request({
+        method: 'POST',
+        uri: 'https://calm-cove-04963.herokuapp.com/https://accounts.nintendo.com/connect/1.0.0/api/token',
+        headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-Platform': 'Android',
+        'X-ProductVersion': userAgentVersion,
+        'User-Agent': userAgentString
+        },
+        json: {
+        client_id: '71b963c1b7b6d119',
+        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer-session-token',
+        session_token: session_token
+        }
+    }); 
+
+    return {
+        id: resp.id_token,
+        access: resp.access_token
+    };
+}
+
+async function getUserInfo(token) {
+    const response = await request({
+        method: 'GET',
+        uri: 'https://calm-cove-04963.herokuapp.com/https://api.accounts.nintendo.com/2.0.0/users/me',
+        headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-Platform': 'Android',
+        'X-ProductVersion': userAgentVersion,
+        'User-Agent': userAgentString,
+        Authorization: `Bearer ${token}`
+        },
+        json: true
+    });
+    return {
+        nickname: response.nickname,
+        language: response.language,
+        birthday: response.birthday,
+        country: response.country
+    };
+} 
+
+async function getFlapgByImink(idToken) {
+    const response = await request({
+      method: 'POST',
+      uri: 'https://calm-cove-04963.herokuapp.com/https://api.imink.app/f',
+      headers: {
+        'User-Agent': `N-Connect/1.0.0` // your unique id here
+      },
+      body: {
+        'token': idToken,
+        'hash_method': 1
+      },
+      json: true
+    });
+    return response;
+}
+
+async function getApiLogin(userinfo, flapg_nso, id) {
+    const resp = await request({
+        method: 'POST',
+        uri: 'https://calm-cove-04963.herokuapp.com/https://api-lp1.znc.srv.nintendo.net/v2/Account/Login',
+        headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-Platform': 'Android',
+        'X-ProductVersion': userAgentVersion,
+        'User-Agent': userAgentString,
+        Authorization: 'Bearer'
+        },
+        body: {
+        parameter: {
+            language: userinfo.language,
+            naCountry: userinfo.country,
+            naBirthday: userinfo.birthday,
+            f: flapg_nso.f,
+            naIdToken: id,
+            timestamp: flapg_nso.timestamp,
+            requestId: flapg_nso.request_id
+        }
+        },
+        json: true,
+        //gzip: true
+        deflate:true
+    });
+    return resp.result.user.name;
+    //return resp.result.webApiServerCredential.accessToken;
+}
+
+export async function getUserNameByRedirectUrl(url, codeVerifier) {
     const params = {};
     var name;
     // extract three params from url 
@@ -57,9 +175,13 @@ export function getUserNameByRedirectUrl(url) {
             const splitStr = str.split('=');
             params[splitStr[0]] = splitStr[1];
             });
-
-
-
-
-    return name;
+    const sessionToken = await getSessionToken(params.session_token_code, codeVerifier);
+    var apiTokens = await getApiToken(sessionToken);
+    const userInfo = await getUserInfo(apiTokens.access);
+    console.log(userInfo);
+    const flapg_nso = await getFlapgByImink(apiTokens.id);
+    console.log(flapg_nso);
+    const apiAccessToken = await getApiLogin(userInfo, flapg_nso, apiTokens.id); // IV. Get API Access Token
+    //console.log(apiAccessToken);
+    return apiAccessToken;
 }

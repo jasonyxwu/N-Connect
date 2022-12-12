@@ -25,7 +25,7 @@ function generateAuthenticationParams() {
     };
 }
 
-export function getNSOLogin() {
+function getNSOLogin() {
     //get redirect url for login 
     authParams = generateAuthenticationParams();
     const params = {
@@ -57,7 +57,7 @@ npf71b963c1b7b6d119://auth#session_state=[SessionStateReturned]&session_token_co
 
 
 //1. get session token code
-redirectURL = 'npf71b963c1b7b6d119://auth#session_state=1c9bfdbb09a355d30325e9f74d6a008df5bf291d3d613fa7a7fda9f546738783&session_token_code=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MWI5NjNjMWI3YjZkMTE5IiwianRpIjoiNjYxOTQ5MjY1NzUiLCJzdGM6bSI6IlMyNTYiLCJzdGM6c2NwIjpbMCw4LDksMTcsMjNdLCJzdWIiOiI0OGI5ODRjMTEyMzJmZDIwIiwiZXhwIjoxNjcwNTUzODk3LCJpYXQiOjE2NzA1NTMyOTcsInN0YzpjIjoia19NRmFjN1F6U3hHNVRHYTNOM3dqaXNqbVpzdnA5cWJlZHY5S0dfaGxGSSIsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMubmludGVuZG8uY29tIiwidHlwIjoic2Vzc2lvbl90b2tlbl9jb2RlIn0.O2beexHdgfptJVHP_qaOoSvlwcs1P3jMRlT8lUR-FdI&state=3Z_GCnF_ldGjEv8LaxGu1F6PzPcRmDPst9Ekfprd4ksqJ0eB';
+redirectURL = 'npf71b963c1b7b6d119://auth#session_state=1c9bfdbb09a355d30325e9f74d6a008df5bf291d3d613fa7a7fda9f546738783&session_token_code=eyJhbGciOiJIUzI1NiJ9.eyJzdGM6c2NwIjpbMCw4LDksMTcsMjNdLCJ0eXAiOiJzZXNzaW9uX3Rva2VuX2NvZGUiLCJhdWQiOiI3MWI5NjNjMWI3YjZkMTE5Iiwic3RjOm0iOiJTMjU2IiwiaWF0IjoxNjcwNzk4OTA1LCJzdGM6YyI6Im9zUXgxWGVJNzdTQnlZQ282cHlaenE5cG9xQVBDeHRlUVBuTmliYUhIbVkiLCJleHAiOjE2NzA3OTk1MDUsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMubmludGVuZG8uY29tIiwic3ViIjoiNDhiOTg0YzExMjMyZmQyMCIsImp0aSI6IjY2Mzg0ODMxNDU5In0.dbB8etvhFD4RC92yBlYoPQ2K5Eren0VfwKjQ8mBLVe4&state=IZKlDd4xhczCLdiQDsIcIBai7bLP_qEf1ZfEkdpVFvG2XhpP';
 const params = {};
 
 // extract three params from url 
@@ -238,8 +238,8 @@ async function getWebServiceTokenWithSessionToken(sessionToken, game, id) {
           json: true,
           gzip: true
       });
-      //return resp;
-      return resp.result.webApiServerCredential.accessToken;
+      return resp.result.user;
+      //return resp.result.webApiServerCredential.accessToken;
   }
   
   
@@ -294,16 +294,16 @@ async function getWebServiceTokenWithSessionToken(sessionToken, game, id) {
     //  console.log(loginURL);
     //  console.log(authParams);
 
-       const sessionToken = await getSessionToken(params.session_token_code, 'SCUJxyqnMgoLfF69PnVrXaexPhXRZL_NpvD9A4eMdog');
+       const sessionToken = await getSessionToken(params.session_token_code, 'XPWLmttwH6GE7Uvzb69-8NQjzcNN6_XTqNdZHgZ5mHM');
        apiTokens = await getApiToken(sessionToken);
        const userInfo = await getUserInfo(apiTokens.access);
+       console.log(userInfo);
        const flapg_nso = await getFlapgByImink(apiTokens.id);
        //console.log(flapg_nso);
        const apiAccessToken = await getApiLogin(userInfo, flapg_nso, apiTokens.id); // IV. Get API Access Token
-       //console.log(apiAccessToken);
-       const flapg_app = await callFlapg(apiAccessToken, guid, timestamp, "app");
-       const webtoken = await getWebServiceToken(apiAccessToken, flapg_nso, 'S2', apiTokens.id);
-       console.log(webtoken);
+       console.log(apiAccessToken);
+      //  const webtoken = await getWebServiceToken(apiAccessToken, flapg_nso, 'S2', apiTokens.id);
+      //  console.log(webtoken);
        //const webServiceToken = await getWebServiceTokenWithSessionToken(sessionToken, game='S2');
        //console.log('Web Service Token', webServiceToken);
 })()

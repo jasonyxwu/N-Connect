@@ -2,19 +2,33 @@ import React from "react";
 import { getNSOLogin } from "../nso/api.js";
 import { getUserNameByRedirectUrl } from "../nso/api.js";
 
+var codeVerifier = "";
 function NsoLogin() {
-    var url = getNSOLogin();
+    var login = getNSOLogin();
+    var url = login.url;
+    codeVerifier = login.codeVerifier;
     var name = "user";
     var login_window = window.open(url, "mozillaWindow", "popup");
 }
 
+<<<<<<< Updated upstream
 function FetchUserName() {
     var redirect_url = (
         document.getElementById("redirect_url") as HTMLInputElement
     ).value;
+=======
+async function FetchUserName() {
+    var redirect_url = (document.getElementById("redirect_url") as HTMLInputElement).value;
+    console.log(redirect_url);
+>>>>>>> Stashed changes
     var UserName = "Unbounded User";
     if (redirect_url != null) {
-        const name = getUserNameByRedirectUrl(redirect_url);
+        const UserInfo = await getUserNameByRedirectUrl(redirect_url, codeVerifier);
+        console.log(UserInfo);
+        alert(UserInfo);
+    }
+    else {
+        alert("null link");
     }
 }
 
@@ -71,6 +85,18 @@ export default function NsoAuthentication() {
                                 </button>
                             </div>
                         </div>
+<<<<<<< Updated upstream
+=======
+                        <div className="grid grid-cols-3 gap-6">
+                            <button
+                                onClick = {FetchUserName}
+                                type="button"
+                                className="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                            >
+                                Confirm
+                            </button>
+                        </div>
+>>>>>>> Stashed changes
                     </div>
                 </div>
             </div>
