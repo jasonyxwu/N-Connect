@@ -9,7 +9,7 @@ module.exports = io => {
     console.log("lianjie")
     //加房间
     socket.on('init', (params) =>{
-      //socket.join("123");
+      socket.join("world");
       console.log("init"+params)//group好了记得改
       User.findById(params.id, function (err, temp) {
         if (err) {
