@@ -469,7 +469,7 @@ module.exports = function (router) {
                                     data: []
                                 });
                             } else {
-                                Message.find({ ToGroup: gp.groupid }, function (err, docs) {
+                                Message.find({ ToGroup: gp.id }, function (err, docs) {
                                     if (err){
                                         console.log(err);
                                     }
@@ -500,7 +500,7 @@ module.exports = function (router) {
             }
         }
     });
-    router.route('/group/world').post(function (req, res) {
+    router.route('/groupworld').post(function (req, res) {
         // req.body.token = {
             // id: String,
             // Email: String 
@@ -539,6 +539,7 @@ module.exports = function (router) {
                         // Token verification end
                         // get all messages in specific group 
                         Message.find({ ToGroup: "world" }, function (err, docs) {
+                            console.log(docs)
                             if (err){
                                 console.log(err);
                             }
@@ -552,6 +553,7 @@ module.exports = function (router) {
                     }
                 })
                 .catch(function(error) {
+                    console.log(error);
                     return res.status(500).send({
                         message: "Server error",
                         data: error
