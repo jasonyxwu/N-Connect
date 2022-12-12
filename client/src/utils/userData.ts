@@ -18,7 +18,6 @@ export async function getUserInfo(userId: String, token: Token) {
     });
 
     const json = await response.json();
-    console.log(json);
     return json;
 }
 

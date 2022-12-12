@@ -24,25 +24,29 @@ export default function LoginForm() {
                         data.FriendGroups,
                         res.token
                     );
+                    const friends = await Promise.all(
+                        userGroups
+                            .map((element) =>
+                                element.data.GroupMember.find(
+                                    (element: string) =>
+                                        element !== res.token.id
+                                )
+                            )
+                            .map(
+                                async (userId) =>
+                                    await getUserInfo(userId, res.token)
+                            )
+                    );
+                    friends.forEach((element, index) => {
+                        element.data.GroupId = userGroups[index].data._id;
+                    });
                     // userGroups.map((element) => element.data.GroupMember);
                     const thisInfo: userInfo = {
                         name: data.UserName,
                         url: data.Icon,
                         token: res.token,
                         groupList: await getGroupsInfo(data.Groups, res.token),
-                        friendList: await Promise.all(
-                            userGroups
-                                .map((element) =>
-                                    element.data.GroupMember.find(
-                                        (element: string) =>
-                                            element !== res.token.id
-                                    )
-                                )
-                                .map(
-                                    async (userId) =>
-                                        await getUserInfo(userId, res.token)
-                                )
-                        ),
+                        friendList: friends,
                         Description: data.Description,
                     };
                     dispatch(setAuthState(true));
