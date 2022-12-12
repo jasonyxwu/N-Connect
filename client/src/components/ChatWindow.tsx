@@ -38,7 +38,7 @@ export default function ChatWindow(props: {
         socket.emit("chat", {
             Content: input,
             UserId: userid,
-            GroupId: "123" /**props.currentChat.name*/,
+            GroupId: props.currentChat.id /**props.currentChat.name*/,
         }); //到时候搞好了把前面给替换回注释里的
         setInput("");
     }
@@ -206,7 +206,7 @@ export default function ChatWindow(props: {
                 {/* chat content */}
                 <div className="flex-1 py-2 px-3 flex-grow overflow-auto">
                     {MessageList.map((element, index) => {
-                        return <ChatBubble {...element} key={index} />;
+                        return <ChatBubble Message={{...element}} key={index} currentChat={props.currentChat.id}/>;
                     })}
                 </div>
                 {/* input window */}
@@ -235,12 +235,16 @@ export default function ChatWindow(props: {
         );
 }
 
-function ChatBubble(props: Message) {
+function ChatBubble(props: {Message: any;
+    currentChat: any;}) {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const userid = userInfo.token.id;
     const [name, setName] = useState("");
-    if (props.Sender != userid) {
-        const sender = getUserInfo(props.Sender, userInfo.token);
+    if (props.currentChat!=props.Message.ToGroup){
+        return 
+    }
+    if (props.Message.Sender != userid) {
+        const sender = getUserInfo(props.Message.Sender, userInfo.token);
         sender.then(function (name) {
             setName(name.data.UserName);
         });
@@ -250,11 +254,11 @@ function ChatBubble(props: Message) {
                     <p className="text-sm text-teal">{name}</p>
                     <div className="px-2 py-1 rounded-xl bg-stone-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
-                            {props.Content}
+                            {props.Message.Content}
                         </p>
                     </div>
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {props.DateCreated.substring(11, 16)}
+                        {props.Message.DateCreated.substring(11, 16)}
                     </p>
                 </div>
             </div>
@@ -266,12 +270,12 @@ function ChatBubble(props: Message) {
                     <p className="text-sm text-teal">{userInfo.name}</p>
                     <div className="px-2 py-1 rounded-xl bg-red-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
-                            {props.Content}
+                            {props.Message.Content}
                         </p>
                     </div>
 
                     <p className="text-right text-xs text-grey-dark mt-1">
-                        {props.DateCreated.substring(11, 16)}
+                        {props.Message.DateCreated.substring(11, 16)}
                     </p>
                 </div>
             </div>
