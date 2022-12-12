@@ -29,15 +29,15 @@ export default function NsoAuthentication() {
                 redirect_url,
                 codeVerifier
             );
+            //change Redux state
             dispatch(
                 setUserNameIcon({ name: UserInfo.name, url: UserInfo.imageUri })
             );
-            console.log(UserInfo.name);
-            alert(UserInfo.name);
             //post userInfo
             updateUserInfo(userInfo)
                 .then((res) => {
                     console.log(res);
+                    alert(UserInfo.name);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -53,7 +53,7 @@ export default function NsoAuthentication() {
                     <div className="grid grid-cols-3 gap-6">
                         <div className="col-span-3 sm:col-span-2 space-y-3">
                             <h2 className="mb-8 text-xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">
-                                3 Steps to authenciate your nintendo switch
+                                3 steps to authenticate your nintendo switch
                                 account
                             </h2>
                             <label className="block text-sm font-medium text-gray-700">

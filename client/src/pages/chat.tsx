@@ -31,47 +31,10 @@ export interface chatItem {
 }
 let userToken: string = "";
 
-export const friendList: chatItem[] = [
-    {
-        name: "Arex",
-        lastUpdateTime: "12:45pm",
-        icon: "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg",
-        lastUpdateMessage: "Wanna salmonrun?",
-    },
-    {
-        name: "Bieshawo",
-        lastUpdateTime: "12:45pm",
-        icon: "https://www.biography.com/.image/t_share/MTE5NDg0MDU1MTIyMTE4MTU5/arnold-schwarzenegger-9476355-1-402.jpg",
-        lastUpdateMessage: "I'll be back",
-    },
-    {
-        name: "TrashP1ayer",
-        lastUpdateTime: "12:45pm",
-        icon: "https://www.famousbirthdays.com/headshots/russell-crowe-6.jpg",
-        lastUpdateMessage: "Good job!",
-    },
-];
-
-const groupList: chatItem[] = [
-    {
-        name: "Arex",
-        lastUpdateTime: "12:45pm",
-        icon: "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg",
-        lastUpdateMessage: "Wanna salmonrun?",
-    },
-    {
-        name: "Bieshawo",
-        lastUpdateTime: "12:45pm",
-        icon: "https://www.biography.com/.image/t_share/MTE5NDg0MDU1MTIyMTE4MTU5/arnold-schwarzenegger-9476355-1-402.jpg",
-        lastUpdateMessage: "I'll be back",
-    },
-];
 let searchResult: any[] = [];
 var flag = 0;
 
 export default function Chat() {
-    
-   
     const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
     const [chatMode, setChatMode] = useState("friend");
@@ -82,12 +45,10 @@ export default function Chat() {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
-    const userid = userInfo.token.id; 
-    console.log(userInfo.token.id);
-    // TODO: uncomment this
-    // useEffect(() => {
-    //     if (!isAuth) Router.push("/");
-    // }, [isAuth]);
+    const userid = userInfo.token.id;
+    useEffect(() => {
+        if (!isAuth) Router.push("/");
+    }, [isAuth]);
 
     if (flag == 0) {
         console.log("chushihua");
@@ -98,15 +59,6 @@ export default function Chat() {
     useEffect(() => {
         console.log(1);
     }, [query]);
-
-    // useEffect(() => {
-    //     setLoading(true);
-    //     fetch("/api/profile-data")
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             setLoading(false);
-    //         });
-    // }, []);
 
     return (
         <>
@@ -119,7 +71,7 @@ export default function Chat() {
                     className="w-20 flex flex-col  justify-between items-center bg-red-600"
                 >
                     <Menu.Button className="mt-3">
-                        <UserIcon url={userInfo.url}/>
+                        <UserIcon url={userInfo.url} />
                     </Menu.Button>
                     <Transition
                         as={Fragment}
@@ -351,3 +303,39 @@ export default function Chat() {
         </>
     );
 }
+
+export const friendList: chatItem[] = [
+    {
+        name: "Arex",
+        lastUpdateTime: "12:45pm",
+        icon: "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg",
+        lastUpdateMessage: "Wanna salmonrun?",
+    },
+    {
+        name: "Bieshawo",
+        lastUpdateTime: "12:45pm",
+        icon: "https://www.biography.com/.image/t_share/MTE5NDg0MDU1MTIyMTE4MTU5/arnold-schwarzenegger-9476355-1-402.jpg",
+        lastUpdateMessage: "I'll be back",
+    },
+    {
+        name: "TrashP1ayer",
+        lastUpdateTime: "12:45pm",
+        icon: "https://www.famousbirthdays.com/headshots/russell-crowe-6.jpg",
+        lastUpdateMessage: "Good job!",
+    },
+];
+
+const groupList: chatItem[] = [
+    {
+        name: "Arex",
+        lastUpdateTime: "12:45pm",
+        icon: "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg",
+        lastUpdateMessage: "Wanna salmonrun?",
+    },
+    {
+        name: "Bieshawo",
+        lastUpdateTime: "12:45pm",
+        icon: "https://www.biography.com/.image/t_share/MTE5NDg0MDU1MTIyMTE4MTU5/arnold-schwarzenegger-9476355-1-402.jpg",
+        lastUpdateMessage: "I'll be back",
+    },
+];

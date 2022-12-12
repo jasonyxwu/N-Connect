@@ -12,6 +12,7 @@ export default function Home() {
     useEffect(() => {
         if (isAuth) Router.push("/chat");
     }, [isAuth]);
+
     // TODO: figure out why overflow
     return (
         <div>

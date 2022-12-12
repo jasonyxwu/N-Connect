@@ -40,15 +40,15 @@ export default function Config() {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const isAuth = useSelector((state: AppState) => state.auth.authState);
     const [currentOption, setcurrentOption] = useState("");
-    // useEffect(() => {
-    //     if (!isAuth) Router.push("/");
-    // }, [isAuth]);
+    useEffect(() => {
+        if (!isAuth) Router.push("/");
+    }, [isAuth]);
     return (
         <div className="w-screen h-screen flex">
             <div className="w-70">
                 <div className="h-screen flex flex-col justify-center overflow-y-auto py-3 px-3 bg-red-600">
                     <Link href="/chat" className="flex items-center ml-1">
-                        <UserIcon />
+                        <UserIcon url={userInfo.url} />
                     </Link>
                     <ul className="space-y-4 h-full pt-[100%]">
                         <li>
