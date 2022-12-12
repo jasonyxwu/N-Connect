@@ -20,31 +20,6 @@ export async function getUserInfo(userId: String, token: Token) {
     return json;
 }
 
-export async function getUsersInfo(userIds: String[], token: Token) {
-    if (!token) {
-        return {};
-    }
-    console.log(userIds);
-    const url_base = `${SERVER_DOMAIN}/user/`;
-    const results = await Promise.all(
-        userIds.map(async (userId) => {
-            const response = await fetch(url_base + userId, {
-                method: "POST",
-                mode: "cors",
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, *same-origin, omit
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token: token }),
-            });
-            return response.json(); // or resp.json();
-        })
-    );
-    console.log(results);
-    return results;
-}
-
 export async function searchUsers(UserName: String, token: Token) {
     if (!token) {
         return {};

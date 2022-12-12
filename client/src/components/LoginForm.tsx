@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { createUser, getUsersInfo, loginUser } from "../utils/userData";
+import { createUser, loginUser } from "../utils/userData";
+import { getGroupInfo, getGroupsInfo } from "../utils/groupData";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
-import { setUserState, setUserToken, userInfo } from "../slices/userSlice";
+import { setUserState, userInfo } from "../slices/userSlice";
 export default function LoginForm() {
     const [mode, setMode] = useState<string>("signin");
     const [email, setEmail] = useState<string>("");
@@ -16,25 +17,24 @@ export default function LoginForm() {
 
     function login() {
         loginUser(email, password)
-            .then((res) => {
-                console.log(res);
+            .then(async (res) => {
                 if (res.token) {
                     const data = res.data;
-                    const Info: userInfo = {
+                    let thisInfo: userInfo = {
                         name: data.UserName,
-                        url: "",
+                        url: data.Icon,
                         token: res.token,
-                        groupList: data.Groups,
-                        friendList: data.FriendGroups,
+                        groupList: await getGroupsInfo(data.Groups, res.token),
+                        friendList: await getGroupsInfo(
+                            data.FriendGroups,
+                            res.token
+                        ),
                         Description: data.Description,
                     };
-                    getUsersInfo(data.Groups, data.token).then((res) =>
-                        console.log(res)
-                    );
                     dispatch(setAuthState(true));
-                    dispatch(setUserState(Info));
+                    dispatch(setUserState(thisInfo));
                 } else {
-                    setCheckMessage("Cannot find your account");
+                    setCheckMessage("Invalid account or password");
                 }
             })
             .catch((error) => console.log(error));

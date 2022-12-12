@@ -35,18 +35,31 @@ let searchResult: any[] = [];
 var flag = 0;
 
 export default function Chat() {
-    const [currentChat, setCurrentChat] = useState("");
     const [query, setQuery] = useState("");
     const [chatMode, setChatMode] = useState("friend");
     const [loading, setLoading] = useState<boolean>(true);
     const isAuth: boolean = useSelector(
         (state: AppState) => state.auth.authState
     );
-    const [barElements, setBarElements] = useState();
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const [showFriendModal, setShowFriendModal] = useState<boolean>(false);
     const dispatch = useDispatch();
     const userid = userInfo.token.id;
+
+    const [currentWindow, setCurrentWindow] = useState<{
+        id: string;
+        name: string;
+        url: string;
+    }>({
+        id: "",
+        name: "",
+        url: "",
+    });
+
+    const changeWindow = (id: string, name: string, url: string) => {
+        setCurrentWindow({ id, name, url });
+    };
+
     useEffect(() => {
         if (!isAuth) Router.push("/");
     }, [isAuth, userInfo.friendList, userInfo.groupList]);
@@ -58,7 +71,7 @@ export default function Chat() {
     }
     //TODO: Add search
     useEffect(() => {
-        console.log(1);
+        console.log("search active");
     }, [query]);
 
     return (
@@ -110,7 +123,14 @@ export default function Chat() {
                     <div className="flex flex-col justfiy-between items-center">
                         <div
                             className="my-3"
-                            onClick={() => setChatMode("friend")}
+                            onClick={() => {
+                                setChatMode("friend");
+                                setCurrentWindow({
+                                    id: "",
+                                    name: "",
+                                    url: "",
+                                });
+                            }}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +150,14 @@ export default function Chat() {
                         </div>
                         <div
                             className="my-3"
-                            onClick={() => setChatMode("group")}
+                            onClick={() => {
+                                setChatMode("group");
+                                setCurrentWindow({
+                                    id: "",
+                                    name: "",
+                                    url: "",
+                                });
+                            }}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -269,25 +296,25 @@ export default function Chat() {
 
                         {/* friendList */}
                         <div className="bg-gray-100 flex-1 overflow-auto">
-                            {
-                                // Promise.all(
-                                //     userInfo.friendList.map((id) =>
-                                //         getUserInfo(id, userInfo.token)
-                                //     )
-                                // ).then((responses) => {
-                                //     responses.forEach((e) => console.log(e));
-                                //     console.log(friendInfo);
-                                // })
-                                /* return <div></div>;
-                                // return (
-                                //     <ChatSelectBar
-                                //         {...friendInfo}
-                                //         key={index}
-                                //         currentChat={currentChat}
-                                //         setCurrentChat={setCurrentChat}
-                                //     />
-                                // ); */
-                            }
+                            {chatMode === "friend"
+                                ? userInfo.friendList.map((element, index) => (
+                                      <ChatSelectBar
+                                          key={index}
+                                          name={element.data.GroupName}
+                                          icon={element.data.GroupIcon}
+                                          id={element.data._id}
+                                          changeWindow={changeWindow}
+                                      />
+                                  ))
+                                : userInfo.groupList.map((element, index) => (
+                                      <ChatSelectBar
+                                          key={index}
+                                          name={element.data.GroupName}
+                                          icon={element.data.GroupIcon}
+                                          id={element.data._id}
+                                          changeWindow={changeWindow}
+                                      />
+                                  ))}
                         </div>
                     </div>
                 ) : null}
@@ -295,7 +322,7 @@ export default function Chat() {
                 <div className="flex-grow flex flex-col">
                     <ChatWindow
                         chatMode={chatMode}
-                        currentChat={currentChat}
+                        currentChat={currentWindow}
                         socket={socket}
                         setShowFriendModal={setShowFriendModal}
                         showFriendModal={showFriendModal}

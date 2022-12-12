@@ -37,7 +37,7 @@ export default function NsoAuthentication() {
             //post userInfo
             updateUserNameIcon(UserInfo.name, UserInfo.imageUri, userInfo.token)
                 .then((res) => {
-                    console.log(res);
+                    alert("Success!");
                 })
                 .catch((err) => {
                     console.log(err);
