@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { loginUser } from "../utils/userData";
+import { createUser, loginUser } from "../utils/userData";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
@@ -30,6 +30,15 @@ export default function LoginForm() {
                 //dispatch(setTokenState(res));
             })
             .catch((error) => console.log(error));
+    }
+    function signup() {
+        createUser(email, password, "Anomynous User")
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     return mode === "signin" ? (
         <form className="mt-3 space-y-6 w-[90%] my-8" action="#" method="POST">
@@ -175,6 +184,7 @@ export default function LoginForm() {
             <div className="">
                 <button
                     type="submit"
+                    onClick={signup}
                     className="h-12 group relative flex w-full justify-center rounded-md border border-transparent bg-red-300 py-2 px-4 text-lg font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                 >
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3">
