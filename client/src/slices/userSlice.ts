@@ -9,8 +9,8 @@ export interface userInfo {
     url: string;
     token: Token; // id included
     Description: string;
-    friendList: string[];
-    groupList: string[];
+    friendList: any[];
+    groupList: any[];
 }
 
 export interface userState {
