@@ -6,7 +6,7 @@ export async function getGroupInfo(groupId: String, token: Token) {
     }
     const url = `${SERVER_DOMAIN}/group/${groupId}`;
     const response = await fetch(url, {
-        method: "GET",
+        method: "POST",
         mode: "cors",
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, *same-origin, omit
@@ -77,7 +77,7 @@ export async function getMessagesFromGroup(groupId: String, token: Token) {
     const url = `${SERVER_DOMAIN}/group/${groupId}/messages`;
 
     const response = await fetch(url, {
-        method: "GET",
+        method: "POST",
         mode: "cors",
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, *same-origin, omit
