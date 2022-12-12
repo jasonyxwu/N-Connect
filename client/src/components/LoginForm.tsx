@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createUser, loginUser } from "../utils/userData";
+import { createUser, getUserInfo, loginUser } from "../utils/userData";
 import { getGroupInfo, getGroupsInfo } from "../utils/groupData";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,14 +20,28 @@ export default function LoginForm() {
             .then(async (res) => {
                 if (res.token) {
                     const data = res.data;
-                    let thisInfo: userInfo = {
+                    const userGroups = await getGroupsInfo(
+                        data.FriendGroups,
+                        res.token
+                    );
+                    // userGroups.map((element) => element.data.GroupMember);
+                    const thisInfo: userInfo = {
                         name: data.UserName,
                         url: data.Icon,
                         token: res.token,
                         groupList: await getGroupsInfo(data.Groups, res.token),
-                        friendList: await getGroupsInfo(
-                            data.FriendGroups,
-                            res.token
+                        friendList: await Promise.all(
+                            userGroups
+                                .map((element) =>
+                                    element.data.GroupMember.find(
+                                        (element: string) =>
+                                            element !== res.token.id
+                                    )
+                                )
+                                .map(
+                                    async (userId) =>
+                                        await getUserInfo(userId, res.token)
+                                )
                         ),
                         Description: data.Description,
                     };
