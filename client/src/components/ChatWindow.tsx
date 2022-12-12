@@ -5,6 +5,7 @@ import { friendList } from "../pages/chat";
 import { AppState } from "../store";
 //import { userInfo } from "../slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
+import {getUserInfo} from "../utils/userData"
 export interface Message {
     Sender: String;
     Content: String;
@@ -225,11 +226,13 @@ export default function ChatWindow(props: {
 function ChatBubble(props: Message) {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const userid = userInfo.token.id; 
-    if (props.Sender != userid)
+
+    if (props.Sender != userid){
+        var sender=getUserInfo(props.Sender,userInfo.token)
         return (
             <div className="flex mb-2">
                 <div className="rounded px-1 w-lg">
-                    <p className="text-sm text-teal">{props.Sender}</p>
+                    <p className="text-sm text-teal">{sender.UserName}</p>
                     <div className="px-2 py-1 rounded-xl bg-stone-200">
                         <p className="text-sm mt-1 w-full max-w-lg">
                             {props.Content}
@@ -240,9 +243,9 @@ function ChatBubble(props: Message) {
                     </p>
                 </div>
             </div>
-        );
-    // if message send by self, justify end
-    else
+        );// if message send by self, justify end
+    }
+    else{
         return (
             <div className="flex mb-2 justify-end">
                 <div className="rounded py-2 px-3 w-lg">
@@ -259,6 +262,7 @@ function ChatBubble(props: Message) {
                 </div>
             </div>
         );
+    }
 }
 
 async function addFriendToGroup() {
