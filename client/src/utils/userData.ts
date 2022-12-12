@@ -1,4 +1,6 @@
+
 import { SERVER_DOMAIN, Token } from "./global";
+import {userInfo } from "../slices/userSlice";
 
 export async function getUserInfo(userId: String, token: Token) {
     if (!token) {
@@ -73,6 +75,26 @@ export async function createUser(
             Password: password,
             UserName: username,
         }),
+    });
+    const json = await response.json();
+    return json;
+}
+
+//TODO: complete update userinfo
+export async function updateUserInfo(userInfo: userInfo) {
+    if (!userInfo.token) {
+        return {};
+    }
+    const url = `${SERVER_DOMAIN}/user/${userInfo.token.id}`;
+    const response = await fetch(url, {
+        method: "PUT",
+        mode: "cors",
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify( userInfo ),
     });
     const json = await response.json();
     return json;

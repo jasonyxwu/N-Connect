@@ -160,7 +160,7 @@ async function getApiLogin(userinfo, flapg_nso, id) {
         //gzip: true
         deflate:true
     });
-    return resp.result.user.name;
+    return resp.result.user;
     //return resp.result.webApiServerCredential.accessToken;
 }
 

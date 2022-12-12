@@ -1,38 +1,44 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getNSOLogin } from "../nso/api.js";
 import { getUserNameByRedirectUrl } from "../nso/api.js";
+import { setUserNameIcon } from "../slices/userSlice";
 
-var codeVerifier = "";
-function NsoLogin() {
-    var login = getNSOLogin();
-    var url = login.url;
-    codeVerifier = login.codeVerifier;
-    var name = "user";
-    var login_window = window.open(url, "mozillaWindow", "popup");
-}
-
-<<<<<<< Updated upstream
-function FetchUserName() {
-    var redirect_url = (
-        document.getElementById("redirect_url") as HTMLInputElement
-    ).value;
-=======
-async function FetchUserName() {
-    var redirect_url = (document.getElementById("redirect_url") as HTMLInputElement).value;
-    console.log(redirect_url);
->>>>>>> Stashed changes
-    var UserName = "Unbounded User";
-    if (redirect_url != null) {
-        const UserInfo = await getUserNameByRedirectUrl(redirect_url, codeVerifier);
-        console.log(UserInfo);
-        alert(UserInfo);
-    }
-    else {
-        alert("null link");
-    }
-}
+import { AppState } from "../store.js";
+import { updateUserInfo } from "../utils/userData";
 
 export default function NsoAuthentication() {
+    let codeVerifier = "";
+    const dispatch = useDispatch();
+    const userInfo = useSelector((state: AppState) => state.user.userInfo);
+    function NsoLogin() {
+        var login = getNSOLogin();
+        var url = login.url;
+        codeVerifier = login.codeVerifier;
+        var name = "user";
+        var login_window = window.open(url, "mozillaWindow", "popup");
+    }
+    async function FetchUserName() {
+        var redirect_url = (document.getElementById("redirect_url") as HTMLInputElement).value;
+        console.log(redirect_url);
+        //var UserName = "Unbounded User";
+        if (redirect_url != null) {
+            const UserInfo = await getUserNameByRedirectUrl(redirect_url, codeVerifier); 
+            dispatch(setUserNameIcon({name:UserInfo.name, url:UserInfo.imageUri}));
+            console.log(UserInfo.name);
+            //alert(UserInfo);
+            //post userInfo
+            updateUserInfo(userInfo).then((res)=>{
+                console.log(res);
+
+            }).catch((err)=>{
+                console.log(err);
+            });
+        }
+        else {
+            alert("null link");
+        }
+    }
     return (
         <div className="mt-3 w-full">
             <div className="sm:overflow-hidden sm:rounded-md flex flex-col">
@@ -78,25 +84,12 @@ export default function NsoAuthentication() {
                             <div className="grid grid-cols-3 gap-6">
                                 <button
                                     onClick={FetchUserName}
-                                    type="submit"
                                     className="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                                 >
                                     Confirm
                                 </button>
                             </div>
                         </div>
-<<<<<<< Updated upstream
-=======
-                        <div className="grid grid-cols-3 gap-6">
-                            <button
-                                onClick = {FetchUserName}
-                                type="button"
-                                className="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            >
-                                Confirm
-                            </button>
-                        </div>
->>>>>>> Stashed changes
                     </div>
                 </div>
             </div>

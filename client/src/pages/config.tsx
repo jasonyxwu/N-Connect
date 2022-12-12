@@ -18,23 +18,23 @@ import { getNSOLogin } from "../nso/api.js";
 class="c-btn c-btn-primary c-btn-small c-btn-tiny">Select this account</a>
 */
 //  onClick={evokeNintendoAuth}
-function evokeNintendoAuth() {
-    var url = getNSOLogin();
-    var name = "user";
-    var login_window = window.open(url, "mozillaWindow", "popup");
-    if (login_window != null) {
-        console.log(login_window.document);
-        var obj = login_window.document.getElementById(
-            "authorize-switch-approval-link"
-        );
-        if (obj == null) {
-            console.log("btn not find");
-        } else {
-            var redirectURL = obj.getAttribute("href");
-            console.log(redirectURL);
-        }
-    }
-}
+// function evokeNintendoAuth() {
+//     var url = getNSOLogin();
+//     var name = "user";
+//     var login_window = window.open(url.url, "mozillaWindow", "popup");
+//     if (login_window != null) {
+//         console.log(login_window.document);
+//         var obj = login_window.document.getElementById(
+//             "authorize-switch-approval-link"
+//         );
+//         if (obj == null) {
+//             console.log("btn not find");
+//         } else {
+//             var redirectURL = obj.getAttribute("href");
+//             console.log(redirectURL);
+//         }
+//     }
+// }
 
 export default function Config() {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
