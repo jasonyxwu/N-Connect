@@ -351,7 +351,7 @@ module.exports = function (router) {
     //     });
     // });
         
-    GroupidRoute.get(function (req, res) {
+    GroupidRoute.post(function (req, res) {
         // req.body.token = {
             // id: String,
             // Email: String 
@@ -420,7 +420,7 @@ module.exports = function (router) {
         }
     });
 
-    GroupMessagesRoute.get(function (req, res) {
+    GroupMessagesRoute.post(function (req, res) {
         // req.body.token = {
             // id: String,
             // Email: String 

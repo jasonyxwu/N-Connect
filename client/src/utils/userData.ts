@@ -6,7 +6,7 @@ export async function getUserInfo(userId: String, token: Token) {
     }
     const url = `${SERVER_DOMAIN}/user/${userId}`;
     const response = await fetch(url, {
-        method: "GET",
+        method: "POST",
         mode: "cors",
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, *same-origin, omit
@@ -25,7 +25,7 @@ export async function searchUsers(UserName: String, token: Token) {
     }
     const url = `${SERVER_DOMAIN}/users`;
     const response = await fetch(url, {
-        method: "GET",
+        method: "POST",
         mode: "cors",
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, *same-origin, omit
@@ -59,7 +59,7 @@ export async function createUser(
     password: string,
     username: string
 ) {
-    const url = `${SERVER_DOMAIN}/user`;
+    const url = `${SERVER_DOMAIN}/user/create`;
     const response = await fetch(url, {
         method: "POST",
         mode: "cors",

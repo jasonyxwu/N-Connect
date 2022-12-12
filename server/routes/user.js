@@ -3,7 +3,7 @@ var User = require("../models/user.js");
 
 module.exports = function(router) {
     // Create new user
-    router.route("/user").post(function(req, res) {
+    router.route("/user/create").post(function(req, res) {
         var user = new User();
         // Check username validity
         if(req.body.UserName == undefined || req.body.UserName == "") {
@@ -106,7 +106,7 @@ module.exports = function(router) {
 
 
     // User on id
-    router.route("/user/:id").get(function(req, res) {      
+    router.route("/user/:id").post(function(req, res) {      
         // req.body.token = {
             // id: String,
             // Email: String 
@@ -316,7 +316,7 @@ module.exports = function(router) {
         }
     });
 
-    router.route("/users").get(function(req, res) {
+    router.route("/users").post(function(req, res) {
         // req.body.token = {
             // id: String,
             // Email: String 
