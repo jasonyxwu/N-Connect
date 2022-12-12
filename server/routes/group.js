@@ -245,7 +245,7 @@ module.exports = function (router) {
                                             user.save();
                                         });
                                     });
-                                    group.GroupMember.push(req.body.GroupMember);
+                                    group.GroupMember.push({$each: req.body.GroupMember});
                                 }
                                 if (req.body.GroupName != undefined && req.body.GroupName != "") {
                                     group.GroupName = req.body.GroupName;
