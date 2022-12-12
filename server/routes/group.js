@@ -211,7 +211,7 @@ module.exports = function (router) {
                                         data: error
                                     });
                                 });
-                            }).exec()
+                            })
                             .then(function(data) {
                                 // Push group id to all user
                                 group.GroupMember = req.body.GroupMember;
@@ -227,7 +227,7 @@ module.exports = function (router) {
                                             data: error
                                         });
                                     });
-                                }).exec()
+                                })
                                 .then(function(data) {
                                     group.save()
                                     .then(function(data) {
