@@ -128,10 +128,10 @@ export async function leaveGroup(groupId: String, token: Token) {
     if (!token) {
         return {};
     }
-    const url = `${SERVER_DOMAIN}/group`;
+    const url = `${SERVER_DOMAIN}/group/${groupId}/exit`;
 
     const response = await fetch(url, {
-        method: "DELETE",
+        method: "POST",
         mode: "cors",
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, *same-origin, omit
@@ -139,7 +139,6 @@ export async function leaveGroup(groupId: String, token: Token) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            GroupID: groupId,
             token: token,
         }),
     });
