@@ -240,11 +240,12 @@ module.exports = function (router) {
                                     req.body.GroupMember.forEach(function(userid) {
                                         User.findById(userid).exec()
                                         .then(function(user) {
-                                            group.GroupMember.push(user.id);
+                                            // group.GroupMember.push(user.id);
                                             user.Groups.push(group.id);
                                             user.save();
                                         });
                                     });
+                                    group.GroupMember.push(req.body.GroupMember);
                                 }
                                 if (req.body.GroupName != undefined && req.body.GroupName != "") {
                                     group.GroupName = req.body.GroupName;
