@@ -16,7 +16,7 @@ function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
 //n-connect.vercel.app "localhost:4000",http://localhost:4001/https://cryptic-journey-82080.herokuapp.com
-const socket = io("http://localhost:4001/", {
+const socket = io("https://cryptic-journey-82080.herokuapp.com/", {
     transports: ["websocket", "polling", "flashsocket"],
     //secure: true,
     withCredentials: true,
