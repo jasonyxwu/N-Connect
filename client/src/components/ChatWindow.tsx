@@ -228,7 +228,7 @@ function ChatBubble(props: Message) {
     const userid = userInfo.token.id; 
 
     if (props.Sender != userid){
-        var sender=getUserInfo(props.Sender,userInfo.token);
+        const sender=getUserInfo(props.Sender,userInfo.token);
         return (
             <div className="flex mb-2">
                 <div className="rounded px-1 w-lg">

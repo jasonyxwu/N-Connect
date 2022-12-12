@@ -112,6 +112,7 @@ module.exports = function(router) {
             // Email: String 
         // }
         // Token verification start
+        console.get(req.body);
         if (req.body.token == undefined) {
             return res.status(404).send({
                 message: "No valid token",
