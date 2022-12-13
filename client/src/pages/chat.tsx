@@ -129,7 +129,7 @@ export default function Chat() {
     //TODO: Add search
     async function evokeChat(item: searchedUserInfo) {
         const result = await createFriendGroup(
-            [item.Description, userInfo.token.id],
+            [item.Id, userInfo.token.id],
             userInfo.token
         );
         console.log(result);
