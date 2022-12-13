@@ -129,7 +129,7 @@ export default function Chat() {
     //TODO: Add search
     async function evokeChat(item: searchedUserInfo) {
         const result = await createFriendGroup(
-            [item.Description, userInfo.token.id],
+            [item.Id, userInfo.token.id],
             userInfo.token
         );
         console.log(result);
@@ -311,37 +311,42 @@ export default function Chat() {
                             >
                                 <Menu.Items className="absolute z-1 w-full origin-top divide-y divide-gray rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     {searchResults.map(
-                                        (item: searchedUserInfo, index) => (
-                                            <Menu.Item key={index}>
-                                                <div className="px-2 py-1 w-full flex items-center">
-                                                    <UserIcon
-                                                        url={item.Icon}
-                                                    ></UserIcon>
-                                                    <div className="px-3">
-                                                        {item.UserName}
+                                        (item: searchedUserInfo, index) => {
+                                            if (item.UserName!=="Anomynous User") {
+                                                return (<Menu.Item key={index}>
+                                                    <div className="px-2 py-1 w-full flex items-center">
+                                                        <UserIcon
+                                                            url={item.Icon}
+                                                        ></UserIcon>
+                                                        <div className="px-3">
+                                                            {item.UserName}
+                                                        </div>
+                                                        <div className="ml-auto">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                fill="none"
+                                                                viewBox="0 0 24 24"
+                                                                strokeWidth={2}
+                                                                stroke="currentColor"
+                                                                className="w-8 h-8 ml-auto cursor-pointer hover:fill-slate-200 "
+                                                                onClick={() => {
+                                                                    evokeChat(item);
+                                                                }}
+                                                            >
+                                                                <path
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                                />
+                                                            </svg>
+                                                        </div>
                                                     </div>
-                                                    <div className="ml-auto">
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            strokeWidth={2}
-                                                            stroke="currentColor"
-                                                            className="w-8 h-8 ml-auto cursor-pointer hover:fill-slate-200 "
-                                                            onClick={() => {
-                                                                evokeChat(item);
-                                                            }}
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                            />
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </Menu.Item>
-                                        )
+                                                </Menu.Item>)
+                                            }
+                                            return
+                                        }
+                                            
+                                        
                                     )}
                                 </Menu.Items>
                             </Transition>
