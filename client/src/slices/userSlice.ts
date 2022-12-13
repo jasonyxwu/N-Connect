@@ -47,7 +47,7 @@ export const userSlice = createSlice({
             state.userInfo.name = action.payload.name;
             state.userInfo.url = action.payload.url;
         },
-        setUserFriendList(state, action: PayloadAction<string[]>) {
+        setUserFriendList(state, action: PayloadAction<any>) {
             state.userInfo.friendList = action.payload;
         },
         setUserGroupList(state, action: PayloadAction<string[]>) {
