@@ -343,7 +343,7 @@ export default function Chat() {
                                                     </div>
                                                 </Menu.Item>)
                                             }
-                                            return (<></>)
+                                            return
                                         }
                                             
                                         
