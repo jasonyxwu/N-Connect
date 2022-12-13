@@ -1,5 +1,4 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import { Link } from 'react-router-dom';
 export default function Document() {
     return (
         <Html>

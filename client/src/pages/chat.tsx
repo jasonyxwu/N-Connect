@@ -10,8 +10,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAuthState } from "../slices/authSlice";
 import { AppState } from "../store";
 import Router, { useRouter } from "next/router";
-import { searchUsers } from "../utils/userData";
+import { getUserInfo, searchUsers } from "../utils/userData";
 import { createFriendGroup } from "../utils/groupData";
+import { setUserFriendList, setUserState } from "../slices/userSlice";
 //import { userInfo } from "../slices/userSlice";
 
 function classNames(...classes: any[]) {
@@ -33,67 +34,10 @@ export interface searchedUserInfo {
     Description: string;
     Email: string;
 }
-// export function ModalUserDetail(props: {
-//     setShowUserDetail: React.Dispatch<React.SetStateAction<boolean>>;
-//     item: searchedUserInfo;
-// }) {
-//     return (
-//         <div>
-//             <div
-//                 onClick={() => {
-//                     props.setShowUserDetail(false);
-//                 }}
-//             >
-//                 <div className=" h-screen w-screen z-1 fixed bg-slate-800 opacity-40" />
-//             </div>
-
-//             <div className="mt-[20vh] ml-[20vw] w-[60vw] h-[60vh] bg-white z-2 fixed">
-//                 <div className="flex flex-wrap h-full w-full center items-center justify-center bg-slate-50 relative">
-//                     {/*这里是个flex*/}
-//                     <p className="w-full text-center absolute top-4">
-//                         Select friends to add to the group
-//                     </p>
-//                     <button
-//                         type="submit"
-//                         onClick={() => {
-//                             props.setShowUserDetail(false);
-//                         }}
-//                         className=" text-gray-900 py-3 absolute right-0 top-0"
-//                     >
-//                         <svg
-//                             version="1.1"
-//                             width="24"
-//                             height="24"
-//                             xmlns="http://www.w3.org/2000/svg"
-//                         >
-//                             <line
-//                                 x1="1"
-//                                 y1="11"
-//                                 x2="11"
-//                                 y2="1"
-//                                 stroke="black"
-//                                 strokeWidth="2"
-//                             />
-//                             <line
-//                                 x1="1"
-//                                 y1="1"
-//                                 x2="11"
-//                                 y2="11"
-//                                 stroke="black"
-//                                 strokeWidth="2"
-//                             />
-//                         </svg>
-//                     </button>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
 
 export default function Chat() {
     const [query, setQuery] = useState("");
     const [chatMode, setChatMode] = useState("friend");
-    // const [loading, setLoading] = useState<boolean>(true);
     const isAuth: boolean = useSelector(
         (state: AppState) => state.auth.authState
     );
@@ -128,11 +72,15 @@ export default function Chat() {
     }
     //TODO: Add search
     async function evokeChat(item: searchedUserInfo) {
-        const result = await createFriendGroup(
-            [item.Id, userInfo.token.id],
-            userInfo.token
+        createFriendGroup([item.Id, userInfo.token.id], userInfo.token).then(
+            async (res) => {
+                console.log(res);
+                const info = await getUserInfo(item.Id, userInfo.token);
+                info.data.GroupId = res.data._id;
+                dispatch(setUserFriendList([...userInfo.friendList, info]));
+                res.data;
+            }
         );
-        console.log(result);
     }
     return (
         <>
@@ -312,41 +260,48 @@ export default function Chat() {
                                 <Menu.Items className="absolute z-1 w-full origin-top divide-y divide-gray rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     {searchResults.map(
                                         (item: searchedUserInfo, index) => {
-                                            if (item.UserName!=="Anomynous User") {
-                                                return (<Menu.Item key={index}>
-                                                    <div className="px-2 py-1 w-full flex items-center">
-                                                        <UserIcon
-                                                            url={item.Icon}
-                                                        ></UserIcon>
-                                                        <div className="px-3">
-                                                            {item.UserName}
+                                            if (
+                                                item.UserName !==
+                                                "Anomynous User"
+                                            ) {
+                                                return (
+                                                    <Menu.Item key={index}>
+                                                        <div className="px-2 py-1 w-full flex items-center">
+                                                            <UserIcon
+                                                                url={item.Icon}
+                                                            ></UserIcon>
+                                                            <div className="px-3">
+                                                                {item.UserName}
+                                                            </div>
+                                                            <div className="ml-auto">
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    strokeWidth={
+                                                                        2
+                                                                    }
+                                                                    stroke="currentColor"
+                                                                    className="w-8 h-8 ml-auto cursor-pointer hover:fill-slate-200 "
+                                                                    onClick={() => {
+                                                                        evokeChat(
+                                                                            item
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                                    />
+                                                                </svg>
+                                                            </div>
                                                         </div>
-                                                        <div className="ml-auto">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                strokeWidth={2}
-                                                                stroke="currentColor"
-                                                                className="w-8 h-8 ml-auto cursor-pointer hover:fill-slate-200 "
-                                                                onClick={() => {
-                                                                    evokeChat(item);
-                                                                }}
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                />
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </Menu.Item>)
+                                                    </Menu.Item>
+                                                );
                                             }
-                                            return
+                                            return;
                                         }
-                                            
-                                        
                                     )}
                                 </Menu.Items>
                             </Transition>
