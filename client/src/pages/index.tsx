@@ -21,7 +21,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="absolute ml-5 h-30" >
-                <img src="/logotest.png">
+                <img src="/L-logo.png">
                 </img>
                 {/* <h2 className="text-4xl font-bold tracking-tight text-red-600">
                     N-Connect
