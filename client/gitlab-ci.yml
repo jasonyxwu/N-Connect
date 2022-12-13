@@ -1,0 +1,26 @@
+image: node:latest
+
+
+
+cache:
+  paths:
+  - node_modules
+
+stages:
+  - deploy
+
+pages:
+  stage: deploy
+
+  script:
+    - npm install        # Install all dependencies
+    - npm run dev      # Build for prod
+    - mv public _public  # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
+    - mv build public    # Move build files to public dir for Gitlab Pages
+
+  artifacts:
+    paths:
+    - public
+
+  only:
+    - master
