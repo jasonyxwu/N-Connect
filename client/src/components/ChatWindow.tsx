@@ -4,11 +4,14 @@ import { io } from "socket.io-client";
 import { AppState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserInfo } from "../utils/userData";
+import { getAllMessagesFromGroup } from "../utils/messageData";
+import { current } from "@reduxjs/toolkit";
 
 export interface Message {
     Sender: String;
     Content: String;
     DateCreated: String;
+    ToGroup: String;
 }
 //到时候获取全局token
 
@@ -19,7 +22,24 @@ export default function ChatWindow(props: {
     setShowFriendModal: React.Dispatch<React.SetStateAction<boolean>>;
     showFriendModal: boolean;
 }) {
-    useEffect(() => {}, [props.currentChat]);
+    useEffect(() => {
+        if (props.currentChat.id !== "")
+            getAllMessagesFromGroup(props.currentChat.id, userInfo.token).then(
+                (res) => {
+                    if (res.data)
+                        setMessageList(
+                            res.data.map((element: any): Message => {
+                                return {
+                                    Sender: element.Sender,
+                                    Content: element.Content,
+                                    DateCreated: element.DateCreated,
+                                    ToGroup: element.ToGroup,
+                                };
+                            })
+                        );
+                }
+            );
+    }, [props.currentChat]);
 
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const userid = userInfo.token.id;
@@ -253,9 +273,10 @@ function ChatBubble(props: { Message: any; currentChat: any }) {
     const userInfo = useSelector((state: AppState) => state.user.userInfo);
     const userid = userInfo.token.id;
     const [name, setName] = useState("");
-    if (props.currentChat != props.Message.ToGroup) {
-        return <></>;
-    }
+    // if (props.currentChat != props.Message.ToGroup) {
+    //     console.log(1);
+    //     return <></>;
+    // }
     if (props.Message.Sender != userid) {
         const sender = getUserInfo(props.Message.Sender, userInfo.token);
         sender.then(function (name) {

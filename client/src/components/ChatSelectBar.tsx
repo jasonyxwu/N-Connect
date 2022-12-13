@@ -5,14 +5,11 @@ import UserIcon from "./UserIcon";
 import { userInfo } from "../slices/userSlice";
 import { AppState } from "../store";
 
-
 // function LoadMessagesByGroupId(groupid: String) {
 //     const userInfo = useSelector((state: AppState) => state.user.userInfo);
 //     var res = getAllMessagesFromGroup(groupid, JSON.stringify({token:userInfo.token}))
 //     alert(JSON.stringify(res));
 // }
-
-
 
 export default function ChatSelectBar(props: {
     icon: string;
@@ -27,11 +24,6 @@ export default function ChatSelectBar(props: {
             className="bg-gray-100 py-2 px-3 flex items-center hover:bg-gray-300"
             onClick={async () => {
                 props.changeWindow(props.id, props.name, props.icon);
-                var groupid = props.id;
-                var res = await getAllMessagesFromGroup(groupid, userInfo.token)
-                alert(JSON.stringify(res));
-                //console.log(groupid,JSON.stringify({token:userInfo.token}));
-                //LoadMessagesByGroupId(props.id);
             }}
         >
             <div>
