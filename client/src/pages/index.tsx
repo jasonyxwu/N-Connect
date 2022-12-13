@@ -20,14 +20,16 @@ export default function Home() {
                 <title>Login to N-Connect</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className="absolute ml-10 mt-8">
-                <h2 className="text-4xl font-bold tracking-tight text-red-600">
+            <div className="absolute ml-5 h-30" >
+                <img src="/logotest.png">
+                </img>
+                {/* <h2 className="text-4xl font-bold tracking-tight text-red-600">
                     N-Connect
                 </h2>
                 <p className="mt-2 text-center text-md text-gray-600">
                     A search-and-chat platform for nintendo switch players
                     7A7xQ4l
-                </p>
+                </p> */}
             </div>
 
             <div className="w-screen h-screen">

@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
-
+import { Link } from 'react-router-dom';
 export default function Document() {
     return (
         <Html>
@@ -10,6 +10,10 @@ export default function Document() {
                     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
                     crossOrigin="anonymous"
                 ></link> */}
+                {/* <Link rel="icon" href="/favicon.ico.png">
+                    Icon
+                </Link> */}
+                <link rel="icon" type="image/png" href="/favicon.ico.png" />
                 <script
                     src="https://kit.fontawesome.com/b3171c5c91.js"
                     crossOrigin="anonymous"
