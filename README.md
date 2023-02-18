@@ -2,29 +2,50 @@
 
 ## Introduction
 
-N-Connect is a full stack web application that is designed for nintendo switch players. It provides a platform where players could search others' player's contacts with the SW number, since players cannot reach out to others with ANY applications provided by nintendo!!!!
+N-Connect, to connect Nintendo switch players
+
+N-Connect is a platform for finding Nintendo switch players. We create this platform because in Nintendo Switch Systems, even if you added a stranger as a friend, there is no way you could contact her/him in the real world.
+
+So if you added a friend in NS and want to have her/his contact so that you can have fun together, this platform is for you to search your friend's account. If she/he also registered before, you could chat with her/him directly!!!
 
 ## Tech Stack
 
 React
 
-react-bootstrap
+Redux
 
 Next.js
 
-Firebase
+Tailwind
 
-Express(TBD)
+Node.js(Express.js)
 
-## Coding Style
+MongoDB
 
-See [Eslint](https://eslint.org/).
+## What's done?
 
-## To-dos
+-   The overall design and a responsive website
+-   Deployed
+-   Chatrooms
+-   Nintendo Account authentication
 
-Till Dec 2th:
+## What would be done in the future?
 
--   [ ] Implement the general Front-end design
+-   Beautify the front-end page
+
+-   Support a better user flow
+
+-   Add more custom user icons
+
+-   Improve stability
+
+-   More user configuration options
+
+## Video Demonstration for the current version
+
+<a href="https://drive.google.com/file/d/1CQT0kexm8pbngyY-1A-k01CiSGxJWBAp/view?usp=sharing">
+  Link
+</a>
 
 ## Contributors
 
